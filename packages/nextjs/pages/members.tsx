@@ -14,26 +14,26 @@ const Members: NextPage = () => {
   const [builderList, setBuilderList] = useState<string[]>([]);
 
   const { data: allBuildersData, isLoading: isLoadingBuilderData } = useScaffoldContractRead({
-    contractName: "YourContract",
+    contractName: "SandGardenStreams",
     functionName: "allBuildersData",
     args: [builderList],
   });
 
   const { writeAsync: doWithdraw } = useScaffoldContractWrite({
-    contractName: "YourContract",
+    contractName: "SandGardenStreams",
     functionName: "streamWithdraw",
     args: [ethers.utils.parseEther(amount || "0"), reason],
   });
 
   const { data: withdrawEvents } = useScaffoldEventHistory({
-    contractName: "YourContract",
+    contractName: "SandGardenStreams",
     eventName: "Withdraw",
     fromBlock: Number(process.env.NEXT_PUBLIC_DEPLOY_BLOCK) || 0,
     blockData: true,
   });
 
   const { data: addBuilderEvents, isLoading: isLoadingBuilderEvents } = useScaffoldEventHistory({
-    contractName: "YourContract",
+    contractName: "SandGardenStreams",
     eventName: "AddBuilder",
     fromBlock: Number(process.env.NEXT_PUBLIC_DEPLOY_BLOCK) || 0,
   });

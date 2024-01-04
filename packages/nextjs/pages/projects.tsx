@@ -56,7 +56,7 @@ const githubApiUri = "https://api.github.com/repos";
 
 const Projects: NextPage = () => {
   const { data: withdrawEvents, isLoading: isLoadingWithdrawEvents } = useScaffoldEventHistory({
-    contractName: "YourContract",
+    contractName: "SandGardenStreams",
     eventName: "Withdraw",
     fromBlock: Number(process.env.NEXT_PUBLIC_DEPLOY_BLOCK) || 0,
     blockData: true,
