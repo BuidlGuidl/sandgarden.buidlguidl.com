@@ -51,7 +51,7 @@ const Members: NextPage = () => {
   const { data: addBuilderEvents, isLoading: isLoadingBuilderEvents } = useScaffoldEventHistory({
     contractName: "SandGardenStreams",
     eventName: "AddBuilder",
-    fromBlock: Number(process.env.NEXT_PUBLIC_DEPLOY_BLOCK) || 0,
+    fromBlock: scaffoldConfig.contracts.SandGardenStreams.fromBlock,
   });
 
   useEffect(() => {
