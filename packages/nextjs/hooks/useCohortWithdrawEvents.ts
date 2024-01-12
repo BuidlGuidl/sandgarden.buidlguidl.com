@@ -9,6 +9,7 @@ const WithdrawalsQuery = gql`
       amount
       timestamp
       builder
+      id
     }
   }
 `;
