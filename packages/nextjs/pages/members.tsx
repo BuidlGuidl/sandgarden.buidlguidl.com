@@ -27,7 +27,7 @@ const Members: NextPage = () => {
     args: [ethers.utils.parseEther(amount || "0"), reason],
   });
 
-  const { data: allWithDrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
+  const { data: allWithdrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
 
   const { data: addBuilderEvents, isLoading: isLoadingBuilderEvents } = useScaffoldEventHistory({
     contractName: "SandGardenStreams",
@@ -44,9 +44,9 @@ const Members: NextPage = () => {
 
   useEffect(() => {
     if (selectedAddress) {
-      setFilteredEvents(allWithDrawEvents?.filter((event: any) => event.builder === selectedAddress) || []);
+      setFilteredEvents(allWithdrawEvents?.filter((event: any) => event.builder === selectedAddress) || []);
     }
-  }, [selectedAddress, allWithDrawEvents]);
+  }, [selectedAddress, allWithdrawEvents]);
 
   const sortedBuilders = allBuildersData && [...allBuildersData].reverse();
 

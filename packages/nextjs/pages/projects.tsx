@@ -54,7 +54,7 @@ const projects = [
 const githubApiUri = "https://api.github.com/repos";
 
 const Projects: NextPage = () => {
-  const { data: allWithDrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
+  const { data: allWithdrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
 
   type LastUpdateType = {
     [key: string]: string;
@@ -123,12 +123,12 @@ const Projects: NextPage = () => {
           </div>
         ) : (
           <>
-            {allWithDrawEvents?.length === 0 && (
+            {allWithdrawEvents?.length === 0 && (
               <div className="my-2">
                 <p>No contributions yet!</p>
               </div>
             )}
-            {allWithDrawEvents?.map((event: any) => {
+            {allWithdrawEvents?.map((event: any) => {
               return (
                 <div
                   className="flex flex-col gap-1 mb-6"
