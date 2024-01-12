@@ -1,12 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ethers } from "ethers";
 import { DateTime } from "luxon";
 import type { NextPage } from "next";
+import { gql, useQuery } from "urql";
 import { Address } from "~~/components/scaffold-eth";
-import { useScaffoldEventHistory } from "~~/hooks/scaffold-eth";
-import scaffoldConfig from "~~/scaffold.config";
+import contracts from "~~/generated/hardhat_contracts";
 
 const projects = [
   {
@@ -55,28 +54,37 @@ const projects = [
 
 const githubApiUri = "https://api.github.com/repos";
 
+const WithdrawlsQuery = gql`
+  query Withdrawls($cohortAddress: String!) {
+    cohortWithdrawals(where: { cohortContractAddress: $cohortAddress }, orderBy: "timestamp", orderDirection: "desc") {
+      reason
+      builder
+      amount
+      timestamp
+      builder
+    }
+  }
+`;
+
 const Projects: NextPage = () => {
-  const { data: newContractWithdrawEvents, isLoading: isLoadingNewContractWithdrawEvents } = useScaffoldEventHistory({
-    contractName: "SandGardenStreams",
-    eventName: "Withdraw",
-    fromBlock: scaffoldConfig.contracts.SandGardenStreams.fromBlock,
-    blockData: true,
+  const [{ data: newWithdrawEventsData, fetching: isLoadingNewContractWithdrawEvents }] = useQuery({
+    query: WithdrawlsQuery,
+    variables: {
+      cohortAddress: contracts[10][0].contracts.SandGardenStreams.address,
+    },
   });
 
-  const { data: oldContractWithdrawEvents, isLoading: isLoadingOldContractWithdrawEvents } = useScaffoldEventHistory({
-    contractName: "_SandGardenStreamsOld",
-    eventName: "Withdraw",
-    fromBlock: scaffoldConfig.contracts._SandGardenStreamsOld.fromBlock,
-    blockData: true,
+  const [{ data: oldWithdrawEvents, fetching: isLoadingOldContractWithdrawEvents }] = useQuery({
+    query: WithdrawlsQuery,
+    variables: {
+      cohortAddress: contracts[10][0].contracts._SandGardenStreamsOld.address,
+    },
   });
 
-  const sortedWithdrawEvents = useMemo(
-    () =>
-      [...(newContractWithdrawEvents || []), ...(oldContractWithdrawEvents || [])].sort(
-        (a: any, b: any) => b.block.number - a.block.number,
-      ),
-    [newContractWithdrawEvents, oldContractWithdrawEvents],
-  );
+  const { cohortWithdrawals: newContractWithdrawEvents } = newWithdrawEventsData || {};
+  const { cohortWithdrawals: oldContractWithdrawEvents } = oldWithdrawEvents || {};
+
+  const sortedWithdrawEvents = [...(newContractWithdrawEvents || []), ...(oldContractWithdrawEvents || [])];
 
   type LastUpdateType = {
     [key: string]: string;
@@ -154,17 +162,17 @@ const Projects: NextPage = () => {
               return (
                 <div
                   className="flex flex-col gap-1 mb-6"
-                  key={`${event.log.address}_${event.log.blockNumber}`}
-                  data-test={`${event.log.address}_${event.log.blockNumber}`}
+                  key={`${event.builder}_${event.timestamp}`}
+                  data-test={`${event.builderAddress}_${event.timestamp}`}
                 >
                   <div>
-                    <Address address={event.args.to} />
+                    <Address address={event.builder} />
                   </div>
                   <div>
-                    <strong>{new Date(event.block.timestamp * 1000).toISOString().split("T")[0]}</strong>
+                    <strong>{new Date(event.timestamp * 1000).toISOString().split("T")[0]}</strong>
                   </div>
                   <div>
-                    Ξ {ethers.utils.formatEther(event.args.amount)} / {event.args.reason}
+                    Ξ {event.amount} / {event.reason}
                   </div>
                 </div>
               );
