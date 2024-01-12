@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DateTime } from "luxon";
 import type { NextPage } from "next";
-import { gql, useQuery } from "urql";
 import { Address } from "~~/components/scaffold-eth";
-import contracts from "~~/generated/hardhat_contracts";
+import { useCohortWithdrawEvents } from "~~/hooks/useCohortWithdrawEvents";
 
 const projects = [
   {
@@ -54,37 +53,8 @@ const projects = [
 
 const githubApiUri = "https://api.github.com/repos";
 
-const WithdrawlsQuery = gql`
-  query Withdrawls($cohortAddress: String!) {
-    cohortWithdrawals(where: { cohortContractAddress: $cohortAddress }, orderBy: "timestamp", orderDirection: "desc") {
-      reason
-      builder
-      amount
-      timestamp
-      builder
-    }
-  }
-`;
-
 const Projects: NextPage = () => {
-  const [{ data: newWithdrawEventsData, fetching: isLoadingNewContractWithdrawEvents }] = useQuery({
-    query: WithdrawlsQuery,
-    variables: {
-      cohortAddress: contracts[10][0].contracts.SandGardenStreams.address,
-    },
-  });
-
-  const [{ data: oldWithdrawEvents, fetching: isLoadingOldContractWithdrawEvents }] = useQuery({
-    query: WithdrawlsQuery,
-    variables: {
-      cohortAddress: contracts[10][0].contracts._SandGardenStreamsOld.address,
-    },
-  });
-
-  const { cohortWithdrawals: newContractWithdrawEvents } = newWithdrawEventsData || {};
-  const { cohortWithdrawals: oldContractWithdrawEvents } = oldWithdrawEvents || {};
-
-  const sortedWithdrawEvents = [...(newContractWithdrawEvents || []), ...(oldContractWithdrawEvents || [])];
+  const { data: allWithDrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
 
   type LastUpdateType = {
     [key: string]: string;
@@ -146,19 +116,19 @@ const Projects: NextPage = () => {
           })}
         </div>
         <h2 className="font-bold mb-2 text-xl text-secondary">Recent Contributions</h2>
-        {isLoadingNewContractWithdrawEvents || isLoadingOldContractWithdrawEvents ? (
+        {isWithdrawEventsLoding ? (
           <div className="m-10">
             <div className="text-5xl animate-bounce mb-2">👾</div>
             <div className="text-lg loading-dots">Loading...</div>
           </div>
         ) : (
           <>
-            {sortedWithdrawEvents?.length === 0 && (
+            {allWithDrawEvents?.length === 0 && (
               <div className="my-2">
                 <p>No contributions yet!</p>
               </div>
             )}
-            {sortedWithdrawEvents?.map((event: any) => {
+            {allWithDrawEvents?.map((event: any) => {
               return (
                 <div
                   className="flex flex-col gap-1 mb-6"
