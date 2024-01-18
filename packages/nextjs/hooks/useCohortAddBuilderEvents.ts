@@ -4,10 +4,7 @@ import contracts from "~~/generated/hardhat_contracts";
 const BuildersQuery = gql`
   query Builders($cohortAddress: String!) {
     cohortBuilders(where: { cohortContractAddress: $cohortAddress }, orderBy: "timestamp", orderDirection: "desc") {
-      amount
-      ens
       id
-      timestamp
     }
   }
 `;
