@@ -54,7 +54,7 @@ const projects = [
 const githubApiUri = "https://api.github.com/repos";
 
 const Projects: NextPage = () => {
-  const { data: allWithdrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
+  const { data: allWithdrawEvents, isLoading: isWithdrawEventsLoading } = useCohortWithdrawEvents();
 
   type LastUpdateType = {
     [key: string]: string;
@@ -116,7 +116,7 @@ const Projects: NextPage = () => {
           })}
         </div>
         <h2 className="font-bold mb-2 text-xl text-secondary">Recent Contributions</h2>
-        {isWithdrawEventsLoding ? (
+        {isWithdrawEventsLoading ? (
           <div className="m-10">
             <div className="text-5xl animate-bounce mb-2">👾</div>
             <div className="text-lg loading-dots">Loading...</div>

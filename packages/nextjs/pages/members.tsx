@@ -27,7 +27,7 @@ const Members: NextPage = () => {
     args: [ethers.utils.parseEther(amount || "0"), reason],
   });
 
-  const { data: allWithdrawEvents, isLoading: isWithdrawEventsLoding } = useCohortWithdrawEvents();
+  const { data: allWithdrawEvents, isLoading: isWithdrawEventsLoading } = useCohortWithdrawEvents();
 
   const { data: addBuilderEvents, isLoading: isLoadingBuilderEvents } = useScaffoldEventHistory({
     contractName: "SandGardenStreams",
@@ -143,7 +143,7 @@ const Members: NextPage = () => {
           </label>
           <div className="space-y-3">
             <ul>
-              {isWithdrawEventsLoding ? (
+              {isWithdrawEventsLoading ? (
                 <div>
                   <div className="text-4xl animate-bounce mb-2">👾</div>
                   <div className="text-lg loading-dots">Loading...</div>
