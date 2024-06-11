@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { DateTime } from "luxon";
@@ -70,6 +70,8 @@ const Projects: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const scrollableContainerRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const getLastCommits = async () => {
       const projectsUpdate: LastUpdateType = {};
@@ -96,6 +98,9 @@ const Projects: NextPage = () => {
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
+      if (scrollableContainerRef.current) {
+        scrollableContainerRef.current.scrollTo(0, 0);
+      }
     }
   };
 
@@ -148,7 +153,7 @@ const Projects: NextPage = () => {
                 <p>No contributions yet!</p>
               </div>
             )}
-            <div className="h-[800px] overflow-y-auto">
+            <div className="h-[800px] overflow-y-auto" ref={scrollableContainerRef}>
               {paginatedWithdrawEvents?.map((event: any) => {
                 return (
                   <div
