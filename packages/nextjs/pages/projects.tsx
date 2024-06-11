@@ -70,7 +70,7 @@ const Projects: NextPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const scrollableContainerRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const getLastCommits = async () => {
@@ -98,8 +98,8 @@ const Projects: NextPage = () => {
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
-      if (scrollableContainerRef.current) {
-        scrollableContainerRef.current.scrollTo(0, 0);
+      if (topRef.current) {
+        topRef.current.scrollIntoView({ behavior: "smooth" });
       }
     }
   };
@@ -140,7 +140,9 @@ const Projects: NextPage = () => {
             );
           })}
         </div>
-        <h2 className="font-bold mb-2 text-xl text-secondary">Recent Contributions</h2>
+        <h2 className="font-bold mb-2 text-xl text-secondary" ref={topRef}>
+          Recent Contributions
+        </h2>
         {isWithdrawEventsLoading ? (
           <div className="m-10">
             <div className="text-5xl animate-bounce mb-2">👾</div>
@@ -153,7 +155,7 @@ const Projects: NextPage = () => {
                 <p>No contributions yet!</p>
               </div>
             )}
-            <div className="h-[800px] overflow-y-auto" ref={scrollableContainerRef}>
+            <div>
               {paginatedWithdrawEvents?.map((event: any) => {
                 return (
                   <div
