@@ -180,6 +180,13 @@ const Projects: NextPage = () => {
         <h2 className="font-bold mb-2 text-xl text-secondary" ref={topRef}>
           Recent Contributions
         </h2>
+        <p className="text-sm italic">
+          Note: Most streams for core contributors have been migrated to{" "}
+          <Link href="https://llamapay.io/" className="link link-primary" target="_blank">
+            LlamaPay
+          </Link>{" "}
+          for more stable payments.
+        </p>
         {isWithdrawEventsLoading ? (
           <div className="m-10">
             <div className="text-5xl animate-bounce mb-2">👾</div>

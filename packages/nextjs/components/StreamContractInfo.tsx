@@ -56,12 +56,12 @@ export const StreamContractInfo = () => {
             </label>
           </div>
         )}
-        <p>
-          Note: Streams have mostly migrated to{" "}
+        <p className="text-sm italic">
+          Note: Most streams for core contributors have been migrated to{" "}
           <Link href="https://llamapay.io/" className="link link-primary" target="_blank">
             LlamaPay
           </Link>{" "}
-          for more flexible payment options.
+          for more stable payments.
         </p>
       </div>
       <div className="mt-8">
