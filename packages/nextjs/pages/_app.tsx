@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import type { AppProps } from "next/app";
 import { Share_Tech_Mono } from "next/font/google";
+import { useRouter } from "next/router";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import NextNProgress from "nextjs-progressbar";
@@ -23,15 +24,36 @@ const urqlClient = new Client({
   exchanges: [cacheExchange, fetchExchange],
 });
 
+// Pages that should not have the default header/footer layout
+const fullscreenPages = ["/2025"];
+
 const ScaffoldEthApp = ({ Component, pageProps }: AppProps) => {
+  const router = useRouter();
   const price = useEthPrice();
   const setEthPrice = useAppStore(state => state.setEthPrice);
+
+  const isFullscreenPage = fullscreenPages.includes(router.pathname);
 
   useEffect(() => {
     if (price > 0) {
       setEthPrice(price);
     }
   }, [setEthPrice, price]);
+
+  // Fullscreen pages render without the default header/footer
+  if (isFullscreenPage) {
+    return (
+      <WagmiConfig client={wagmiClient}>
+        <NextNProgress color="#c913ff" />
+        <URQLProvider value={urqlClient}>
+          <RainbowKitProvider chains={appChains.chains} avatar={BlockieAvatar}>
+            <Component {...pageProps} />
+            <Toaster />
+          </RainbowKitProvider>
+        </URQLProvider>
+      </WagmiConfig>
+    );
+  }
 
   return (
     <WagmiConfig client={wagmiClient}>

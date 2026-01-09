@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Share_Tech_Mono } from "next/font/google";
 import Head from "next/head";
-import Image from "next/image";
 import Link from "next/link";
 import type { NextPage } from "next";
 
@@ -28,6 +27,11 @@ const slides = [
     id: "ecosystem",
     title: "Ecosystem Collaborations",
     shortTitle: "ECO",
+  },
+  {
+    id: "misc",
+    title: "Misc",
+    shortTitle: "MISC",
   },
 ];
 
@@ -61,23 +65,25 @@ const StatCard = ({ value, label, growth }: { value: string; label: string; grow
 );
 
 // Side navigation - larger with full project names
-const SideNav = ({ activeSlide }: { activeSlide: string }) => (
+const SideNav = ({ activeSlide, onNavigate }: { activeSlide: string; onNavigate: (slideId: string) => void }) => (
   <nav className="fixed right-8 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-3">
     {slides.map(slide => (
-      <a
+      <button
         key={slide.id}
-        href={`#${slide.id}`}
-        className={`flex items-center gap-3 transition-colors duration-200 text-sm ${
+        onClick={() => onNavigate(slide.id)}
+        className={`flex items-center gap-3 transition-all duration-200 text-sm ${
           activeSlide === slide.id ? "text-primary-content" : "text-neutral-content/40 hover:text-neutral-content/70"
         }`}
       >
         <span
-          className={`block w-1.5 h-1.5 transition-colors duration-200 ${
-            activeSlide === slide.id ? "bg-primary" : "bg-neutral-content/30"
+          className={`block w-1.5 h-1.5 transition-all duration-200 ${
+            activeSlide === slide.id ? "bg-primary scale-125" : "bg-neutral-content/30"
           }`}
         />
-        <span>{slide.title}</span>
-      </a>
+        <span className={`transition-all duration-200 ${activeSlide === slide.id ? "font-medium" : ""}`}>
+          {slide.title}
+        </span>
+      </button>
     ))}
   </nav>
 );
@@ -96,7 +102,10 @@ const SpeedrunSlide = () => {
   ];
 
   return (
-    <section id="speedrun" className="min-h-screen flex items-center relative overflow-hidden">
+    <section
+      id="speedrun"
+      className="min-h-screen pt-20 pb-16 lg:pt-16 lg:pb-0 lg:h-screen lg:snap-start lg:snap-always flex items-center relative overflow-hidden"
+    >
       {/* Background texture */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div
@@ -107,13 +116,10 @@ const SpeedrunSlide = () => {
         />
       </div>
 
-      {/* Gradient accent */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-60" />
-
       <div className="container mx-auto px-6 lg:px-12 py-16 lg:py-0 relative z-10">
         {/* Section indicator */}
         <div className="flex items-center gap-4 mb-8">
-          <span className="text-xs text-neutral-content/40 uppercase tracking-[0.3em]">Project 01</span>
+          <span className="text-xs text-white/80 uppercase tracking-[0.3em]">Project 01</span>
           <span className="w-48 lg:w-64 h-px bg-neutral-content/20" />
         </div>
 
@@ -224,7 +230,10 @@ const ScaffoldEthSlide = () => {
   ];
 
   return (
-    <section id="scaffold-eth" className="min-h-screen flex items-center relative overflow-hidden py-16 lg:py-0">
+    <section
+      id="scaffold-eth"
+      className="min-h-screen py-16 lg:py-0 lg:h-screen lg:snap-start lg:snap-always flex items-center relative overflow-hidden border-t border-neutral-content/10"
+    >
       {/* Background texture */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div
@@ -235,13 +244,10 @@ const ScaffoldEthSlide = () => {
         />
       </div>
 
-      {/* Gradient accent */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary opacity-60" />
-
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Section indicator */}
         <div className="flex items-center gap-4 mb-8">
-          <span className="text-xs text-neutral-content/40 uppercase tracking-[0.3em]">Project 02</span>
+          <span className="text-xs text-white/80 uppercase tracking-[0.3em]">Project 02</span>
           <span className="w-48 lg:w-64 h-px bg-neutral-content/20" />
         </div>
 
@@ -347,10 +353,130 @@ const ScaffoldEthSlide = () => {
   );
 };
 
-// Third slide: Other Educational Initiatives
+// Third slide: Educational Initiatives
 const EducationalSlide = () => {
+  const [activeTab, setActiveTab] = useState<string | null>("ctf");
+
+  const initiatives = [
+    {
+      id: "ctf",
+      title: "Capture The Flag",
+      content: (
+        <>
+          <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+            Hands-on security learning platform that challenges developers to solve real-world Web3 vulnerabilities. In
+            2025, we launched the CTF as a live, always-on platform and expanded it with a second season.
+          </p>
+
+          {/* CTF Highlights */}
+          <div className="mb-6">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-primary text-xl font-bold">4,400</span>
+                <span className="text-neutral-content/50 text-xs">visitors</span>
+              </div>
+              <span className="text-neutral-content/20">│</span>
+              <div className="flex items-center gap-2">
+                <span className="text-secondary text-xl font-bold">1,645</span>
+                <span className="text-neutral-content/50 text-xs">flags minted</span>
+              </div>
+            </div>
+          </div>
+
+          {/* CTF Milestones Timeline */}
+          <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Timeline</p>
+          <div className="grid gap-3">
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-primary text-xs mt-0.5 font-mono w-10">Jan</span>
+              <span className="text-sm">Opened Devcon CTF as a live platform for anyone to play at any moment</span>
+            </div>
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-primary text-xs mt-0.5 font-mono w-10">Nov</span>
+              <span className="text-sm">Created new CTF for Devconnect Argentina, played with 30 teams</span>
+            </div>
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-primary text-xs mt-0.5 font-mono w-10">Dec</span>
+              <span className="text-sm">Added S2 (Buenos Aires) to live platform - now choose between S1 or S2</span>
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "workshops",
+      title: "Workshops",
+      content: (
+        <>
+          <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+            Not a core focus in 2025, but we played a key supporting role at Devconnect planning and executing
+            BuidlGuidl{"'"}s four-day Builder Bootcamp in Buenos Aires.
+          </p>
+
+          {/* Devconnect Highlight */}
+          <div className="mb-6 p-4 border border-neutral-content/10 bg-neutral-content/5">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs text-neutral-content/40 uppercase tracking-widest">
+                Builder Bootcamp • Nov 18-21
+              </span>
+              <a
+                href="https://devconnect.buidlguidl.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary/70 hover:text-primary text-xs"
+              >
+                View schedule →
+              </a>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <span className="text-primary text-xl font-bold">4</span>
+                <span className="text-neutral-content/50 text-xs">days</span>
+              </div>
+              <span className="text-neutral-content/20">│</span>
+              <div className="flex items-center gap-2">
+                <span className="text-secondary text-xl font-bold">19</span>
+                <span className="text-neutral-content/50 text-xs">workshops</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Sand Garden Sessions */}
+          <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">
+            Sand Garden Sessions at Devconnect
+          </p>
+          <div className="grid gap-2 mb-6">
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">Unveiling Scaffold UI</span>
+            </div>
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">Leveraging AI to build on Ethereum</span>
+            </div>
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">Capture the Flag session</span>
+            </div>
+          </div>
+
+          {/* Other workshops */}
+          <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Other Events</p>
+          <div className="grid gap-2">
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-neutral-content/40 text-xs">◇</span>
+              <span className="text-sm">aigentsbcn event support (Feb)</span>
+            </div>
+          </div>
+        </>
+      ),
+    },
+  ];
+
   return (
-    <section id="educational" className="min-h-screen flex items-center relative overflow-hidden py-16 lg:py-0">
+    <section
+      id="educational"
+      className="min-h-screen py-16 lg:py-0 lg:h-screen lg:snap-start lg:snap-always flex items-center relative overflow-hidden border-t border-neutral-content/10"
+    >
       {/* Background texture */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div
@@ -361,174 +487,91 @@ const EducationalSlide = () => {
         />
       </div>
 
-      {/* Gradient accent */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary via-secondary to-primary opacity-60" />
-
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Section indicator */}
         <div className="flex items-center gap-4 mb-8">
-          <span className="text-xs text-neutral-content/40 uppercase tracking-[0.3em]">Project 03</span>
+          <span className="text-xs text-white/80 uppercase tracking-[0.3em]">Project 03</span>
           <span className="w-48 lg:w-64 h-px bg-neutral-content/20" />
         </div>
 
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">
-          <span className="text-primary-content">Other Educational</span>
-          <br />
-          <span className="text-primary">Initiatives</span>
-        </h1>
+        {/* Main content */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Left column - title and description */}
+          <div className="lg:w-2/5">
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <span className="text-primary-content">Educational</span>
+              <br />
+              <span className="text-primary">Initiatives</span>
+            </h1>
 
-        {/* Two-column layout for CTF and Workshops */}
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
-          {/* CTF Column */}
-          <div className="border border-neutral-content/20 p-6">
-            <div className="flex items-center gap-2 text-neutral-content/30 text-xs mb-4">
-              <span>┌</span>
-              <span className="flex-1 border-t border-neutral-content/20" />
-              <span>3.1</span>
-            </div>
-
-            <h2 className="text-2xl font-bold text-primary-content mb-4">Capture The Flag</h2>
-
-            <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
-              Hands-on security learning platform that challenges developers to solve real-world Web3 vulnerabilities.
-              In 2025, we launched the CTF as a live, always-on platform and expanded it with a second season.
+            {/* Description */}
+            <p className="text-base md:text-lg text-neutral-content/70 mb-8 leading-relaxed">
+              <span className="text-primary-content">Beyond our flagship products.</span> In 2025, we ran security
+              challenges through our CTF platform and contributed to key community events, including BuidlGuidl{"'"}s
+              Builder Bootcamp at Devconnect Buenos Aires.
             </p>
 
-            {/* CTF Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="text-center py-3 border border-neutral-content/10">
-                <span className="text-2xl font-bold text-primary-content">4,400</span>
-                <p className="text-neutral-content/50 text-xs mt-1">unique visitors</p>
-              </div>
-              <div className="text-center py-3 border border-neutral-content/10">
-                <span className="text-2xl font-bold text-secondary">1,645</span>
-                <p className="text-neutral-content/50 text-xs mt-1">flags minted</p>
-              </div>
-            </div>
-
-            {/* CTF Milestones - Always visible */}
-            <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Milestones</p>
-            <div className="grid gap-3 border-l border-neutral-content/20 pl-4">
-              <div className="flex items-start gap-3 text-neutral-content/70">
-                <span className="text-primary text-xs mt-0.5 w-8">Jan</span>
-                <span className="text-sm">Opened Devcon CTF as a live platform for anyone to play at any moment</span>
-              </div>
-              <div className="flex items-start gap-3 text-neutral-content/70">
-                <span className="text-primary text-xs mt-0.5 w-8">Nov</span>
-                <span className="text-sm">Created new CTF for Devconnect Argentina, played with 30 teams</span>
-              </div>
-              <div className="flex items-start gap-3 text-neutral-content/70">
-                <span className="text-primary text-xs mt-0.5 w-8">Dec</span>
-                <span className="text-sm">Added S2 (Buenos Aires) to live platform - now choose between S1 or S2</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 text-neutral-content/30 text-xs mt-4">
-              <span>└</span>
-              <span className="flex-1 border-t border-neutral-content/20" />
-              <span>┘</span>
+            {/* Main stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <StatCard value="1,600+" label="" growth="Flags minted" />
+              <StatCard value="20+" label="" growth="Workshops" />
             </div>
           </div>
 
-          {/* Workshops Column */}
-          <div className="border border-neutral-content/20 p-6">
-            <div className="flex items-center gap-2 text-neutral-content/30 text-xs mb-4">
-              <span>┌</span>
-              <span className="flex-1 border-t border-neutral-content/20" />
-              <span>3.2</span>
-            </div>
-
-            <h2 className="text-2xl font-bold text-primary-content mb-4">Workshops</h2>
-
-            <p className="text-neutral-content/70 text-sm leading-relaxed mb-4">
-              Not a core focus in 2025, but we played a key supporting role at Devconnect—planning and executing
-              BuidlGuidl{"'"}s four-day Builder Bootcamp in Buenos Aires.
-            </p>
-
-            {/* Builder Bootcamp Schedule Image */}
-            <div className="mb-6">
-              <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">
-                Builder Bootcamp at Devconnect • Nov 18-21
-              </p>
-              <a
-                href="https://devconnect.buidlguidl.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block max-w-40 border border-neutral-content/20 hover:border-primary/50 overflow-hidden transition-all"
-              >
-                <Image
-                  src="/bootcamp-schedule.png"
-                  alt="Builder Bootcamp 4-day schedule showing packed workshop sessions"
-                  width={160}
-                  height={200}
-                  className="w-full h-auto opacity-80 hover:opacity-100 transition-opacity"
-                />
-              </a>
-              <p className="text-neutral-content/40 text-xs mt-2">
-                4 days • 19 workshops •{" "}
-                <a
-                  href="https://devconnect.buidlguidl.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary/70 hover:text-primary"
-                >
-                  View full schedule →
-                </a>
-              </p>
-            </div>
-
-            {/* Workshop sections - side by side on larger screens */}
-            <div className="grid md:grid-cols-2 gap-6">
-              {/* Sand Garden Workshops */}
-              <div>
-                <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">
-                  Sand Garden at Devconnect
-                </p>
-                <div className="grid gap-2 border-l border-neutral-content/20 pl-4">
-                  <div className="flex items-start gap-3 text-neutral-content/70">
-                    <span className="text-secondary mt-0.5 text-xs">◆</span>
-                    <span className="text-sm">Unveiling Scaffold UI</span>
-                  </div>
-                  <div className="flex items-start gap-3 text-neutral-content/70">
-                    <span className="text-secondary mt-0.5 text-xs">◆</span>
-                    <span className="text-sm">Leveraging AI to build on Ethereum</span>
-                  </div>
-                  <div className="flex items-start gap-3 text-neutral-content/70">
-                    <span className="text-secondary mt-0.5 text-xs">◆</span>
-                    <span className="text-sm">Capture the Flag session</span>
-                  </div>
+          {/* Right column - terminal-style tabbed interface */}
+          <div className="lg:w-1/2">
+            {/* Terminal window frame */}
+            <div className="border border-neutral-600 rounded-lg overflow-hidden">
+              {/* Terminal title bar */}
+              <div className="flex items-stretch bg-neutral-700 border-b border-neutral-600">
+                {/* Window controls (decorative) */}
+                <div className="flex items-center gap-2 px-3 py-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <span className="w-3 h-3 rounded-full bg-green-500" />
                 </div>
+
+                {/* Tab headers - macOS terminal style */}
+                {initiatives.map(initiative => (
+                  <button
+                    key={initiative.id}
+                    onClick={() => setActiveTab(initiative.id)}
+                    className={`flex-1 min-w-0 flex items-center justify-center px-4 text-xs whitespace-nowrap border-l border-neutral-600 transition-all duration-200 ${
+                      activeTab === initiative.id ? "text-white font-medium" : "text-neutral-400 hover:text-neutral-200"
+                    }`}
+                    style={{
+                      backgroundColor: activeTab === initiative.id ? "#6b7280" : "transparent",
+                    }}
+                    title={initiative.title}
+                  >
+                    {initiative.title}
+                  </button>
+                ))}
               </div>
 
-              {/* Personal Workshops */}
-              <div>
-                <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Other Workshops</p>
-                <div className="grid gap-2 border-l border-neutral-content/20 pl-4">
-                  <div className="flex items-start gap-3 text-neutral-content/70">
-                    <span className="text-neutral-content/30 mt-0.5 text-xs">◇</span>
-                    <span className="text-sm">aigentsbcn event support (Feb)</span>
-                  </div>
-                  <div className="flex items-start gap-3 text-neutral-content/50">
-                    <span className="text-neutral-content/30 mt-0.5 text-xs">◇</span>
-                    <span className="text-sm italic">Shiv personal workshop (placeholder)</span>
-                  </div>
-                  <div className="flex items-start gap-3 text-neutral-content/50">
-                    <span className="text-neutral-content/30 mt-0.5 text-xs">◇</span>
-                    <span className="text-sm italic">Carlos personal workshop Malaga (placeholder)</span>
-                  </div>
-                  <div className="flex items-start gap-3 text-neutral-content/50">
-                    <span className="text-neutral-content/30 mt-0.5 text-xs">◇</span>
-                    <span className="text-sm italic">Damu personal workshops (placeholder)</span>
-                  </div>
+              {/* Terminal content area - black background */}
+              <div className="bg-black p-6">
+                {/* Active tab content */}
+                <div className="animate-fadeIn">
+                  {initiatives
+                    .filter(i => i.id === activeTab)
+                    .map(initiative => (
+                      <div key={initiative.id}>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="flex items-center gap-2 text-primary text-sm">
+                            <span>$</span>
+                            <span className="text-neutral-content/70">cat</span>
+                            <span className="text-secondary">
+                              {initiative.title.toLowerCase().replace(/\s+/g, "-")}-2025.md
+                            </span>
+                          </div>
+                        </div>
+                        {initiative.content}
+                      </div>
+                    ))}
                 </div>
               </div>
-            </div>
-
-            <div className="flex items-center gap-2 text-neutral-content/30 text-xs mt-4">
-              <span>└</span>
-              <span className="flex-1 border-t border-neutral-content/20" />
-              <span>┘</span>
             </div>
           </div>
         </div>
@@ -545,8 +588,85 @@ const EducationalSlide = () => {
 
 // Fourth slide: Ecosystem Collaborations
 const EcosystemSlide = () => {
+  const [activeTab, setActiveTab] = useState<string | null>("ens");
+
+  const collaborations = [
+    {
+      id: "ens",
+      title: "ENS Grants",
+      tasks: [
+        "Launched the new milestone-based USDC grants features",
+        "Added milestones and enhanced admin workflow to ETH grants",
+        "⇒ 4,100 unique visitors",
+        "⇒ 241 applications submitted in 2025, 42 approved",
+        "⇒ ~50 ETH and 65k USDC granted to projects",
+      ],
+    },
+    {
+      id: "arbitrum",
+      title: "Arbitrum",
+      content: (
+        <>
+          <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+            Launched the Arbitrum Cohort to build dapps on Arbitrum. Currently developing two key projects for the
+            ecosystem.
+          </p>
+
+          <p className="text-xs text-white uppercase tracking-widest mb-3">Projects in Development</p>
+          <div className="grid gap-4">
+            <div className="p-4 border border-neutral-content/20">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-primary-content text-sm font-medium">DevCreds</span>
+                  <p className="text-neutral-content/70 text-xs mt-1">
+                    Developer reputation dapp for the Arbitrum ecosystem
+                  </p>
+                </div>
+                <a
+                  href="https://dev-creds.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary hover:text-primary text-xs whitespace-nowrap"
+                >
+                  View →
+                </a>
+              </div>
+            </div>
+            <div className="p-4 border border-neutral-content/20">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-primary-content text-sm font-medium">Governance Dashboard</span>
+                  <p className="text-neutral-content/70 text-xs mt-1">
+                    Dashboard for Arbitrum governance participation and tracking
+                  </p>
+                </div>
+                <span className="text-secondary text-xs whitespace-nowrap">WIP</span>
+              </div>
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "jobboard",
+      title: "Job Board",
+      tasks: ["Launched the Ethereum Job Board in collaboration with Geode Labs", "⇒ 8,100 unique visitors"],
+    },
+    {
+      id: "ethereumorg",
+      title: "Ethereum.org",
+      tasks: [
+        "Built the Collectibles site for contributors",
+        "Speedrun Ethereum and Scaffold-ETH are featured as main themes on ethereum.org/developers/",
+      ],
+    },
+  ];
+
   return (
-    <section id="ecosystem" className="min-h-screen flex items-center relative overflow-hidden py-16 lg:py-0">
+    <section
+      id="ecosystem"
+      className="min-h-screen py-16 lg:py-0 lg:h-screen lg:snap-start lg:snap-always flex items-center relative overflow-hidden border-t border-neutral-content/10"
+    >
       {/* Background texture */}
       <div className="absolute inset-0 opacity-[0.02]">
         <div
@@ -557,170 +677,98 @@ const EcosystemSlide = () => {
         />
       </div>
 
-      {/* Gradient accent */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-secondary via-primary to-secondary opacity-60" />
-
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         {/* Section indicator */}
         <div className="flex items-center gap-4 mb-8">
-          <span className="text-xs text-neutral-content/40 uppercase tracking-[0.3em]">Project 04</span>
+          <span className="text-xs text-white/80 uppercase tracking-[0.3em]">Project 04</span>
           <span className="w-48 lg:w-64 h-px bg-neutral-content/20" />
         </div>
 
-        {/* Title */}
-        <h1 className="text-4xl md:text-6xl font-bold mb-8">
-          <span className="text-primary-content">Ecosystem</span>
-          <br />
-          <span className="text-secondary">Collaborations</span>
-        </h1>
+        {/* Main content */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Left column - title and description */}
+          <div className="lg:w-2/5">
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <span className="text-primary-content">Ecosystem</span>
+              <br />
+              <span className="text-primary">Collaborations</span>
+            </h1>
 
-        {/* Asymmetric Bento Grid - Featured + Stacked Cards */}
-        <div className="grid lg:grid-cols-5 gap-6 lg:gap-8">
-          {/* ENS Builder Grants - Featured (spans 3 cols) */}
-          <div className="lg:col-span-3 border border-neutral-content/20 p-6 lg:p-8">
-            <div className="flex items-center gap-2 text-neutral-content/30 text-xs mb-4">
-              <span>┌</span>
-              <span className="flex-1 border-t border-neutral-content/20" />
-              <span>Featured</span>
-            </div>
-
-            <h2 className="text-2xl lg:text-3xl font-bold text-primary-content mb-4">ENS Builder Grants</h2>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <div className="grid gap-3 border-l border-neutral-content/20 pl-4">
-                  <div className="flex items-start gap-3 text-neutral-content/70">
-                    <span className="text-secondary mt-0.5 text-xs">◆</span>
-                    <span className="text-sm">Launched new milestone-based USDC grants features</span>
-                  </div>
-                  <div className="flex items-start gap-3 text-neutral-content/70">
-                    <span className="text-secondary mt-0.5 text-xs">◆</span>
-                    <span className="text-sm">Added milestones and enhanced admin workflow to ETH grants</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div className="py-4 border border-neutral-content/10">
-                  <span className="text-2xl font-bold text-primary-content">4.1k</span>
-                  <p className="text-neutral-content/50 text-xs mt-1">visitors</p>
-                </div>
-                <div className="py-4 border border-neutral-content/10">
-                  <span className="text-2xl font-bold text-secondary">241</span>
-                  <p className="text-neutral-content/50 text-xs mt-1">applications</p>
-                </div>
-                <div className="py-4 border border-neutral-content/10">
-                  <span className="text-2xl font-bold text-primary">42</span>
-                  <p className="text-neutral-content/50 text-xs mt-1">approved</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="inline-block px-4 py-2 border border-primary/20 bg-primary/5">
-              <span className="text-primary-content font-bold">~50 ETH + 65k USDC</span>
-              <span className="text-neutral-content/50 text-sm ml-2">granted to projects</span>
-            </div>
-
-            <div className="flex items-center gap-2 text-neutral-content/30 text-xs mt-6">
-              <span>└</span>
-              <span className="flex-1 border-t border-neutral-content/20" />
-              <span>┘</span>
-            </div>
+            {/* Description */}
+            <p className="text-base md:text-lg text-neutral-content/70 mb-8 leading-relaxed">
+              <span className="text-primary-content">Partnering with key players to expand Ethereum{"'"}s reach.</span>{" "}
+              In 2025, we deepened our collaborations with ENS, Arbitrum, Geode Labs, and Ethereum.org building grant
+              platforms, cohort programs, and developer resources that benefit the broader ecosystem.
+            </p>
           </div>
 
-          {/* Right column - 3 stacked compact cards (spans 2 cols) */}
-          <div className="lg:col-span-2 grid gap-4">
-            {/* Arbitrum Collaboration */}
-            <div className="border border-neutral-content/20 p-4 hover:border-neutral-content/40 transition-colors">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-primary-content mb-2">Arbitrum Collaboration</h3>
-                  <p className="text-neutral-content/60 text-sm">
-                    Launched{" "}
-                    <a
-                      href="https://arbitrum.buidlguidl.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary/70 hover:text-primary"
-                    >
-                      Arbitrum Cohort
-                    </a>{" "}
-                    to build dapps on Arbitrum
-                  </p>
+          {/* Right column - terminal-style tabbed interface */}
+          <div className="lg:w-1/2">
+            {/* Terminal window frame */}
+            <div className="border border-neutral-600 rounded-lg overflow-hidden">
+              {/* Terminal title bar */}
+              <div className="flex items-stretch bg-neutral-700 border-b border-neutral-600">
+                {/* Window controls (decorative) */}
+                <div className="flex items-center gap-2 px-3 py-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <span className="w-3 h-3 rounded-full bg-green-500" />
                 </div>
-                <div className="text-right text-xs text-neutral-content/40">
-                  <p>2 projects</p>
-                  <p className="text-neutral-content/30">WIP</p>
-                </div>
-              </div>
-              <div className="flex gap-3 mt-3 text-xs">
-                <a
-                  href="https://dev-creds.vercel.app/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary/60 hover:text-primary border border-neutral-content/10 px-2 py-1"
-                >
-                  DevCreds →
-                </a>
-                <span className="text-neutral-content/40 border border-neutral-content/10 px-2 py-1">Governance</span>
-              </div>
-            </div>
 
-            {/* Ethereum Job Board */}
-            <div className="border border-neutral-content/20 p-4 hover:border-neutral-content/40 transition-colors">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-primary-content mb-2">Ethereum Job Board</h3>
-                  <p className="text-neutral-content/60 text-sm">
-                    <a
-                      href="https://www.ethereumjobboard.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary/70 hover:text-primary"
-                    >
-                      ethereumjobboard.com
-                    </a>{" "}
-                    with Geode Labs
-                  </p>
-                </div>
-                <div className="text-right">
-                  <span className="text-xl font-bold text-primary-content">8.1k</span>
-                  <p className="text-neutral-content/40 text-xs">visitors</p>
-                </div>
+                {/* Tab headers - macOS terminal style */}
+                {collaborations.map(collab => (
+                  <button
+                    key={collab.id}
+                    onClick={() => setActiveTab(collab.id)}
+                    className={`flex-1 min-w-0 flex items-center justify-center px-2 text-xs whitespace-nowrap border-l border-neutral-600 transition-all duration-200 ${
+                      activeTab === collab.id ? "text-white font-medium" : "text-neutral-400 hover:text-neutral-200"
+                    }`}
+                    style={{
+                      backgroundColor: activeTab === collab.id ? "#6b7280" : "transparent",
+                    }}
+                    title={collab.title}
+                  >
+                    {collab.title}
+                  </button>
+                ))}
               </div>
-            </div>
 
-            {/* Ethereum.org */}
-            <div className="border border-neutral-content/20 p-4 hover:border-neutral-content/40 transition-colors">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-primary-content mb-2">Ethereum.org</h3>
-                  <p className="text-neutral-content/60 text-sm mb-2">
-                    Built{" "}
-                    <a
-                      href="https://ethereum.org/collectibles/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary/70 hover:text-primary"
-                    >
-                      Collectibles site
-                    </a>{" "}
-                    for contributors
-                  </p>
-                  <p className="text-neutral-content/50 text-xs">
-                    SE + SE-2 featured on{" "}
-                    <a
-                      href="https://ethereum.org/developers/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary/60 hover:text-primary"
-                    >
-                      /developers
-                    </a>
-                  </p>
+              {/* Terminal content area - black background */}
+              <div className="bg-black p-6">
+                {/* Active tab content */}
+                <div className="animate-fadeIn">
+                  {collaborations
+                    .filter(c => c.id === activeTab)
+                    .map(collab => (
+                      <div key={collab.id}>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="flex items-center gap-2 text-primary text-sm">
+                            <span>$</span>
+                            <span className="text-neutral-content/70">cat</span>
+                            <span className="text-secondary">
+                              {collab.title.toLowerCase().replace(/\s+/g, "-")}-highlights.md
+                            </span>
+                          </div>
+                        </div>
+
+                        {"content" in collab ? (
+                          collab.content
+                        ) : (
+                          <div className="grid gap-2 mt-2">
+                            {collab.tasks.map((task, index) => (
+                              <div key={index} className="flex items-start gap-3 text-neutral-content/70">
+                                <span className="text-secondary text-xs">
+                                  {task.startsWith("⇒") || task.startsWith("◇") ? "" : "◆"}
+                                </span>
+                                <span className="text-sm leading-relaxed">{task}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                 </div>
-                <div className="text-2xl text-neutral-content/20">◈</div>
               </div>
             </div>
           </div>
@@ -736,7 +784,273 @@ const EcosystemSlide = () => {
   );
 };
 
+// Fifth slide: Misc
+const MiscSlide = () => {
+  const [activeTab, setActiveTab] = useState<string | null>("abi-ninja");
+
+  const miscItems = [
+    {
+      id: "abi-ninja",
+      title: "Abi Ninja",
+      content: (
+        <>
+          <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+            Our tool for interacting with any smart contract on any EVM chain. In 2025, we focused on maintenance and
+            incremental improvements to keep it running smoothly.
+          </p>
+
+          {/* Highlights */}
+          <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Highlights</p>
+          <div className="grid gap-2 mb-6">
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">Maintenance and small features</span>
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "farcaster",
+      title: "Farcaster Miniapps",
+      content: (
+        <>
+          <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+            Exploring the miniapp ecosystem after our Farcaster day at Devconnect by launching experimental games and
+            interactive experiences.
+          </p>
+
+          {/* Projects */}
+          <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Launched Miniapps</p>
+          <div className="grid gap-3 mb-6">
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">
+                <span className="text-primary-content">Advent Calendar</span> — Holiday-themed miniapp game
+              </span>
+            </div>
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">
+                <span className="text-primary-content">Snowman / Not Snowman</span> — Spinoff farcaster game
+              </span>
+            </div>
+            <div className="flex items-start gap-3 text-neutral-content/70">
+              <span className="text-secondary text-xs">◆</span>
+              <span className="text-sm">
+                <span className="text-primary-content">Bubble Tap</span> — Interactive tap game
+              </span>
+            </div>
+          </div>
+        </>
+      ),
+    },
+    {
+      id: "ideation",
+      title: "2026 Ideation",
+      content: (
+        <>
+          <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+            Looking ahead—exploring new directions and prototyping programs to launch in the coming year.
+          </p>
+
+          {/* Projects */}
+          <p className="text-xs text-white uppercase tracking-widest mb-3">Prototypes & Concepts</p>
+          <div className="grid gap-4">
+            <div className="p-4 border border-neutral-content/20">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-primary-content text-sm font-medium">6-Month Acceleration Program</span>
+                  <p className="text-neutral-content/70 text-xs mt-1">
+                    Ideation and prototyping of a structured builder program
+                  </p>
+                </div>
+                <a
+                  href="https://hack-combinator.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary hover:text-primary text-xs whitespace-nowrap"
+                >
+                  View prototype →
+                </a>
+              </div>
+            </div>
+            <div className="p-4 border border-neutral-content/20">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <span className="text-primary-content text-sm font-medium">Enterprise Education</span>
+                  <p className="text-neutral-content/70 text-xs mt-1">
+                    Mockup for enterprise-focused Ethereum education
+                  </p>
+                </div>
+                <a
+                  href="https://eadc.ethereum.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary hover:text-primary text-xs whitespace-nowrap"
+                >
+                  View prototype →
+                </a>
+              </div>
+            </div>
+          </div>
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <section
+      id="misc"
+      className="min-h-screen py-16 lg:py-0 lg:h-screen lg:snap-start lg:snap-always flex items-center relative overflow-hidden border-t border-neutral-content/10"
+    >
+      {/* Background texture */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          }}
+        />
+      </div>
+
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        {/* Section indicator */}
+        <div className="flex items-center gap-4 mb-8">
+          <span className="text-xs text-white/80 uppercase tracking-[0.3em]">Project 05</span>
+          <span className="w-48 lg:w-64 h-px bg-neutral-content/20" />
+        </div>
+
+        {/* Main content */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Left column - title and description */}
+          <div className="lg:w-2/5">
+            {/* Title */}
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <span className="text-primary-content">Miscellaneous</span>
+              <br />
+              <span className="text-primary">Projects</span>
+            </h1>
+
+            {/* Description */}
+            <p className="text-base md:text-lg text-neutral-content/70 mb-8 leading-relaxed">
+              <span className="text-primary-content">Side projects and experiments.</span> Beyond our main initiatives,
+              we maintained useful tools, explored emerging platforms like Farcaster, and started ideating programs for
+              2026.
+            </p>
+
+            {/* Main stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <StatCard value="~20k" label="" growth="Abi Ninja users" />
+              <StatCard value="3" label="" growth="Farcaster Miniapps" />
+            </div>
+          </div>
+
+          {/* Right column - terminal-style tabbed interface */}
+          <div className="lg:w-1/2">
+            {/* Terminal window frame */}
+            <div className="border border-neutral-600 rounded-lg overflow-hidden">
+              {/* Terminal title bar */}
+              <div className="flex items-stretch bg-neutral-700 border-b border-neutral-600">
+                {/* Window controls (decorative) */}
+                <div className="flex items-center gap-2 px-3 py-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500" />
+                  <span className="w-3 h-3 rounded-full bg-yellow-500" />
+                  <span className="w-3 h-3 rounded-full bg-green-500" />
+                </div>
+
+                {/* Tab headers - macOS terminal style */}
+                {miscItems.map(item => (
+                  <button
+                    key={item.id}
+                    onClick={() => setActiveTab(item.id)}
+                    className={`flex-1 min-w-0 flex items-center justify-center px-2 text-xs whitespace-nowrap border-l border-neutral-600 transition-all duration-200 ${
+                      activeTab === item.id ? "text-white font-medium" : "text-neutral-400 hover:text-neutral-200"
+                    }`}
+                    style={{
+                      backgroundColor: activeTab === item.id ? "#6b7280" : "transparent",
+                    }}
+                    title={item.title}
+                  >
+                    {item.title}
+                  </button>
+                ))}
+              </div>
+
+              {/* Terminal content area - black background */}
+              <div className="bg-black p-6">
+                {/* Active tab content */}
+                <div className="animate-fadeIn">
+                  {miscItems
+                    .filter(i => i.id === activeTab)
+                    .map(item => (
+                      <div key={item.id}>
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="flex items-center gap-2 text-primary text-sm">
+                            <span>$</span>
+                            <span className="text-neutral-content/70">cat</span>
+                            <span className="text-secondary">
+                              {item.title.toLowerCase().replace(/\s+/g, "-")}-2025.md
+                            </span>
+                          </div>
+                        </div>
+                        {item.content}
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Page2025: NextPage = () => {
+  const [activeSlide, setActiveSlide] = useState<string>("speedrun");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Intersection Observer to track which slide is in view
+  useEffect(() => {
+    const options: IntersectionObserverInit = {
+      root: null,
+      rootMargin: "-40% 0px -40% 0px", // Trigger when slide is in the middle 20% of viewport
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const slideId = entry.target.getAttribute("id");
+          if (slideId) {
+            setActiveSlide(slideId);
+          }
+        }
+      });
+    }, options);
+
+    // Observe all slide sections
+    slides.forEach(slide => {
+      const element = document.getElementById(slide.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Handle smooth scroll snap navigation
+  const scrollToSlide = (slideId: string) => {
+    const element = document.getElementById(slideId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
     <>
       <Head>
@@ -747,33 +1061,31 @@ const Page2025: NextPage = () => {
         />
       </Head>
 
-      <div className={`min-h-screen bg-base-100 text-base-content ${shareTechMono.className}`}>
-        <SideNav activeSlide="speedrun" />
+      <div
+        ref={containerRef}
+        className={`min-h-screen lg:h-screen overflow-y-auto lg:snap-y lg:snap-mandatory bg-base-100 text-base-content ${shareTechMono.className}`}
+      >
+        <SideNav activeSlide={activeSlide} onNavigate={scrollToSlide} />
 
-        {/* Back to main site */}
-        <Link
-          href="/"
-          className="fixed top-6 left-6 z-50 text-neutral-content/50 hover:text-primary-content transition-colors text-sm flex items-center gap-2 group"
-        >
-          <span className="transform group-hover:-translate-x-1 transition-transform">←</span>
-          <span className="opacity-0 group-hover:opacity-100 transition-opacity">Back to site</span>
-        </Link>
+        {/* Fixed header bar */}
+        <header className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between bg-base-100/80 backdrop-blur-sm border-b border-neutral-content/10">
+          {/* Back to main site */}
+          <Link
+            href="/"
+            className="text-primary-content hover:text-primary transition-colors text-sm flex items-center gap-2 group"
+          >
+            <span className="transform group-hover:-translate-x-1 transition-transform">←</span>
+            <span>Back to site</span>
+          </Link>
 
-        {/* Title card / Hero */}
-        <header className="min-h-[60vh] flex items-center justify-center relative">
-          <div className="text-center px-6">
-            <p className="text-primary text-sm uppercase tracking-[0.4em] mb-4">Sand Garden</p>
-            <h1 className="text-6xl md:text-8xl font-bold text-primary-content mb-6">2025</h1>
-            <p className="text-neutral-content/60 max-w-md mx-auto">
-              A year of building, learning, and growing the Ethereum ecosystem together.
-            </p>
+          {/* Title */}
+          <div className="flex items-center gap-3">
+            <span className="text-primary uppercase tracking-[0.3em]">Sand Garden</span>
+            <span className="text-primary-content font-bold text-lg">2025 recap</span>
           </div>
 
-          {/* Decorative elements */}
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-content/30">
-            <span className="text-xs uppercase tracking-widest">Scroll to explore</span>
-            <span className="animate-bounce">↓</span>
-          </div>
+          {/* Spacer for balance */}
+          <div className="w-24" />
         </header>
 
         {/* Slides container */}
@@ -782,12 +1094,8 @@ const Page2025: NextPage = () => {
           <ScaffoldEthSlide />
           <EducationalSlide />
           <EcosystemSlide />
+          <MiscSlide />
         </main>
-
-        {/* Footer */}
-        <footer className="py-16 text-center text-neutral-content/40 text-sm">
-          <p>Built with 💜 by Sand Garden</p>
-        </footer>
       </div>
     </>
   );
