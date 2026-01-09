@@ -11,7 +11,7 @@ export const StatCard = ({ value, label, growth }: StatCardProps) => (
       <div className="flex items-center gap-2 text-neutral-content/30 text-xs">
         <span>┌</span>
         <span className="flex-1 border-t border-neutral-content/20" />
-        <span>─</span>
+        <span>┐</span>
       </div>
 
       {/* Content */}
