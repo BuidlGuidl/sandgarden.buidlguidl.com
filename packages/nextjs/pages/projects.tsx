@@ -20,27 +20,21 @@ const projects = [
     github: "https://github.com/BuidlGuidl/SpeedRunEthereum",
   },
   {
-    name: "BuidlGuidl L2 testnet",
-    description: "L2 testnet (sepolia) for BuidlGuidl. Powered by the OP Stack.",
-    link: "https://l2.buidlguidl.com/",
-    github: "https://github.com/BuidlGuidl/l2.buidlguidl.com",
+    name: "create-eth",
+    description: "CLI to create decentralized applications (dapps) using Scaffold-ETH 2.",
+    github: "https://github.com/scaffold-eth/create-eth",
+  },
+  {
+    name: "create-eth extensions",
+    description:
+      "The repository holds all the BG curated extensions for create-eth, so you can extend the functionality of your Scaffold-ETH project.",
+    github: "https://github.com/scaffold-eth/create-eth-extensions",
   },
   {
     name: "ABI Ninja",
     description: "Interact with any contract on Ethereum with a simple interface",
     link: "https://abi.ninja/",
     github: "https://github.com/buidlguidl/abi.ninja",
-  },
-  {
-    name: "BG Hacker Houses",
-    description:
-      "An experiment to retroactively fund open-source work by providing a monthly UBI (via ETH stream) to open-source developers",
-    github: "https://github.com/BuidlGuidl/hacker-houses-streams",
-  },
-  {
-    name: "Event Burner Wallet",
-    description: "A burner wallet experience for events",
-    github: "https://github.com/BuidlGuidl/event-wallet",
   },
   {
     name: "BuidlGuidl v3",
@@ -54,6 +48,47 @@ const projects = [
     description: "BG grants is a platform for funding open-source work in the Ethereum ecosystem",
     link: "https://grants.buidlguidl.com",
     github: "https://github.com/buidlGuidl/grants.buidlguidl.com",
+  },
+  {
+    name: "Scaffold-UI",
+    description: "Standalone package of reusable hooks and UI components extracted from Scaffold-ETH 2",
+    link: "https://scaffold-ui-docs.vercel.app/",
+    github: "https://github.com/scaffold-eth/scaffold-ui",
+  },
+  {
+    name: "Capture The Flag",
+    description: "Ethereum CTF platform with seasons from Devcon Bangkok and Devconnect Buenos Aires",
+    link: "https://ctf.buidlguidl.com",
+    github: "https://github.com/BuidlGuidl/ctf.buidlguidl.com",
+  },
+  {
+    name: "ENS Builder Grants",
+    description: "Platform for milestone-based grants to ENS ecosystem builders",
+    link: "https://builder.ensgrants.xyz/",
+    github: "https://github.com/BuidlGuidl/ens-pg",
+  },
+  {
+    name: "Arbitrum Cohort",
+    description: "Cohort building dapps on Arbitrum including DevCreds and governance tools",
+    link: "https://arbitrum.buidlguidl.com",
+    github: "https://github.com/buidlguidl/arbitrum-cohort",
+  },
+  // {
+  //   name: "Ethereum Job Board",
+  //   description: "Job board for Ethereum ecosystem roles, in collaboration with Geode Labs",
+  //   link: "https://www.ethereumjobboard.com/",
+  //   github: "https://github.com/buidlguidl/ethereum-job-board", // verify repo
+  // },
+  // {
+  //   name: "Hackathon Projects",
+  //   description: "Website showcasing web3 hackathon projects",
+  //   link: "https://hackathonprojects.dev/",
+  //   github: "https://github.com/pabl0cks/hackathonprojects.dev", // verify repo
+  // },
+  {
+    name: "Burner connector",
+    description: "Connector for the Burner Wallet",
+    github: "https://github.com/scaffold-eth/burner-connector",
   },
 ];
 
