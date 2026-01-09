@@ -20,27 +20,50 @@ const projects = [
     github: "https://github.com/BuidlGuidl/SpeedRunEthereum",
   },
   {
-    name: "BuidlGuidl L2 testnet",
-    description: "L2 testnet (sepolia) for BuidlGuidl. Powered by the OP Stack.",
-    link: "https://l2.buidlguidl.com/",
-    github: "https://github.com/BuidlGuidl/l2.buidlguidl.com",
-  },
-  {
     name: "ABI Ninja",
-    description: "Interact with any contract on Ethereum with a simple interface",
+    description: "Interact with any contract on Ethereum with a simple interface.",
     link: "https://abi.ninja/",
     github: "https://github.com/buidlguidl/abi.ninja",
   },
   {
-    name: "BG Hacker Houses",
-    description:
-      "An experiment to retroactively fund open-source work by providing a monthly UBI (via ETH stream) to open-source developers",
-    github: "https://github.com/BuidlGuidl/hacker-houses-streams",
+    name: "BuidlGuidl's Builder Bootcamp",
+    description: "Organization of the Builder Bootcamp for Devconnect Buenos Aires 2025",
+    link: "https://devconnect.buidlguidl.com/",
+    github: "https://github.com/buidlguidl/devconnect.buidlguidl.com",
   },
   {
-    name: "Event Burner Wallet",
-    description: "A burner wallet experience for events",
-    github: "https://github.com/BuidlGuidl/event-wallet",
+    name: "Capture The Flag",
+    description: "Ethereum CTF challenges with seasons from Devcon Bangkok and Devconnect Buenos Aires.",
+    link: "https://ctf.buidlguidl.com",
+    github: "https://github.com/BuidlGuidl/ctf.buidlguidl.com",
+  },
+  {
+    name: "ENS Builder Grants",
+    description: "Platform for milestone-based grants to ENS ecosystem builders.",
+    link: "https://builder.ensgrants.xyz/",
+    github: "https://github.com/BuidlGuidl/ens-pg",
+  },
+  {
+    name: "Arbitrum Cohort",
+    description: "Cohort building dapps on Arbitrum including DevCreds and governance tools.",
+    link: "https://arbitrum.buidlguidl.com",
+    github: "https://github.com/buidlguidl/arbitrum-cohort",
+  },
+  {
+    name: "Ethereum Job Board",
+    description: "Job board for Ethereum ecosystem roles, in collaboration with Geode Labs",
+    link: "https://www.ethereumjobboard.com/",
+  },
+  {
+    name: "create-eth",
+    description: "CLI to create decentralized applications (dapps) using Scaffold-ETH 2.",
+    github: "https://github.com/scaffold-eth/create-eth",
+  },
+  {
+    name: "Scaffold-UI",
+    description: "Standalone package of reusable hooks and UI components extracted from Scaffold-ETH 2",
+    link: "https://scaffold-ui-docs.vercel.app/",
+    github: "https://github.com/scaffold-eth/scaffold-ui",
   },
   {
     name: "BuidlGuidl v3",
@@ -54,6 +77,17 @@ const projects = [
     description: "BG grants is a platform for funding open-source work in the Ethereum ecosystem",
     link: "https://grants.buidlguidl.com",
     github: "https://github.com/buidlGuidl/grants.buidlguidl.com",
+  },
+  {
+    name: "Burner connector",
+    description: "Connector for the Burner Wallet",
+    github: "https://github.com/scaffold-eth/burner-connector",
+  },
+  {
+    name: "BuidlGuidl L2 testnet",
+    description: "L2 testnet (sepolia) for BuidlGuidl. Powered by the OP Stack. Currently disabled.",
+    link: "https://l2.buidlguidl.com/",
+    github: "https://github.com/BuidlGuidl/l2.buidlguidl.com",
   },
 ];
 
@@ -76,7 +110,8 @@ const Projects: NextPage = () => {
     const getLastCommits = async () => {
       const projectsUpdate: LastUpdateType = {};
       for (let i = 0; i < projects.length; i++) {
-        const github: string = projects[i].github;
+        if (!projects[i].github) continue;
+        const github = projects[i].github as string;
         const owner: string = github.split("/")[3];
         const name: string = github.split("/")[4];
         const apiUrl = `${githubApiUri}/${owner}/${name}`;
@@ -119,17 +154,19 @@ const Projects: NextPage = () => {
               <div className="mb-8" key={project.name}>
                 <h2 className="font-bold text-secondary mb-1">
                   {project.name}
-                  {projectsLastUpdate[project.github] && (
+                  {projectsLastUpdate[project.github ?? ""] && (
                     <small className="ml-2 text-gray-500">
-                      - Updated {DateTime.fromISO(projectsLastUpdate[project.github]).toRelative()}
+                      - Updated {DateTime.fromISO(projectsLastUpdate[project.github ?? ""]).toRelative()}
                     </small>
                   )}
                 </h2>
                 <p className="mt-2 mb-0">{project.description}</p>
                 <div className="flex gap-2">
-                  <Link href={project.github} className="link link-primary text-sm" target="_blank">
-                    Github
-                  </Link>
+                  {project.github && (
+                    <Link href={project.github} className="link link-primary text-sm" target="_blank">
+                      Github
+                    </Link>
+                  )}
                   {project.link && (
                     <Link href={project.link} className="link link-primary text-sm" target="_blank">
                       Live URL
