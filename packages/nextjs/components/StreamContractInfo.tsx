@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { BigNumber } from "ethers";
 import { useAccount } from "wagmi";
 import { BanknotesIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
@@ -55,6 +56,13 @@ export const StreamContractInfo = () => {
             </label>
           </div>
         )}
+        <p>
+          Note: Streams have mostly migrated to{" "}
+          <Link href="https://llamapay.io/" className="link link-primary" target="_blank">
+            LlamaPay
+          </Link>{" "}
+          for more flexible payment options.
+        </p>
       </div>
       <div className="mt-8">
         <p className="font-bold mb-2 text-secondary">Owner</p>
