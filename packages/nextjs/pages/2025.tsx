@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Share_Tech_Mono } from "next/font/google";
 import Head from "next/head";
 import Link from "next/link";
-import type { NextPage } from "next";
+import { NextPageWithLayout } from "./_app";
 import {
   EcosystemSlide,
   EducationalSlide,
@@ -16,7 +16,7 @@ import {
 
 const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400" });
 
-const Page2025: NextPage = () => {
+const Page2025: NextPageWithLayout = () => {
   const [activeSlide, setActiveSlide] = useState<SlideId>("speedrun");
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -96,6 +96,10 @@ const Page2025: NextPage = () => {
       </div>
     </>
   );
+};
+
+Page2025.getLayout = page => {
+  return <>{page}</>;
 };
 
 export default Page2025;
