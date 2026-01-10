@@ -15,7 +15,7 @@ const SUBGROUPS = [
       "Migration toward Next 15",
       "Makes docs more AI compatible with llm-full.txt files (Mar)",
       'Add custom Cursor rules to enhance DX (easier to "1shot" dapps) (Apr)',
-      "Migrate the docs to viem framework for better style, more AI compatibility (like ask ChatGPT), dynamic unfurl etc.",
+      "Migrate the docs to vocs framework for better style, more AI compatibility (like ask ChatGPT), dynamic unfurl etc.",
     ],
   },
   {
