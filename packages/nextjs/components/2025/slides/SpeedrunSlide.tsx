@@ -3,14 +3,15 @@ import { StatCard } from "../StatCard";
 import { TaskList } from "../TaskList";
 
 const TASKS = [
-  "Migrate challenges to extensions for easier maintenance and compatibility with future Scaffold-ETH 2 upgrades (July)",
-  "Launch Speedrun Ethereum v2 built with Scaffold-ETH 2 (April - May)",
-  "Added builder portfolio page and side quests",
-  "Migrate old builds from BuidlGuidl v3 + categorization",
-  "Created 23 Solidity guides and launched Google Ads campaigns (~100% organic traffic increase)",
+  "Launch Speedrun Ethereum v2 built with Scaffold-ETH 2",
+  "Add builder portfolio page and side quests",
+  "Migrate builds from BuidlGuidl v3 + categorization",
+  "Migrate challenges to extensions for easier maintenance and compatibility with future Scaffold-ETH 2 upgrades",
+  "Create 23 Solidity guides and extra landing pages, 100% organic traffic increase",
+  "Launch Google Ads campaigns and referral traffic collaboration with Blockscout",
   "Improve conversion tracking and traffic sources",
-  "Supported the launch of 5 new challenges",
-  "Gather feedback from Speedrunners (SRE impact on their careers and feedback gathering on SRE platform)",
+  "Support the launch of 5 new challenges, test and platform adjustments",
+  "Automate feedback gathering from past Speedrunners, to know the impact on their careers and improve the platform",
 ];
 
 export const SpeedrunSlide = () => (
