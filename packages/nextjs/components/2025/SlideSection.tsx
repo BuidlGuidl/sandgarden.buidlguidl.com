@@ -13,7 +13,7 @@ export const SlideSection = ({ id, projectNumber, children }: SlideSectionProps)
     className="min-h-[80vh] py-24 flex items-center relative overflow-hidden border-t border-neutral-content/10 first:border-t-0"
   >
     {/* Background texture */}
-    <div className="absolute inset-0 opacity-[0.02]">
+    <div className="absolute inset-0 opacity-[0.14]">
       <div
         className="absolute inset-0"
         style={{
