@@ -29,7 +29,18 @@ const CTF_CONTENT = (
     <div className="grid gap-3">
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-primary text-xs mt-0.5 font-mono w-10">Jan</span>
-        <span className="text-sm">Opened Devcon CTF as a live platform for anyone to play at any moment</span>
+        <span className="text-sm">
+          Opened Devcon CTF as a{" "}
+          <a
+            href="https://ctf.buidlguidl.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary-content hover:text-primary underline"
+          >
+            live platform
+          </a>{" "}
+          for anyone to play at any moment
+        </span>
       </div>
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-primary text-xs mt-0.5 font-mono w-10">Nov</span>
@@ -105,7 +116,13 @@ const WORKSHOPS_CONTENT = (
 );
 
 const TABS = [
-  { id: "ctf", title: "Capture The Flag", content: CTF_CONTENT },
+  {
+    id: "ctf",
+    title: "Capture The Flag",
+    content: CTF_CONTENT,
+    linkUrl: "https://github.com/BuidlGuidl/ctf.buidlguidl.com",
+    linkLabel: "Github",
+  },
   { id: "workshops", title: "Workshops", content: WORKSHOPS_CONTENT },
 ];
 

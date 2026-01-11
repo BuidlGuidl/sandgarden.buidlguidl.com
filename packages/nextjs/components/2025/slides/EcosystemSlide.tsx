@@ -58,18 +58,61 @@ const JOBBOARD_CONTENT = (
 );
 
 const ETHEREUMORG_CONTENT = (
-  <TaskList
-    tasks={[
-      "Built the Collectibles site for contributors",
-      "Speedrun Ethereum and Scaffold-ETH are featured as main themes on ethereum.org/developers/",
-    ]}
-  />
+  <div className="space-y-3">
+    <div className="flex items-start gap-3">
+      <span className="text-primary text-xs">✓</span>
+      <span className="text-neutral-content/70 text-sm">
+        Built the{" "}
+        <a
+          href="https://ethereum.org/collectibles/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-secondary hover:text-primary underline"
+        >
+          Collectibles
+        </a>{" "}
+        site for contributors
+      </span>
+    </div>
+    <div className="flex items-start gap-3">
+      <span className="text-primary text-xs">✓</span>
+      <span className="text-neutral-content/70 text-sm">
+        Speedrun Ethereum and Scaffold-ETH are featured as main themes on{" "}
+        <a
+          href="https://ethereum.org/developers/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-secondary hover:text-primary underline"
+        >
+          ethereum.org/developers/
+        </a>
+      </span>
+    </div>
+  </div>
 );
 
 const TABS = [
-  { id: "ens", title: "ENS Grants", content: ENS_CONTENT },
-  { id: "arbitrum", title: "Arbitrum", content: ARBITRUM_CONTENT },
-  { id: "jobboard", title: "Job Board", content: JOBBOARD_CONTENT },
+  {
+    id: "ens",
+    title: "ENS Grants",
+    content: ENS_CONTENT,
+    linkUrl: "https://builder.ensgrants.xyz/",
+    linkLabel: "Website",
+  },
+  {
+    id: "arbitrum",
+    title: "Arbitrum",
+    content: ARBITRUM_CONTENT,
+    linkUrl: "https://arbitrum.buidlguidl.com/",
+    linkLabel: "Website",
+  },
+  {
+    id: "jobboard",
+    title: "Job Board",
+    content: JOBBOARD_CONTENT,
+    linkUrl: "https://www.ethereumjobboard.com/",
+    linkLabel: "Website",
+  },
   { id: "ethereumorg", title: "Ethereum.org", content: ETHEREUMORG_CONTENT },
 ];
 

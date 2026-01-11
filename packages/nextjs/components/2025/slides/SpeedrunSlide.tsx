@@ -42,6 +42,24 @@ export const SpeedrunSlide = () => (
         <div className="border-l border-neutral-content/20 pl-6">
           <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-4">Tasks & Achievements</p>
           <TaskList tasks={TASKS} />
+          <div className="flex items-center gap-4 mt-6 pt-4 border-t border-neutral-content/10">
+            <a
+              href="https://speedrunethereum.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-content hover:text-primary text-sm flex items-center gap-1"
+            >
+              → Website
+            </a>
+            <a
+              href="https://github.com/BuidlGuidl/SpeedRunEthereum-v2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-content hover:text-primary text-sm flex items-center gap-1"
+            >
+              → Github
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -5,6 +5,8 @@ interface Tab {
   id: string;
   title: string;
   content: ReactNode;
+  linkUrl?: string;
+  linkLabel?: string;
 }
 
 interface TerminalWindowProps {
@@ -59,11 +61,20 @@ const DesktopTerminal = ({
           {activeContent && (
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="flex items-center gap-2 text-primary text-sm">
-                  <span>$</span>
-                  <span className="text-neutral-content/70">cat</span>
-                  <span className="text-secondary">{activeContent.title.toLowerCase().replace(/\s+/g, "-")}.md</span>
+                <div className="flex items-center gap-2 text-sm">
+                  <span className="text-primary">$</span>
+                  <span className="text-primary">cat {activeContent.title.toLowerCase().replace(/\s+/g, "-")}.md</span>
                 </div>
+                {activeContent.linkUrl && (
+                  <a
+                    href={activeContent.linkUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary-content hover:text-primary text-sm"
+                  >
+                    → {activeContent.linkLabel || "Link"}
+                  </a>
+                )}
               </div>
               {activeContent.content}
             </div>
@@ -120,10 +131,19 @@ const MobileTerminal = ({
                 }`}
               >
                 <div className="px-4 pb-4">
-                  <div className="flex items-center gap-2 text-primary text-xs mb-3">
-                    <span>$</span>
-                    <span className="text-neutral-content/70">cat</span>
-                    <span className="text-secondary">{tab.title.toLowerCase().replace(/\s+/g, "-")}.md</span>
+                  <div className="flex items-center gap-2 text-xs mb-3">
+                    <span className="text-primary">$</span>
+                    <span className="text-primary">cat {tab.title.toLowerCase().replace(/\s+/g, "-")}.md</span>
+                    {tab.linkUrl && (
+                      <a
+                        href={tab.linkUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary-content hover:text-primary"
+                      >
+                        → {tab.linkLabel || "Link"}
+                      </a>
+                    )}
                   </div>
                   {tab.content}
                 </div>

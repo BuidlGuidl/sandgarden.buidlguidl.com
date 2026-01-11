@@ -7,6 +7,7 @@ const SUBGROUPS = [
   {
     id: "toolkit",
     title: "Toolkit",
+    githubUrl: "https://github.com/scaffold-eth/scaffold-eth-2",
     tasks: [
       "Allowing SE-2 to deploy to IPFS",
       "SE-2 added in Mastering Ethereum v2 book",
@@ -21,6 +22,7 @@ const SUBGROUPS = [
   {
     id: "create-eth",
     title: "create-eth CLI",
+    githubUrl: "https://github.com/scaffold-eth/create-eth",
     tasks: [
       "Better documentation for extension creators with an args file example",
       "Normalize all the template args + allow more extensible system for extension developers",
@@ -32,15 +34,38 @@ const SUBGROUPS = [
   {
     id: "website",
     title: "Website",
+    githubUrl: "https://github.com/scaffold-eth/scaffoldeth.io",
     tasks: [
       "Built Scaffold-ETH 2 usage tracker and sent over 5000 repos using SE-2 to electric-capital/open-dev-data (Nov + Dec)",
-      "Shipped projects.scaffoldeth.io with SE-2 usage stats (Dec), with stats and direct link from SE-2 homepage",
-      '"Build an app on Ethereum in 8 minutes" video added to the website',
+      <>
+        Shipped{" "}
+        <a
+          href="https://projects.scaffoldeth.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-content hover:text-primary underline"
+        >
+          projects.scaffoldeth.io
+        </a>{" "}
+        with SE-2 usage stats (Dec), with stats and direct link from SE-2 homepage
+      </>,
+      <>
+        "Build an app on Ethereum in 8 minutes" video added to the{" "}
+        <a
+          href="https://scaffoldeth.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-content hover:text-primary underline"
+        >
+          website
+        </a>
+      </>,
     ],
   },
   {
     id: "scaffold-ui",
     title: "Scaffold-UI",
+    githubUrl: "https://github.com/scaffold-eth/scaffold-ui",
     tasks: [
       "Shipped this standalone package of reusable hooks and UI components extracted from Scaffold-ETH",
       "Monorepo setup with docs + example setup + packages setup",
@@ -50,6 +75,8 @@ const SUBGROUPS = [
   {
     id: "burner-connector",
     title: "Burner Connector",
+    linkUrl: "https://www.npmjs.com/package/burner-connector",
+    linkLabel: "NPM package",
     tasks: ["Maintenance", "Add compatibility with EIP-5792"],
   },
 ];
@@ -59,6 +86,8 @@ export const ScaffoldEthSlide = () => {
     id: group.id,
     title: group.title,
     content: <TaskList tasks={group.tasks} />,
+    linkUrl: group.linkUrl || group.githubUrl,
+    linkLabel: group.linkLabel || "Github",
   }));
 
   return (

@@ -28,23 +28,47 @@ const FARCASTER_CONTENT = (
 
     <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Launched Miniapps</p>
     <div className="grid gap-3 mb-6">
-      <div className="flex items-start gap-3 text-neutral-content/70">
+      <div className="flex items-center gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
-        <span className="text-sm">
+        <span className="text-sm flex-1">
           <span className="text-primary-content">Advent Calendar</span> — Holiday-themed miniapp game
         </span>
+        <a
+          href="https://farcaster.xyz/miniapps/mhdgdBnT4lR0/adventsfun-calendar"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-content hover:text-primary text-xs whitespace-nowrap"
+        >
+          → Open Miniapp
+        </a>
       </div>
-      <div className="flex items-start gap-3 text-neutral-content/70">
+      <div className="flex items-center gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
-        <span className="text-sm">
+        <span className="text-sm flex-1">
           <span className="text-primary-content">Snowman / Not Snowman</span> — Spinoff farcaster game
         </span>
+        <a
+          href="https://farcaster.xyz/miniapps/q-h3sLIksfzg/snowman--not-snowman"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-content hover:text-primary text-xs whitespace-nowrap"
+        >
+          → Open Miniapp
+        </a>
       </div>
-      <div className="flex items-start gap-3 text-neutral-content/70">
+      <div className="flex items-center gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
-        <span className="text-sm">
+        <span className="text-sm flex-1">
           <span className="text-primary-content">Bubble Tap</span> — Interactive tap game
         </span>
+        <a
+          href="https://farcaster.xyz/miniapps/LTGZffIuAcG7/bubble-tap-game"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-content hover:text-primary text-xs whitespace-nowrap"
+        >
+          → Open Miniapp
+        </a>
       </div>
     </div>
   </>
@@ -97,7 +121,13 @@ const IDEATION_CONTENT = (
 );
 
 const TABS = [
-  { id: "abi-ninja", title: "Abi Ninja", content: ABI_NINJA_CONTENT },
+  {
+    id: "abi-ninja",
+    title: "Abi Ninja",
+    content: ABI_NINJA_CONTENT,
+    linkUrl: "https://abi.ninja/",
+    linkLabel: "Website",
+  },
   { id: "farcaster", title: "Farcaster Miniapps", content: FARCASTER_CONTENT },
   { id: "ideation", title: "2026 Ideation", content: IDEATION_CONTENT },
 ];
