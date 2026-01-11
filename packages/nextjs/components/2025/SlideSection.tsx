@@ -3,11 +3,11 @@ import { NOISE_TEXTURE_BG } from "./constants";
 
 interface SlideSectionProps {
   id: string;
-  projectNumber: string;
+  trackName: string;
   children: ReactNode;
 }
 
-export const SlideSection = ({ id, projectNumber, children }: SlideSectionProps) => (
+export const SlideSection = ({ id, trackName, children }: SlideSectionProps) => (
   <section
     id={id}
     className="min-h-[80vh] py-24 flex items-start relative overflow-hidden border-t border-neutral-content/10 first:border-t-0"
@@ -25,7 +25,7 @@ export const SlideSection = ({ id, projectNumber, children }: SlideSectionProps)
     <div className="container mx-auto px-6 lg:px-12 relative z-10">
       {/* Section indicator */}
       <div className="flex items-center gap-4 mb-8">
-        <span className="text-xs text-white/80 uppercase tracking-[0.3em]">Project {projectNumber}</span>
+        <span className="text-sm text-white/80 uppercase tracking-[0.3em]">{trackName}</span>
         <span className="w-48 lg:w-64 h-px bg-neutral-content/20" />
       </div>
 

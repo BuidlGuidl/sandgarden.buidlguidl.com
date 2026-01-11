@@ -14,7 +14,7 @@ const TASKS = [
 ];
 
 export const SpeedrunSlide = () => (
-  <SlideSection id="speedrun" projectNumber="01">
+  <SlideSection id="speedrun" trackName="EDUCATION / DEV ONBOARDING TRACK">
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
       {/* Left column - main content */}
       <div className="flex-1 max-w-2xl">

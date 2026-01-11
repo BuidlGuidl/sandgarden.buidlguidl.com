@@ -133,7 +133,7 @@ const TABS = [
 ];
 
 export const MiscSlide = () => (
-  <SlideSection id="misc" projectNumber="05">
+  <SlideSection id="misc" trackName="DAPP BUILDING TRACK">
     <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
       {/* Left column */}
       <div className="lg:w-2/5">
