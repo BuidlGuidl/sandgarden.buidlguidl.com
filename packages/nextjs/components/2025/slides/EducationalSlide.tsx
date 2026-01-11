@@ -109,7 +109,7 @@ const WORKSHOPS_CONTENT = (
     <div className="grid gap-2">
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-neutral-content/40 text-xs">◇</span>
-        <span className="text-sm">aigentsbcn event support (Feb)</span>
+        <span className="text-sm">aigentsbcn event support</span>
       </div>
     </div>
   </>

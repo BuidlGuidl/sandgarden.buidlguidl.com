@@ -26,7 +26,7 @@ export const SpeedrunSlide = () => (
 
         <p className="text-lg md:text-xl text-neutral-content/70 mb-12 leading-relaxed">
           <span className="text-primary-content">Our flagship educational product.</span> In 2025, we doubled down by
-          upgrading to Scaffold-ETH 2 and shipping targeted UX, SEO, and gamification improvements—increasing reach,
+          upgrading to Scaffold-ETH 2 and shipping targeted UX, SEO, and gamification improvements: increasing reach,
           signups, and challenge submissions.
         </p>
 

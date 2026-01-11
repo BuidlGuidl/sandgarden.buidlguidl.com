@@ -9,7 +9,7 @@ const ENS_CONTENT = (
       "Added milestones and enhanced admin workflow to ETH grants",
       "⇒ 4,100 unique visitors",
       "⇒ 241 applications submitted in 2025, 42 approved",
-      "⇒ ~50 ETH and 65k USDC granted to projects",
+      "⇒ Over 200k USD granted to projects",
     ]}
   />
 );

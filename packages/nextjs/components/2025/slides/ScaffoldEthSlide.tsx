@@ -14,8 +14,8 @@ const SUBGROUPS = [
       "Tailwind v4 + Daisy v5 Migration",
       "Encrypted Private Key",
       "Migration toward Next 15",
-      "Makes docs more AI compatible with llm-full.txt files (Mar)",
-      'Add custom Cursor rules to enhance DX (easier to "1shot" dapps) (Apr)',
+      "Makes docs more AI compatible with llm-full.txt files",
+      'Add custom Cursor rules to enhance DX (easier to "1shot" dapps)',
       "Migrate the docs to vocs framework for better style, more AI compatibility (like ask ChatGPT), dynamic unfurl etc.",
     ],
   },
@@ -36,7 +36,7 @@ const SUBGROUPS = [
     title: "Website",
     githubUrl: "https://github.com/scaffold-eth/scaffoldeth.io",
     tasks: [
-      "Built Scaffold-ETH 2 usage tracker and sent over 5000 repos using SE-2 to electric-capital/open-dev-data (Nov + Dec)",
+      "Built Scaffold-ETH 2 usage tracker and sent over 5000 repos using SE-2 to electric-capital/open-dev-data",
       <>
         Shipped{" "}
         <a
@@ -47,7 +47,7 @@ const SUBGROUPS = [
         >
           projects.scaffoldeth.io
         </a>{" "}
-        with SE-2 usage stats (Dec), with stats and direct link from SE-2 homepage
+        with SE-2 usage stats, with stats and direct link from SE-2 homepage
       </>,
       <>
         "Build an app on Ethereum in 8 minutes" video added to the{" "}
