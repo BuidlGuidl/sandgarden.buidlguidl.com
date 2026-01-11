@@ -6,6 +6,7 @@ import { NextPageWithLayout } from "./_app";
 import {
   EcosystemSlide,
   EducationalSlide,
+  HeroSlide,
   MiscSlide,
   SLIDES,
   ScaffoldEthSlide,
@@ -86,17 +87,11 @@ const Page2025: NextPageWithLayout = () => {
             <span className="transform group-hover:-translate-x-1 transition-transform">←</span>
             <span>Back to site</span>
           </Link>
-
-          <div className="flex items-center gap-3">
-            <span className="text-primary uppercase tracking-[0.3em]">Sand Garden</span>
-            <span className="text-primary-content font-bold text-lg">2025 recap</span>
-          </div>
-
-          <div className="w-24" />
         </header>
 
         {/* Slides */}
         <main>
+          <HeroSlide />
           <SpeedrunSlide />
           <ScaffoldEthSlide />
           <EducationalSlide />
