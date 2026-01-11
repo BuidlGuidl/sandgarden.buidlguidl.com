@@ -118,7 +118,7 @@ const TABS = [
 
 export const EcosystemSlide = () => (
   <SlideSection id="ecosystem" projectNumber="04">
-    <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+    <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
       {/* Left column */}
       <div className="lg:w-2/5">
         <h1 className="text-4xl md:text-6xl font-bold mb-6">
