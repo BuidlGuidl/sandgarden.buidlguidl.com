@@ -18,8 +18,9 @@ export const HeroSlide = () => (
           </h1>
 
           <p className="text-sm md:text-base text-neutral-content/60 max-w-lg mx-auto leading-relaxed">
-            Building tools and education for Ethereum developers. Shipped upgrades to Speedrun Ethereum, Scaffold-ETH 2,
-            and launched collaborations with ENS, Arbitrum, and more.
+            Intentional builder team within BuidlGuidl, building tools and education for Ethereum developers. Shipped
+            big upgrades to Speedrun Ethereum, Scaffold-ETH 2, and launched collaborative products with ENS, Arbitrum,
+            and more.
           </p>
         </div>
 
@@ -27,16 +28,13 @@ export const HeroSlide = () => (
         <div className="mb-6 font-mono text-xs md:text-sm">
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-1 text-neutral-content/50">
             <span>
-              <span className="text-primary">$</span> visitors: <span className="text-primary-content">92,400</span>
+              <span className="text-primary">$</span> sre_visitors: <span className="text-primary-content">92,400</span>
             </span>
             <span>
-              <span className="text-primary">$</span> signups: <span className="text-primary-content">5,700</span>
+              <span className="text-primary">$</span> sre_signups: <span className="text-primary-content">5,700</span>
             </span>
             <span>
               <span className="text-primary">$</span> se2_repos: <span className="text-primary-content">2,243</span>
-            </span>
-            <span>
-              <span className="text-primary">$</span> grants_usd: <span className="text-primary-content">200k+</span>
             </span>
           </div>
         </div>
