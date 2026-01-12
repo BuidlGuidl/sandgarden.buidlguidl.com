@@ -17,10 +17,11 @@ export const HeroSlide = () => (
             <span className="text-primary-content">2025 RECAP</span>
           </h1>
 
-          <p className="text-sm md:text-base text-neutral-content/60 max-w-lg mx-auto leading-relaxed">
-            Intentional builder team within BuidlGuidl, building tools and education for Ethereum developers. Shipped
-            big upgrades to Speedrun Ethereum, Scaffold-ETH 2, and launched collaborative products with ENS, Arbitrum,
-            and more.
+          <p className="text-sm md:text-base text-neutral-content/60 max-w-2xl mx-auto leading-relaxed">
+            The Sand Garden is BuidlGuidl’s core builder team, dedicated to creating tools and educational resources to
+            onboard Ethereum developers and help them grow on the ecosystem. In 2025, we shipped big upgrades to
+            Speedrun Ethereum, Scaffold-ETH 2, helped run several educational initiatives, and partnered to build new
+            tools with ENS, Arbitrum, and others.
           </p>
         </div>
 
