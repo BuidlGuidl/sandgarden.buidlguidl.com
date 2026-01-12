@@ -9,7 +9,7 @@ const ABI_NINJA_CONTENT = (
       incremental improvements to keep it running smoothly.
     </p>
 
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Highlights</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3">Highlights</p>
     <div className="grid gap-2 mb-6">
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
@@ -26,7 +26,7 @@ const FARCASTER_CONTENT = (
       interactive experiences.
     </p>
 
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Launched Miniapps</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3">Launched Miniapps</p>
     <div className="grid gap-3 mb-6">
       <div className="flex items-center gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
@@ -45,7 +45,7 @@ const FARCASTER_CONTENT = (
       <div className="flex items-center gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
         <span className="text-sm flex-1">
-          <span className="text-primary-content">Snowman / Not Snowman</span> — Spinoff farcaster game
+          <span className="text-primary-content">Snowman / Not Snowman</span> — Spinoff farcaster drawing game
         </span>
         <a
           href="https://farcaster.xyz/miniapps/q-h3sLIksfzg/snowman--not-snowman"
@@ -59,7 +59,7 @@ const FARCASTER_CONTENT = (
       <div className="flex items-center gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
         <span className="text-sm flex-1">
-          <span className="text-primary-content">Bubble Tap</span> — Interactive tap game
+          <span className="text-primary-content">Bubble Tap</span> — Spinoff Interactive tap game
         </span>
         <a
           href="https://farcaster.xyz/miniapps/LTGZffIuAcG7/bubble-tap-game"
@@ -77,7 +77,7 @@ const FARCASTER_CONTENT = (
 const IDEATION_CONTENT = (
   <>
     <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
-      Looking ahead—exploring new directions and prototyping programs to launch in the coming year.
+      Exploring new directions and prototyping programs to launch in the coming year.
     </p>
 
     <p className="text-xs text-white uppercase tracking-widest mb-3">Prototypes & Concepts</p>
@@ -145,7 +145,8 @@ export const MiscSlide = () => (
 
         <p className="text-base md:text-lg text-neutral-content/70 mb-8 leading-relaxed">
           <span className="text-primary-content">Side projects and experiments.</span> Beyond our main initiatives, we
-          maintained useful tools, explored emerging platforms like Farcaster, and started ideating programs for 2026.
+          maintained useful tools, explored emerging platforms like Farcaster MiniApps, and started ideating programs
+          for 2026.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">

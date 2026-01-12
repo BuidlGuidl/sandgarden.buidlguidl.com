@@ -25,7 +25,7 @@ const CTF_CONTENT = (
     </div>
 
     {/* CTF Timeline */}
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Timeline</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3">Timeline</p>
     <div className="grid gap-3">
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-primary text-xs mt-0.5 font-mono w-10">Jan</span>
@@ -64,7 +64,7 @@ const WORKSHOPS_CONTENT = (
     {/* Devconnect Highlight */}
     <div className="mb-6 p-4 border border-neutral-content/10 bg-neutral-content/5">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-neutral-content/40 uppercase tracking-widest">Builder Bootcamp • Nov 18-21</span>
+        <span className="text-xs text-white uppercase tracking-widest">Builder Bootcamp • Nov 18-21</span>
         <a
           href="https://devconnect.buidlguidl.com/"
           target="_blank"
@@ -88,7 +88,7 @@ const WORKSHOPS_CONTENT = (
     </div>
 
     {/* Sand Garden Sessions */}
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Sand Garden Sessions at Devconnect</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3">Sand Garden Sessions at Devconnect</p>
     <div className="grid gap-2 mb-6">
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-secondary text-xs">◆</span>
@@ -105,7 +105,7 @@ const WORKSHOPS_CONTENT = (
     </div>
 
     {/* Other Events */}
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3">Other Events</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3">Other Events</p>
     <div className="grid gap-2">
       <div className="flex items-start gap-3 text-neutral-content/70">
         <span className="text-neutral-content/40 text-xs">◇</span>

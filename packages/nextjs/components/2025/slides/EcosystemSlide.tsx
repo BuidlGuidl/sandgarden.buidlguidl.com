@@ -17,7 +17,7 @@ const ENS_CONTENT = (
     />
 
     {/* 2025 Stats */}
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3 mt-6">2025 Stats</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3 mt-6">2025 Stats</p>
     <div className="mb-6">
       <div className="flex items-center gap-4 mb-4 flex-wrap">
         <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ const JOBBOARD_CONTENT = (
     <TaskList tasks={["Launched the Ethereum Job Board in collaboration with Geode Labs"]} />
 
     {/* 2025 Stats */}
-    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3 mt-6">2025 Stats</p>
+    <p className="text-xs text-white uppercase tracking-widest mb-3 mt-6">2025 Stats</p>
     <div className="mb-6">
       <div className="flex items-center gap-4 mb-4 flex-wrap">
         <div className="flex items-center gap-2">

@@ -41,7 +41,7 @@ export const SpeedrunSlide = () => (
       {/* Right column - tasks */}
       <div className="lg:w-96">
         <div className="border-l border-neutral-content/20 pl-6">
-          <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-4">Tasks & Achievements</p>
+          <p className="text-xs text-white uppercase tracking-widest mb-4">Tasks & Achievements</p>
           <TaskList tasks={TASKS} />
           <div className="flex items-center gap-4 mt-6 pt-4 border-t border-neutral-content/10">
             <a
