@@ -69,10 +69,10 @@ const Page2025: NextPageWithLayout = () => {
           content="Explore Sand Garden's 2025 achievements and impact on the Ethereum ecosystem"
         />
         {/* TODO: Replace with /2025-thumbnail.png before merge. */}
-        <meta property="og:image" content="https://sand-garden.vercel.app/thumbnail.png" />
+        <meta property="og:image" content="https://sandgarden.buidlguidl.com/2025-recap-thumbnail.png" />
         {/* Twitter specific tags (title and description fall back to og: tags) */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content="https://sand-garden.vercel.app/thumbnail.png" />
+        <meta name="twitter:image" content="https://sandgarden.buidlguidl.com/2025-recap-thumbnail.png" />
       </Head>
 
       <div ref={containerRef} className={`min-h-screen bg-base-100 text-base-content ${shareTechMono.className}`}>
