@@ -136,17 +136,17 @@ const MobileTerminal = ({
                   <div className="flex items-center gap-2 text-xs mb-3">
                     <span className="text-primary">$</span>
                     <span className="text-primary">cat {tab.title.toLowerCase().replace(/\s+/g, "-")}.md</span>
-                    {tab.linkUrl && (
-                      <a
-                        href={tab.linkUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-primary-content hover:text-primary"
-                      >
-                        → {tab.linkLabel || "Link"}
-                      </a>
-                    )}
                   </div>
+                  {tab.linkUrl && (
+                    <a
+                      href={tab.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-content hover:text-primary"
+                    >
+                      → {tab.linkLabel || "Link"}
+                    </a>
+                  )}
                   {tab.content}
                 </div>
               </div>
