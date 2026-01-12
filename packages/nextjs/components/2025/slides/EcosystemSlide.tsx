@@ -3,21 +3,46 @@ import { TaskList } from "../TaskList";
 import { TerminalWindow } from "../TerminalWindow";
 
 const ENS_CONTENT = (
-  <TaskList
-    tasks={[
-      "Launched the new milestone-based USDC grants features",
-      "Added milestones and enhanced admin workflow to ETH grants",
-      "⇒ 4,100 unique visitors",
-      "⇒ 241 applications submitted in 2025, 42 approved",
-      "⇒ Over 200k USD granted to projects",
-    ]}
-  />
+  <>
+    <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+      ETH Grants platform implemented adhoc for ENS in 2024, we improved it with milestone-based USDC grants in 2025 and
+      enhanced admin workflow.
+    </p>
+
+    <TaskList
+      tasks={[
+        "Launched the new milestone-based USDC grants features",
+        "Added milestones and enhanced admin workflow to ETH grants",
+      ]}
+    />
+
+    {/* 2025 Stats */}
+    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3 mt-6">2025 Stats</p>
+    <div className="mb-6">
+      <div className="flex items-center gap-4 mb-4 flex-wrap">
+        <div className="flex items-center gap-2">
+          <span className="text-primary text-xl font-bold">4.1k</span>
+          <span className="text-neutral-content/50 text-xs">visitors</span>
+        </div>
+        <span className="text-neutral-content/20">│</span>
+        <div className="flex items-center gap-2">
+          <span className="text-secondary text-xl font-bold">42 of 241</span>
+          <span className="text-neutral-content/50 text-xs">grants approved</span>
+        </div>
+        <span className="text-neutral-content/20">│</span>
+        <div className="flex items-center gap-2">
+          <span className="text-primary text-xl font-bold">$200k+</span>
+          <span className="text-neutral-content/50 text-xs">granted</span>
+        </div>
+      </div>
+    </div>
+  </>
 );
 
 const ARBITRUM_CONTENT = (
   <>
     <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
-      Launched the Arbitrum Cohort to build dapps on Arbitrum. Currently developing two key projects for the ecosystem.
+      Launched the Arbitrum Cohort to build dapps on Arbitrum. Currently developing two projects for the ecosystem.
     </p>
 
     <p className="text-xs text-white uppercase tracking-widest mb-3">Projects in Development</p>
@@ -54,41 +79,56 @@ const ARBITRUM_CONTENT = (
 );
 
 const JOBBOARD_CONTENT = (
-  <TaskList tasks={["Launched the Ethereum Job Board in collaboration with Geode Labs", "⇒ 8,100 unique visitors"]} />
+  <>
+    <p className="text-neutral-content/70 text-sm leading-relaxed mb-6">
+      Curated job board connecting developers with opportunities across the Ethereum ecosystem.
+    </p>
+
+    <TaskList tasks={["Launched the Ethereum Job Board in collaboration with Geode Labs"]} />
+
+    {/* 2025 Stats */}
+    <p className="text-xs text-neutral-content/40 uppercase tracking-widest mb-3 mt-6">2025 Stats</p>
+    <div className="mb-6">
+      <div className="flex items-center gap-4 mb-4 flex-wrap">
+        <div className="flex items-center gap-2">
+          <span className="text-primary text-xl font-bold">8.1k</span>
+          <span className="text-neutral-content/50 text-xs">visitors</span>
+        </div>
+      </div>
+    </div>
+  </>
 );
 
 const ETHEREUMORG_CONTENT = (
-  <div className="space-y-3">
-    <div className="flex items-start gap-3">
-      <span className="text-primary text-xs">✓</span>
-      <span className="text-neutral-content/70 text-sm">
-        Built the{" "}
-        <a
-          href="https://ethereum.org/collectibles/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-secondary hover:text-primary underline"
-        >
-          Collectibles
-        </a>{" "}
-        site for contributors
-      </span>
-    </div>
-    <div className="flex items-start gap-3">
-      <span className="text-primary text-xs">✓</span>
-      <span className="text-neutral-content/70 text-sm">
-        Speedrun Ethereum and Scaffold-ETH are featured as main themes on{" "}
-        <a
-          href="https://ethereum.org/developers/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-secondary hover:text-primary underline"
-        >
-          ethereum.org/developers/
-        </a>
-      </span>
-    </div>
-  </div>
+  <>
+    <TaskList
+      tasks={[
+        <>
+          Built the{" "}
+          <a
+            href="https://ethereum.org/collectibles/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary-content hover:text-primary underline"
+          >
+            Collectibles
+          </a>{" "}
+          site for contributors
+        </>,
+        <>
+          Speedrun Ethereum and Scaffold-ETH are featured as main themes on{" "}
+          <a
+            href="https://ethereum.org/developers/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary-content hover:text-primary underline"
+          >
+            ethereum.org/developers/
+          </a>
+        </>,
+      ]}
+    />
+  </>
 );
 
 const TABS = [
@@ -129,8 +169,8 @@ export const EcosystemSlide = () => (
 
         <p className="text-base md:text-lg text-neutral-content/70 mb-8 leading-relaxed">
           <span className="text-primary-content">Partnering with key players to expand Ethereum{"'"}s reach.</span> In
-          2025, we deepened our collaborations with ENS, Arbitrum, Geode Labs, and Ethereum.org building grant
-          platforms, cohort programs, and developer resources that benefit the broader ecosystem.
+          2025, we partnered with ENS, Arbitrum, Geode Labs, and Ethereum.org building grant platforms, cohort programs,
+          and developer resources that benefit the broader ecosystem.
         </p>
       </div>
 
