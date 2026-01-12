@@ -3,15 +3,15 @@ import { StatCard } from "../StatCard";
 import { TaskList } from "../TaskList";
 
 const TASKS = [
-  "Launch Speedrun Ethereum v2 using Scaffold-ETH 2",
   "Add a builder portfolio page and side quests",
   "Migrate builds from BuidlGuidl v3 and categorize them",
-  "Migrate challenges to extensions for easier maintenance with future Scaffold-ETH 2 upgrades",
   "Create 23 Solidity guides and additional landing pages, driving a 100% increase in organic traffic",
+  "Support the launch of five new challenges (Thanks Elliott and Philip!)",
   "Launch Google Ads campaigns and collaborate with Blockscout on referral traffic",
   "Improve conversion tracking and traffic source attribution",
-  "Support the launch of five new challenges with testing and platform adjustments",
   "Automate feedback collection from past Speedrunners to measure career impact and improve the platform",
+  "Upgrade SRE to Scaffold-ETH 2",
+  "Migrate challenges to extensions for easier maintenance with future Scaffold-ETH 2 upgrades",
 ];
 
 export const SpeedrunSlide = () => (
@@ -27,8 +27,8 @@ export const SpeedrunSlide = () => (
 
         <p className="text-lg md:text-xl text-neutral-content/70 mb-12 leading-relaxed">
           <span className="text-primary-content">Our flagship educational product.</span> In 2025, we doubled down by
-          upgrading to Scaffold-ETH 2 and shipping targeted UX, SEO, and gamification improvements: increasing reach,
-          signups, and challenge submissions.
+          shipping targeted UX, SEO, and gamification improvements: increasing reach, signups, and challenge
+          submissions.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
