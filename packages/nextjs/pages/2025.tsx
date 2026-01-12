@@ -68,7 +68,6 @@ const Page2025: NextPageWithLayout = () => {
           property="og:description"
           content="Explore Sand Garden's 2025 achievements and impact on the Ethereum ecosystem"
         />
-        {/* TODO: Replace with /2025-thumbnail.png before merge. */}
         <meta property="og:image" content="https://sandgarden.buidlguidl.com/2025-recap-thumbnail.png" />
         {/* Twitter specific tags (title and description fall back to og: tags) */}
         <meta name="twitter:card" content="summary_large_image" />
