@@ -65,7 +65,10 @@ const DesktopTerminal = ({
                   <span className="text-primary">$</span>
                   <span className="text-primary">cat {activeContent.title.toLowerCase().replace(/\s+/g, "-")}.md</span>
                 </div>
-                {activeContent.linkUrl && (
+              </div>
+              {activeContent.content}
+              {activeContent.linkUrl && (
+                <div className="mt-6">
                   <a
                     href={activeContent.linkUrl}
                     target="_blank"
@@ -74,9 +77,8 @@ const DesktopTerminal = ({
                   >
                     → {activeContent.linkLabel || "Link"}
                   </a>
-                )}
-              </div>
-              {activeContent.content}
+                </div>
+              )}
             </div>
           )}
         </div>

@@ -135,7 +135,7 @@ export const ScaffoldEthSlide = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <StatCard value="2,243+" label="created in 2025" growth="public repositories" />
-            <StatCard value="78k" label="Burner Connector package" growth="npm downloads" />
+            <StatCard value="78k" label="during 2025" growth="npm downloads" />
           </div>
         </div>
 
