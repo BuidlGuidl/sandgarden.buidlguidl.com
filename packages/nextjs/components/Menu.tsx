@@ -30,6 +30,11 @@ export const Menu = () => {
             F.A.Q.
           </Link>
         </li>
+        <li>
+          <Link href="/2025" className={`${asPath === "/2025" ? "" : "link"} link-primary underline-offset-2`}>
+            2025 Recap
+          </Link>
+        </li>
       </ul>
     </div>
   );
