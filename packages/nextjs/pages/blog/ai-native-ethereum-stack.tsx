@@ -4,7 +4,6 @@ import type { NextPage } from "next";
 export const POST = {
   title: "Building an AI-Native Ethereum Developer Stack",
   date: "February 2026",
-  tags: ["AI-tools", "Scaffold-ETH", "Speedrun-Ethereum"],
   url: "/blog/ai-native-ethereum-stack",
 };
 
@@ -30,12 +29,6 @@ const AiNativeEthereumStack: NextPage = () => {
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4 font-mono text-sm text-white/35">
             <span>{POST.date}</span>
-            <span>·</span>
-            {POST.tags.map(tag => (
-              <span key={tag} className="text-primary/70">
-                {tag}
-              </span>
-            ))}
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-white">{POST.title}</h1>
         </header>
