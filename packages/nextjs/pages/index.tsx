@@ -28,6 +28,7 @@ const COLLABORATORS = [
   { name: "Ethereum Foundation", href: "https://ethereum.foundation", logo: "/logos/ef.png" },
   { name: "Arbitrum", href: "https://arbitrum.foundation/", logo: "/logos/arbitrum.svg" },
   { name: "ENS", href: "https://ens.domains", logo: "/logos/ens.png" },
+  { name: "Optimism", href: "https://optimism.io", logo: "/logos/op-logo.svg" },
 ];
 
 const Home: NextPage = () => {
@@ -63,14 +64,14 @@ const Home: NextPage = () => {
 
           {/* Latest Posts — inline on mobile, hidden on desktop (shown in sidebar) */}
           <div className="mb-10 order-3 lg:hidden border-l border-primary/30 pl-4">
-            <h2 className="text-sm uppercase tracking-widest text-primary/70 font-semibold mb-3">Latest Posts</h2>
+            <h2 className="text-sm uppercase tracking-widest text-primary font-semibold mb-3">Latest Posts</h2>
             <div className="space-y-3">
               {BLOG_POSTS.map((post, i) => (
                 <a key={i} href={post.url} className="block group">
-                  <span className="block text-sm text-base-content/80 group-hover:text-primary transition-colors leading-snug">
+                  <span className="block text-sm text-base-content group-hover:text-primary transition-colors leading-snug">
                     {post.title}
                   </span>
-                  <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/40">
+                  <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/70">
                     <span>{post.date}</span>
                   </span>
                 </a>
@@ -79,7 +80,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="mb-10 order-4">
-            <h2 className="text-2xl font-bold mb-4">Featured Projects</h2>
+            <h2 className="text-lg lg:text-2xl font-bold mb-4 text-base-content/80">Featured Projects</h2>
             <div className="space-y-4">
               {FEATURED_PROJECTS.map(project => (
                 <div key={project.name}>
@@ -101,7 +102,7 @@ const Home: NextPage = () => {
           </div>
 
           <div className="mb-10 order-5">
-            <h2 className="text-2xl font-bold mb-4">Collaborators</h2>
+            <h2 className="text-lg lg:text-2xl font-bold mb-4 text-base-content/80">Collaborators</h2>
             <div className="flex flex-wrap items-center gap-6">
               {COLLABORATORS.map(client => (
                 <a
@@ -121,14 +122,14 @@ const Home: NextPage = () => {
         {/* Sidebar — desktop only */}
         <aside className="hidden lg:block lg:w-56 lg:pt-20 shrink-0">
           <div className="lg:sticky lg:top-8 border-l border-primary/30 pl-4">
-            <h2 className="text-sm uppercase tracking-widest text-primary/70 font-semibold mb-3">Latest Posts</h2>
+            <h2 className="text-sm uppercase tracking-widest text-primary font-semibold mb-3">Latest Posts</h2>
             <div className="space-y-3">
               {BLOG_POSTS.map((post, i) => (
                 <a key={i} href={post.url} className="block group">
-                  <span className="block text-sm text-base-content/80 group-hover:text-primary transition-colors leading-snug">
+                  <span className="block text-sm text-base-content group-hover:text-primary transition-colors leading-snug">
                     {post.title}
                   </span>
-                  <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/40">
+                  <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/70">
                     <span>{post.date}</span>
                   </span>
                 </a>
