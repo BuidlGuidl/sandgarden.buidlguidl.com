@@ -1,10 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { NextPage } from "next";
-import { POST as aiNativePost } from "~~/pages/blog/ai-native-ethereum-stack";
-
-const BLOG_POSTS = [aiNativePost];
+import type { GetStaticProps, NextPage } from "next";
+import { BlogMeta, getAllBlogs } from "~~/services/blog";
 
 const FEATURED_PROJECTS = [
   {
@@ -31,7 +29,11 @@ const COLLABORATORS = [
   { name: "Optimism", href: "https://optimism.io", logo: "/logos/op-logo.svg" },
 ];
 
-const Home: NextPage = () => {
+interface Props {
+  posts: BlogMeta[];
+}
+
+const Home: NextPage<Props> = ({ posts }) => {
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 px-4 py-8 max-w-5xl">
@@ -66,7 +68,7 @@ const Home: NextPage = () => {
           <div className="mb-10 order-3 lg:hidden border-l border-primary/30 pl-4">
             <h2 className="text-sm uppercase tracking-widest text-primary font-semibold mb-3">Latest Posts</h2>
             <div className="space-y-3">
-              {BLOG_POSTS.map((post, i) => (
+              {posts.map((post, i) => (
                 <a key={i} href={post.url} className="block group">
                   <span className="block text-sm text-base-content group-hover:text-primary transition-colors leading-snug">
                     {post.title}
@@ -124,7 +126,7 @@ const Home: NextPage = () => {
           <div className="lg:sticky lg:top-8 border-l border-primary/30 pl-4">
             <h2 className="text-sm uppercase tracking-widest text-primary font-semibold mb-3">Latest Posts</h2>
             <div className="space-y-3">
-              {BLOG_POSTS.map((post, i) => (
+              {posts.map((post, i) => (
                 <a key={i} href={post.url} className="block group">
                   <span className="block text-sm text-base-content group-hover:text-primary transition-colors leading-snug">
                     {post.title}
@@ -140,6 +142,11 @@ const Home: NextPage = () => {
       </div>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+  const posts = getAllBlogs();
+  return { props: { posts } };
 };
 
 export default Home;
