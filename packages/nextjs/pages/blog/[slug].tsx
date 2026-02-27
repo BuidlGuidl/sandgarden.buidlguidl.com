@@ -57,7 +57,7 @@ const BlogPost: NextPage<Props> = ({ source, meta }) => {
         <meta name="description" content={meta.description} />
       </Head>
 
-      <article className="max-w-2xl px-4 py-12 mx-auto">
+      <article className="max-w-3xl px-4 py-8">
         {/* Header */}
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4 font-mono text-sm text-white/35">
