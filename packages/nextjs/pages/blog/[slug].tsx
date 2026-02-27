@@ -58,7 +58,6 @@ const BlogPost: NextPage<Props> = ({ source, meta }) => {
       </Head>
 
       <article className="max-w-3xl px-4 py-8">
-        {/* Header */}
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4 font-mono text-sm text-white/35">
             <span>{meta.date}</span>
@@ -66,19 +65,8 @@ const BlogPost: NextPage<Props> = ({ source, meta }) => {
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-white">{meta.title}</h1>
         </header>
 
-        {/* Body */}
-        <div className="space-y-5 text-white/70 leading-relaxed text-sm sm:text-base">
+        <div className="space-y-5 text-white/70 leading-relaxed text-sm sm:text-base mb-10">
           <MDXRemote {...source} components={components} />
-        </div>
-
-        {/* Footer */}
-        <div className="mt-16 pt-6 border-t border-white/10 font-mono text-sm text-white/35">
-          <p>
-            Questions or want to build together?{" "}
-            <a href="mailto:sandgarden@buidlguidl.com" className="link link-primary">
-              sandgarden@buidlguidl.com
-            </a>
-          </p>
         </div>
       </article>
     </>
