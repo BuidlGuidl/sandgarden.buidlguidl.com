@@ -12,9 +12,12 @@ const components: Record<string, any> = {
     <h2 className="text-secondary font-bold text-lg sm:text-xl mt-10 mb-1">{children}</h2>
   ),
   h3: ({ children }: { children?: React.ReactNode }) => (
-    <h3 className="text-white/90 font-semibold text-base sm:text-lg mt-8 mb-1 pl-3 border-l-2 border-secondary/40">
+    <h3 className="text-white/90 font-semibold text-base sm:text-lg mt-8 mb-1">{children}</h3>
+  ),
+  blockquote: ({ children }: { children?: React.ReactNode }) => (
+    <blockquote className="border-l-2 border-secondary/40 pl-4 py-1 my-4 bg-white/[0.03] rounded-r text-white/50 italic">
       {children}
-    </h3>
+    </blockquote>
   ),
   a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
     const isExternal = href?.startsWith("http");
