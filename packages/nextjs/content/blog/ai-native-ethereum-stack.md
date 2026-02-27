@@ -1,28 +1,26 @@
 ---
-title: "Building an AI-Native Ethereum Developer Stack"
+title: "Shifting to an AI-Native Ethereum Developer Stack"
 date: "February 2026"
 description: "How we're restructuring our Ethereum developer stack: Scaffold-ETH 2 and Speedrun Ethereum to be AI native."
 ---
 
-For years, we've been building our dev tools and learning materials primarily for humans. Docs explained what our toolkit did. We taught developers with guided, hands-on experiences. Extensions shipped as mergeable code.
+For years, we've been building our dev tools and learning materials primarily for humans: docs explained what our toolkit did, we created videos, we taught developers with guided and hands-on experiences.
 
-But we're finding that this model gets a bit clunky when an AI agent is driving the keyboard.
+The reality now is that an AI agent is almost always present across the whole development and learning loop. So instead of asking "how do we add AI to our tools," we asked ourselves: what would our stack look like if we treated the AI as a primary user alongside the developer?
 
-Instead of just asking "how do we add AI to our tools" we started asking ourselves: what would our stack look like if we treated the AI as a primary user alongside the developer?
+And if the AI truly understands the stack, a new question opens up: what if the person on the other side isn't a developer at all? What if they are someone with a vision and the ability to direct an agent, but not necessarily with a technical background?
 
-For us, that meant rethinking some of our core primitives rather than just patching on new features. We've been doing exactly that across our dev toolkit ([Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2)) and our Solidity curriculum ([Speedrun Ethereum](https://speedrunethereum.com)). The Sand Garden, an intentional team within BuidlGuidl, is executing this vision.
+For us, that meant rethinking some of our core primitives rather than just patching on new features. Thinking about builders and not just developers. We've been doing exactly that across our dev toolkit ([Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2)) and our Solidity curriculum ([Speedrun Ethereum](https://speedrunethereum.com)).
 
-Here is a look at how we're restructuring our own Web3 stack for this shift.
+## Making Scaffold-ETH Agent-Ready
 
-## Rebuilding Scaffold-ETH for Agents
-
-Here are the three biggest changes we've made to the toolkit so far.
+Here are the three biggest changes we've made so far.
 
 ### Agent-first docs
 
 We noticed in early 2025 that the main consumer of our docs was already an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. It's the exact same information, just formatted for how an AI actually consumes it.
 
-We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. But we quickly realized their limitations, replacing them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Every conversation starts with the full stack context already loaded.
+We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. But we quickly realized their limitations, replacing them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Every conversation starts with all the context it needs.
 
 ### Skills over scripts
 
@@ -30,50 +28,42 @@ We've started stripping out custom scripts wherever we find that a model just na
 
 **/add-extension** Adding a Scaffold-ETH extension used to mean resolving `package.json` conflicts through hundreds of lines of template processing code. We replaced it with `/add-extension`, a simple agent skill built to work across different harnesses. `Node.js` handles the deterministic operations (fetching, copying), while the AI handles the judgment calls (merging).
 
-**/pr-create** The same pattern for developer workflow. `/pr-create` is a markdown file that tells an agent how to inspect the diff, format the PR body, and open it via `gh`. No custom script, no alias, just context.
+**/pr-create** Writing a good PR is key when you are working asynchronously with a team. This file tells an agent how to inspect the diff, create a good PR body (summary, how to Test, things to look out for, etc.), and open it via `gh`.
 
-The same pattern extends to Ethereum protocol knowledge. SE-2 now has a library of domain skills: `erc-20`, `erc-721`, `eip-5792`, `eip-712`, `siwe`, `ponder`, `solidity-security`, `defi-protocol-templates`. Each is a focused context file the agent loads before touching that part of the stack. No hunting for docs or hallucinated ABIs. The agent knows the protocol before it writes the first line.
+The same pattern extends to Ethereum protocol knowledge. SE-2 now has a growing library of domain skills: `erc-20`, `erc-721`, `eip-5792`, `eip-712`, `siwe`, `ponder`, `solidity-security`, `defi-protocol-templates`. Each one is a focused context file the agent loads before implementing the functionality.
 
 ### AI-assisted code review
 
-Code review is a perfect fit for AI judgment.
+Code review is a perfect fit for "AI as a judge".
 
-Take [Grumpy Carlos](https://github.com/technophile-04/grumpy-carlos-personality-fetcher): a Claude Code subagent with a review personality inferred from scraped BuidlGuidl PR history. Drop it in `.claude/agents/`, ask for a review, and it responds exactly the way Carlos would: specific, strict, no vague feedback.
+Take [Grumpy Carlos](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/.agents/agents/grumpy-carlos-code-reviewer.md): a subagent with a personality inferred from [scraped BuidlGuidl PR history](https://github.com/technophile-04/grumpy-carlos-personality-fetcher). Ask for a review, and it responds exactly the way Carlos would: thorough, strict, with actionable feedback, and yes, occasionally grumpy.
 
-> Human review is still important, but AI review is a great first pass.
+> Human review is still critical for us, but AI review is a great first pass.
 
 ## Rethinking How We Teach
 
-Speedrun Ethereum is how many developers learn to build on Ethereum. We're rebuilding the learning layer to the same standard.
+Speedrun Ethereum is how most developers get started building on Ethereum. With AI in the loop, we're making that experience accessible to all levels, not just developers (i.e. Builders).
 
-**Per-challenge context files.** Each challenge gets an `AGENTS.md` detailing the challenge overview, smart contract structure, and frontend architecture. When a learner opens a challenge in their IDE, the agent already knows the environment.
+**Per-challenge context files.** Each challenge gets an `AGENTS.md` detailing the challenge overview, gotchas, smart contract structure, and frontend architecture. When a learner opens a challenge in their IDE, the agent already knows the environment.
 
 **AI Teacher Mode.** Type `/start` in the directory and an agent walks you through it. It asks questions, checks your understanding, guides you without giving the answer away, and reviews your code at your pace.
 
-Build ideas are also migrating. Old format: a GitHub repo link. New format: a prompt you paste into your agent. The agent reads context and starts building with you.
+We're also shipping `/build-prompts`: curated build ideas that you copy one into your agent, get a working demo, then tweak it and make it yours.
+
+> Going from idea to working dapp has never been easier.
 
 ## The Research Layer
 
-The agent ecosystem shifts weekly. That's why we aren't assembling heavy wrappers. We need to understand the raw primitives so we can adapt the moment a new paradigm drops.
+The AI space is moving fast and there's a lot of noise. We are focusing on understanding the primitives of AI engineering and adapt to whatever comes next.
 
-[raked](https://github.com/BuidlGuidl/raked) is a minimal TypeScript agent built for exactly this: the agent loop, sessions, memory, tools, skills. It's under 100 lines for the core. Built to be read, understood, and extended to solve your specific use cases.
+**[raked](https://github.com/BuidlGuidl/raked)** is a minimal TypeScript agent built for exactly this: the agent loop, sessions, memory, tools, skills. It's under 100 lines for the core. Built to be read, understood, and extended to solve your specific use cases.
 
-Alongside it: an experimental RAG pipeline on Arbitrum DAO governance data. Vector search via `pgvector`, retrieval via LlamaIndex, automated evaluation scoring Faithfulness, Relevancy, and Correctness.
+**[Experimental RAG pipeline](https://github.com/BuidlGuidl/arbitrum-dashboard/pull/19)** on Arbitrum DAO governance data. Lets an agent pull relevant data before answering. We built this to understand how retrieval and evaluation actually work.
 
-We built both because we really wanted to understand the underlying mechanisms before building heavier tools on top of them.
+## Give it a try
 
-## The Compounding Effect
+We're iterating on all of this in the open. Check the code, the PRs, and try it yourself:
 
-To us, this is what going "AI-first" actually looks like in practice. It's not just dropping a Copilot plugin into Scaffold-ETH. It's a stack where (the framework, the docs, the extensions, the curriculum) is structured to be used by an agent, not just tolerated by one.
-
-An agent building with SE-2 understands the stack. An agent teaching on Speedrun Ethereum understands the challenge. With `/add-extension` the agent can install new capabilities without leaving the conversation.
-
-**Next up:** an open-source plugin that packages all of this into one installable toolkit for Claude Code, OpenCode, and Cursor.
-
-## Try It Today
-
-The PRs are open and the code is live. If you're building at the intersection of AI and Ethereum:
-
-- **Start with raked:** [Read the agent loop.](https://github.com/BuidlGuidl/raked) Understand what a tool call actually is before building on top of abstractions.
-- **Look at Scaffold-ETH 2:** [See the AGENTS.md and /add-extension skills in progress.](https://github.com/scaffold-eth/scaffold-eth-2) Build your first Dapp with it and your favourite agent.
-- **Try the AI challenges:** Available on [Speedrun Ethereum](https://speedrunethereum.com) as they ship.
+- **Create your own agent with raked:** [Read the agent loop.](https://github.com/BuidlGuidl/raked) Understand how tools, skills and sessions work. Then, build your own agent on top of it.
+- **Build your first onchain app with Scaffold-ETH 2:** [Check out all the available skills](https://github.com/scaffold-eth/scaffold-eth-2). Install it, open it with your favourite agent, and start building.
+- **Try SpeedRun Ethereum challenges with AI assistance:** Available on [Speedrun Ethereum](https://speedrunethereum.com) as they ship.
