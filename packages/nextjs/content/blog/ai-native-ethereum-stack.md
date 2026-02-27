@@ -14,25 +14,33 @@ For us, that meant rethinking some of our core primitives rather than just patch
 
 Here is a look at how we're restructuring our own Web3 stack for this shift.
 
-## Structuring Docs for Agents
+## Rebuilding Scaffold-ETH for Agents
 
-We removed Cursor rules from Scaffold-ETH 2 and replaced them with `AGENTS.md`.
+### Agent-first docs
 
-Cursor rules only work in Cursor. `AGENTS.md` is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Every conversation starts with the full stack context already loaded.
+We noticed in early 2025 that the main consumer of our docs was already an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. It's the exact same information, just formatted for how an AI actually consumes it.
 
-In these new workflows, we're noticing the main consumer of our docs is often an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. Not a website. A file an agent loads into context and reasons against.
+We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. But we quickly realized their limitations, replacing them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Every conversation starts with the full stack context already loaded.
 
-It's the exact same information, just formatted for how an AI actually consumes it.
+### Skills over scripts
 
-## Swapping Complex Code for AI Skills
+**/add-extension** Adding a Scaffold-ETH extension used to mean resolving `package.json` conflicts through hundreds of lines of template processing code. We replaced it with `/add-extension`, a simple agent skill built to work across different harnesses. `Node.js` handles the deterministic operations (fetching, copying), while the AI handles the judgment calls (merging).
 
-Adding a Scaffold-ETH extension used to mean resolving `package.json` conflicts through hundreds of lines of template processing code.
-
-We replaced it with `/add-extension`: a simple agent skill built to work across different harnesses. Node.js handles the deterministic operations (fetching, copying), while the AI handles the judgment calls (merging). **Hundreds of lines of template code became a markdown file and a focused script.**
-
-Same pattern for developer workflow. Our `pr-create` skill is a markdown file that tells an agent how to inspect the diff, format the PR body, and open it via `gh`. No custom script. No alias. Just context.
+**/pr-create** Same pattern for developer workflow. `/pr-create` is a markdown file that tells an agent how to inspect the diff, format the PR body, and open it via `gh`. No custom script. No alias. Just context.
 
 We've started stripping out custom scripts wherever we find that a model just naturally handles the task better.
+
+### AI-assisted code review
+
+Code review is a perfect fit for AI judgment.
+
+Take [Grumpy Carlos](https://github.com/technophile-04/grumpy-carlos-personality-fetcher): a Claude Code subagent with a review personality inferred from scraped BuidlGuidl PR history. Drop it in `.claude/agents/`, ask for a review, and it responds exactly the way Carlos would: specific, strict, no vague feedback.
+
+---
+
+The right context, structured for an AI to use, produces better output than general AI applied to problems without context.
+
+Security stays deterministic. Wallet interactions, transaction signing, and key management require hard boundaries. An agent making onchain transactions autonomously is an attack surface. That problem isn't solved yet.
 
 ## Rethinking How We Teach
 
@@ -54,19 +62,9 @@ Alongside it: an experimental RAG pipeline on Arbitrum DAO governance data. Vect
 
 We built both because we really wanted to understand the underlying mechanisms before building heavier tools on top of them.
 
-## Figuring Out the Boundaries
-
-Security stays deterministic. Wallet interactions, transaction signing, and key management require hard boundaries. An agent making onchain transactions autonomously is an attack surface. That problem isn't solved yet.
-
-But **code review** is a perfect fit for AI judgment.
-
-Take [Grumpy Carlos](https://github.com/technophile-04/grumpy-carlos-personality-fetcher): a Claude Code subagent with a review personality inferred from scraped BuidlGuidl PR history. Drop it in `.claude/agents/`, ask for a review, and it responds exactly the way Carlos would: specific, strict, no vague feedback.
-
-The right context, structured for an AI to use, produces better output than general AI applied to problems without context.
-
 ## The Compounding Effect
 
-To us, this is what going "AI-first" actually looks like in practice. It's not just dropping a Copilot plugin into Scaffold-ETH. It's a stack where every layer—the framework, the docs, the extensions, the curriculum—is structured to be used by an agent, not just tolerated by one.
+To us, this is what going "AI-first" actually looks like in practice. It's not just dropping a Copilot plugin into Scaffold-ETH. It's a stack where (the framework, the docs, the extensions, the curriculum) is structured to be used by an agent, not just tolerated by one.
 
 An agent building with SE-2 understands the stack. An agent teaching on Speedrun Ethereum understands the challenge. With `/add-extension` the agent can install new capabilities without leaving the conversation.
 
