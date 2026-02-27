@@ -55,6 +55,17 @@ const BlogPost: NextPage<Props> = ({ source, meta }) => {
       <Head>
         <title>{meta.title} — Sand Garden</title>
         <meta name="description" content={meta.description} />
+        <meta property="og:title" content={`${meta.title} — Sand Garden`} />
+        <meta property="og:description" content={meta.description} />
+        <meta
+          property="og:image"
+          content={`https://sandgarden.buidlguidl.com/api/og?title=${encodeURIComponent(meta.title)}`}
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:image"
+          content={`https://sandgarden.buidlguidl.com/api/og?title=${encodeURIComponent(meta.title)}`}
+        />
       </Head>
 
       <article className="max-w-3xl px-4 py-8">
