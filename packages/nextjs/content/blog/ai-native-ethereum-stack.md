@@ -4,13 +4,13 @@ date: "February 2026"
 description: "How we're restructuring our Ethereum developer stack: Scaffold-ETH 2 and Speedrun Ethereum to be AI native."
 ---
 
-For years, we've been building our dev tools and learning materials primarily for humans: docs explained what our toolkit did, we created videos, we taught developers with guided and hands-on experiences.
+For years, we've been building our dev tools and learning materials for humans: docs explained what our toolkit did, we created videos, we taught developers with guided and hands-on experiences.
 
-The reality now is that an AI agent is almost always present across the whole development and learning loop. So instead of asking "how do we add AI to our tools", we asked ourselves: what would our stack look like if we treated the AI as a primary user alongside the developer?
+But the reality now is that an AI agent is almost always sitting in the loop across the whole development and learning cycle. So we stopped asking "how do we add AI to our tools", and started asking: what would our stack look like if we treated the AI as a primary user alongside the developer?
 
-And if the AI truly understands the stack, a new question opens up: what if the person on the other side isn't a developer at all? What if they are someone with a vision and the ability to direct an agent, but not necessarily with a technical background?
+And if the AI truly understands the stack, a really interesting door opens: what if the person directing the agent isn't a developer? What if they're someone with a vision and the ability to steer an agent, but they don't have a technical background?
 
-For us, that meant rethinking some of our core primitives rather than just patching on new features. Thinking about builders and not just developers. We've been doing exactly that across our dev toolkit ([Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2)) and our Solidity curriculum ([Speedrun Ethereum](https://speedrunethereum.com)).
+These questions pushed us to rethink some of our core primitives. Thinking about builders and not just developers. We've been doing exactly that across our dev toolkit ([Scaffold-ETH 2](https://github.com/scaffold-eth/scaffold-eth-2)) and our Solidity curriculum ([Speedrun Ethereum](https://speedrunethereum.com)).
 
 ## Making Scaffold-ETH Agent-Ready
 
@@ -18,9 +18,9 @@ Here are the three biggest changes we've made so far.
 
 ### Agent-first docs
 
-We noticed in early 2025 that the main consumer of our docs was already an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. It's the exact same information, just formatted for how an AI actually consumes it.
+We noticed in early 2025 that the main consumer of our docs was already an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. Same information, just formatted for how an AI actually reads it.
 
-We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. But we quickly realized their limitations, replacing them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Each conversation starts with all the context it needs.
+We also added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. We quickly hit the limitations of that approach though, so we replaced them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and basically any other agent harness. **One file, every tool.** Each conversation starts with all the context it needs.
 
 ### Skills over scripts
 
@@ -58,7 +58,7 @@ The AI space is moving fast and there's a lot of noise. We are focusing on under
 
 **[raked](https://github.com/BuidlGuidl/raked)** is a minimal TypeScript agent built for exactly this: the agent loop, sessions, memory, tools, skills. It's under 100 lines for the core. Built to be read, understood, and extended to solve your specific use cases.
 
-**[Experimental RAG pipeline](https://github.com/BuidlGuidl/arbitrum-dashboard/pull/19)** on Arbitrum DAO governance data. Lets an agent pull relevant data before answering. We built this to understand how retrieval and evaluation actually work.
+**[Experimental RAG pipeline](https://github.com/BuidlGuidl/arbitrum-dashboard/pull/19)** on Arbitrum DAO governance data. It lets an agent pull relevant context before answering. We built it mainly to understand how retrieval and evaluation actually work under the hood.
 
 ## Give it a try
 
