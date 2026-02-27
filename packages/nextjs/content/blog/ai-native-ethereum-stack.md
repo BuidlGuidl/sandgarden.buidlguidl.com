@@ -24,11 +24,11 @@ We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project c
 
 ### Skills over scripts
 
-We've started stripping out custom skills wherever we find that a model just naturally handles the task better.
+We've started stripping out custom scripts wherever we find that a model just naturally handles the task better.
 
 **/add-extension** Adding a Scaffold-ETH extension used to mean resolving `package.json` conflicts through hundreds of lines of template processing code. We replaced it with `/add-extension`, a simple agent skill built to work across different harnesses. `Node.js` handles the deterministic operations (fetching, copying), while the AI handles the judgment calls (merging).
 
-**/pr-create** Same pattern for developer workflow. `/pr-create` is a markdown file that tells an agent how to inspect the diff, format the PR body, and open it via `gh`. No custom script, no alias, just context.
+**/pr-create** The same pattern for developer workflow. `/pr-create` is a markdown file that tells an agent how to inspect the diff, format the PR body, and open it via `gh`. No custom script, no alias, just context.
 
 The same pattern extends to Ethereum protocol knowledge. SE-2 now has a library of domain skills: `erc-20`, `erc-721`, `eip-5792`, `eip-712`, `siwe`, `ponder`, `solidity-security`, `defi-protocol-templates`. Each is a focused context file the agent loads before touching that part of the stack. No hunting for docs or hallucinated ABIs. The agent knows the protocol before it writes the first line.
 
