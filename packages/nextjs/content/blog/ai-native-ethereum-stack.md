@@ -65,5 +65,5 @@ The AI space is moving fast and there's a lot of noise. We are focusing on under
 We're iterating on all of this in the open. Check the code, the PRs, and try it yourself:
 
 - **Create your own agent with raked:** [Read the agent loop.](https://github.com/BuidlGuidl/raked) Understand how tools, skills and sessions work. Then, build your own agent on top of it.
-- **Build your first onchain app with Scaffold-ETH 2:** [Check out all the available skills](https://github.com/scaffold-eth/scaffold-eth-2). Install it, open it with your favourite agent, and start building.
+- **Build your first onchain app with Scaffold-ETH 2:** [Check out all the available skills](https://github.com/scaffold-eth/scaffold-eth-2/tree/main/.agents/skills). Install it, open it with your favourite agent, and start building.
 - **Try Speedrun Ethereum challenges with AI assistance:** Available on [Speedrun Ethereum](https://speedrunethereum.com) as they ship.
