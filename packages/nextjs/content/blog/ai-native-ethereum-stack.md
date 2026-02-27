@@ -16,6 +16,8 @@ Here is a look at how we're restructuring our own Web3 stack for this shift.
 
 ## Rebuilding Scaffold-ETH for Agents
 
+Here are the three biggest changes we've made to the toolkit so far.
+
 ### Agent-first docs
 
 We noticed in early 2025 that the main consumer of our docs was already an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. It's the exact same information, just formatted for how an AI actually consumes it.
