@@ -6,7 +6,7 @@ description: "How we're restructuring our Ethereum developer stack: Scaffold-ETH
 
 For years, we've been building our dev tools and learning materials primarily for humans: docs explained what our toolkit did, we created videos, we taught developers with guided and hands-on experiences.
 
-The reality now is that an AI agent is almost always present across the whole development and learning loop. So instead of asking "how do we add AI to our tools," we asked ourselves: what would our stack look like if we treated the AI as a primary user alongside the developer?
+The reality now is that an AI agent is almost always present across the whole development and learning loop. So instead of asking "how do we add AI to our tools", we asked ourselves: what would our stack look like if we treated the AI as a primary user alongside the developer?
 
 And if the AI truly understands the stack, a new question opens up: what if the person on the other side isn't a developer at all? What if they are someone with a vision and the ability to direct an agent, but not necessarily with a technical background?
 
@@ -20,7 +20,7 @@ Here are the three biggest changes we've made so far.
 
 We noticed in early 2025 that the main consumer of our docs was already an agent loading context before writing code. So we shipped `llms-full.txt`: the entire SE-2 documentation as a single flat file. It's the exact same information, just formatted for how an AI actually consumes it.
 
-We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. But we quickly realized their limitations, replacing them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Every conversation starts with all the context it needs.
+We added Cursor rules to Scaffold-ETH 2 as an early way to give agents project context. But we quickly realized their limitations, replacing them with `AGENTS.md`, which is picked up by Claude Code, Cursor, Windsurf, and any other agent harness. **One file, every tool.** Each conversation starts with all the context it needs.
 
 ### Skills over scripts
 
@@ -28,7 +28,7 @@ We've started stripping out custom scripts wherever we find that a model just na
 
 **/add-extension** Adding a Scaffold-ETH extension used to mean resolving `package.json` conflicts through hundreds of lines of template processing code. We replaced it with `/add-extension`, a simple agent skill built to work across different harnesses. `Node.js` handles the deterministic operations (fetching, copying), while the AI handles the judgment calls (merging).
 
-**/pr-create** Writing a good PR is key when you are working asynchronously with a team. This file tells an agent how to inspect the diff, create a good PR body (summary, how to Test, things to look out for, etc.), and open it via `gh`.
+**/pr-create** Writing a good PR is key when you are working asynchronously with a team. This file tells an agent how to inspect the diff, create a good PR body (summary, how to test, things to look out for, etc.), and open it via `gh`.
 
 The same pattern extends to Ethereum protocol knowledge. SE-2 now has a growing library of domain skills: `erc-20`, `erc-721`, `eip-5792`, `eip-712`, `siwe`, `ponder`, `solidity-security`, `defi-protocol-templates`. Each one is a focused context file the agent loads before implementing the functionality.
 
@@ -48,13 +48,13 @@ Speedrun Ethereum is how most developers get started building on Ethereum. With 
 
 **AI Teacher Mode.** Type `/start` in the directory and an agent walks you through it. It asks questions, checks your understanding, guides you without giving the answer away, and reviews your code at your pace.
 
-We're also shipping `/build-prompts`: curated build ideas that you copy one into your agent, get a working demo, then tweak it and make it yours.
+We're also shipping `/build-prompts`: curated build ideas that you copy into your agent, get a working demo, then tweak it and make it yours.
 
 > Going from idea to working dapp has never been easier.
 
 ## The Research Layer
 
-The AI space is moving fast and there's a lot of noise. We are focusing on understanding the primitives of AI engineering and adapt to whatever comes next.
+The AI space is moving fast and there's a lot of noise. We are focusing on understanding the primitives of AI engineering, and adapt to whatever comes next.
 
 **[raked](https://github.com/BuidlGuidl/raked)** is a minimal TypeScript agent built for exactly this: the agent loop, sessions, memory, tools, skills. It's under 100 lines for the core. Built to be read, understood, and extended to solve your specific use cases.
 
@@ -66,4 +66,4 @@ We're iterating on all of this in the open. Check the code, the PRs, and try it 
 
 - **Create your own agent with raked:** [Read the agent loop.](https://github.com/BuidlGuidl/raked) Understand how tools, skills and sessions work. Then, build your own agent on top of it.
 - **Build your first onchain app with Scaffold-ETH 2:** [Check out all the available skills](https://github.com/scaffold-eth/scaffold-eth-2). Install it, open it with your favourite agent, and start building.
-- **Try SpeedRun Ethereum challenges with AI assistance:** Available on [Speedrun Ethereum](https://speedrunethereum.com) as they ship.
+- **Try Speedrun Ethereum challenges with AI assistance:** Available on [Speedrun Ethereum](https://speedrunethereum.com) as they ship.
