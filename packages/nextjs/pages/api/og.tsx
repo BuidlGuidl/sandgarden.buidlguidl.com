@@ -6,8 +6,9 @@ export const config = {
 };
 
 export default async function handler(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams, origin } = new URL(req.url);
   const title = searchParams.get("title") || "BG Sand Garden";
+  const logoUrl = `${origin}/logo-white.svg`;
 
   // Load Share Tech Mono from Google Fonts (ttf format required by Satori)
   const font = await fetch("https://fonts.gstatic.com/s/sharetechmono/v16/J7aHnp1uDWRBEqV98dVQztYldFc7pA.ttf").then(
@@ -28,30 +29,20 @@ export default async function handler(req: NextRequest) {
           fontFamily: "Share Tech Mono",
         }}
       >
-        {/* Top: Branding */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <div
-              style={{
-                fontSize: 42,
-                color: "#49ff13",
-                fontWeight: 700,
-                letterSpacing: "-1px",
-              }}
-            >
-              BG Sand Garden
-            </div>
-          </div>
+        {/* Top: Branding + Logo */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
           <div
             style={{
-              fontSize: 22,
+              fontSize: 42,
               color: "#49ff13",
-              opacity: 0.5,
-              marginTop: "4px",
+              fontWeight: 700,
+              letterSpacing: "-1px",
             }}
           >
-            BuidlGuidl
+            BG Sand Garden
           </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={logoUrl} width={192} height={38} alt="" />
         </div>
 
         {/* Center: Blog Title */}
