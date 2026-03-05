@@ -31,7 +31,16 @@ const components: Record<string, any> = {
       </a>
     );
   },
-  code: ({ children }: { children?: React.ReactNode }) => <code className={codeCls}>{children}</code>,
+  pre: ({ children }: { children?: React.ReactNode }) => (
+    <pre className="bg-white/5 rounded-lg p-4 overflow-x-auto text-[0.85em] font-mono text-primary-content my-4">
+      {children}
+    </pre>
+  ),
+  code: ({ children, className }: { children?: React.ReactNode; className?: string }) => {
+    // If inside a <pre> (fenced code block), render without inline styling
+    if (className) return <code>{children}</code>;
+    return <code className={codeCls}>{children}</code>;
+  },
   strong: ({ children }: { children?: React.ReactNode }) => (
     <strong className="text-white font-semibold">{children}</strong>
   ),
@@ -42,6 +51,20 @@ const components: Record<string, any> = {
       <span>{children}</span>
     </li>
   ),
+  table: ({ children }: { children?: React.ReactNode }) => (
+    <div className="overflow-x-auto my-6">
+      <table className="w-full border-collapse text-sm">{children}</table>
+    </div>
+  ),
+  thead: ({ children }: { children?: React.ReactNode }) => (
+    <thead className="border-b border-white/10">{children}</thead>
+  ),
+  tbody: ({ children }: { children?: React.ReactNode }) => <tbody>{children}</tbody>,
+  tr: ({ children }: { children?: React.ReactNode }) => <tr className="border-b border-white/5">{children}</tr>,
+  th: ({ children }: { children?: React.ReactNode }) => (
+    <th className="text-left py-2 px-3 text-white/90 font-semibold">{children}</th>
+  ),
+  td: ({ children }: { children?: React.ReactNode }) => <td className="py-2 px-3 text-white/70">{children}</td>,
 };
 
 interface Props {
