@@ -295,12 +295,10 @@ Say a user asks "What is the status of AIP-42?" but the retriever pulls chunks a
 
 Combining faithfulness and relevancy gives you a pretty clear picture of what's going wrong:
 
-| Faithfulness | Relevancy | Diagnosis |
-| --- | --- | --- |
-| High | High | System is working |
-| Low | High | Hallucination -- model is making things up despite good retrieval |
-| High | Low | Retrieval miss -- model faithfully answered from wrong chunks |
-| Low | Low | Both broken -- check ingestion and chunking first |
+- **High faithfulness + High relevancy** — System is working
+- **Low faithfulness + High relevancy** — Hallucination: model is making things up despite good retrieval
+- **High faithfulness + Low relevancy** — Retrieval miss: model faithfully answered from wrong chunks
+- **Low faithfulness + Low relevancy** — Both broken: check ingestion and chunking first
 
 We built a CLI for this (`yarn rag:eval`) that runs 15 test queries across different categories like status lookups, author attribution, forum discussions, and cross-stage questions. It scores each one on all the metrics and outputs a report, so when we make changes we can actually measure the impact instead of guessing.
 
