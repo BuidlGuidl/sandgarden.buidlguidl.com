@@ -20,17 +20,19 @@ export function getAllBlogSlugs(): string[] {
 }
 
 export function getAllBlogs(): BlogMeta[] {
-  return getAllBlogSlugs().map(slug => {
-    const raw = fs.readFileSync(path.join(BLOG_DIR, `${slug}.md`), "utf8");
-    const { data } = matter(raw);
-    return {
-      title: data.title,
-      date: data.date,
-      description: data.description,
-      slug,
-      url: `/blog/${slug}`,
-    };
-  });
+  return getAllBlogSlugs()
+    .map(slug => {
+      const raw = fs.readFileSync(path.join(BLOG_DIR, `${slug}.md`), "utf8");
+      const { data } = matter(raw);
+      return {
+        title: data.title,
+        date: data.date,
+        description: data.description,
+        slug,
+        url: `/blog/${slug}`,
+      };
+    })
+    .sort((a, b) => b.date.localeCompare(a.date));
 }
 
 export interface BlogHeading {

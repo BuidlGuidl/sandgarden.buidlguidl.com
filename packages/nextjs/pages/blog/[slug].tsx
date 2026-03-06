@@ -5,6 +5,7 @@ import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import rehypePrism from "rehype-prism-plus";
 import { BlogHeading, BlogMeta, getAllBlogSlugs, getBlogBySlug } from "~~/services/blog";
+import { formatBlogDate } from "~~/utils/blog";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components: Record<string, any> = {
@@ -263,7 +264,7 @@ const BlogPost: NextPage<Props> = ({ source, meta, headings, wordCount }) => {
       <article className="max-w-[680px] mx-auto px-5 sm:px-6 py-10 sm:py-14">
         <header className="mb-14">
           <div className="flex items-center gap-3 mb-5 font-mono text-sm text-white/30">
-            <span>{meta.date}</span>
+            <span>{formatBlogDate(meta.date)}</span>
             <span className="text-white/10">|</span>
             <span>{estimateReadTime(wordCount)}</span>
           </div>
