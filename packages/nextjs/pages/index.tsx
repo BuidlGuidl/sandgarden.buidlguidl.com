@@ -126,10 +126,10 @@ const Home: NextPage<Props> = ({ posts }) => {
         <aside className="hidden lg:block lg:w-56 lg:pt-20 shrink-0">
           <div className="lg:sticky lg:top-8 border-l border-primary/30 pl-4">
             <h2 className="text-sm uppercase tracking-widest text-primary font-semibold mb-3">Latest Posts</h2>
-            <div className="space-y-3">
+            <div className="divide-y divide-base-content/10">
               {posts.map((post, i) => (
-                <a key={i} href={post.url} className="block group">
-                  <span className="block text-sm text-base-content group-hover:text-primary transition-colors leading-snug">
+                <a key={i} href={post.url} className="block group py-4 first:pt-0 last:pb-0">
+                  <span className="block font-bold text-sm text-base-content group-hover:text-primary transition-colors leading-snug">
                     {post.title}
                   </span>
                   <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/70">
