@@ -1,7 +1,7 @@
 ---
 title: "RAG From the Ground Up"
 date: "March 2026"
-description: "How we built a RAG system for our Arbitrum governance dashboard, covering the full pipeline from ingestion to evaluation."
+description: "A walkthrough of building RAG from the ground up ingestion, retrieval, generation, and how we evaluated it"
 ---
 
 For the last couple of months, we've been going pretty deep into AI. We recently posted about "Shifting to an AI-Native Ethereum developer stack". Our plan is not only to learn how to use AI tools effectively, but also to go a layer deeper and understand how they work internally, focusing on what they call AI engineering, particularly post-training techniques.
@@ -21,7 +21,7 @@ When you ask raw model a question about your data, it does one of two things:
 - It refuses ("I don't have that information.")
 - Confidently makes something up
 
-Option 2 is worse. It *sounds* right. You cannot tell it is wrong without checking the source yourself. Which defeats the purpose of asking the model in the first place.
+Option 2 is worse. It _sounds_ right. You cannot tell it is wrong without checking the source yourself. Which defeats the purpose of asking the model in the first place.
 
 That's where **RAG** comes in. Before the model answers, you search your documents for relevant passages and paste them into the prompt. i.e retrieve, then generate. The model doesn't need to "know" anything. It just needs to read the right context and put together an answer. RAG is just one part of the harness, you would've already used RAG without realizing it. When you attach a PDF in ChatGPT and ask a question about it, that's RAG running under the hood.
 
@@ -255,7 +255,7 @@ type Citation = {
   title: string;
   stage: string;
   url: string;
-  snippet: string;  // 200-char excerpt from the matching chunk
+  snippet: string; // 200-char excerpt from the matching chunk
 };
 ```
 
