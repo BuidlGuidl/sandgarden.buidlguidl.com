@@ -4,9 +4,9 @@ date: "March 2026"
 description: "A walkthrough of building RAG from the ground up ingestion, retrieval, generation, and how we evaluated it"
 ---
 
-For the last couple of months, we've been going pretty deep into AI. We recently posted about "Shifting to an AI-Native Ethereum developer stack". Our plan is not only to learn how to use AI tools effectively, but also to go a layer deeper and understand how they work internally, focusing on what they call AI engineering, particularly post-training techniques.
+For the last couple of months, we've been going pretty deep into AI. We recently posted about [Shifting to an AI-Native Ethereum developer stack](/blog/ai-native-ethereum-stack). Our plan is not only to learn how to use AI tools effectively, but also to go a layer deeper and understand how they work internally, focusing on what they call AI engineering, particularly post-training techniques.
 
-Last year, we started building a governance dashboard for Arbitrum DAO to track proposals across Discourse discussions, Snapshot votes, and Tally on-chain execution. Governance data lives across separate systems like these, each with its own API and schema. The goal of the dashboard was to unify that information into a single view of the proposal lifecycle. Once we had that aggregated dataset, we realized it was also a good opportunity to experiment with something else. We wanted to let users ask questions about proposals in plain language and get useful answers back. That turned out to be a natural fit for a RAG system.
+Last year, we started building a [governance dashboard](https://github.com/BuidlGuidl/arbitrum-dashboard) for Arbitrum DAO to track proposals across Discourse discussions, Snapshot votes, and Tally on-chain execution. Governance data lives across separate systems like these, each with its own API and schema. The goal of the dashboard was to unify that information into a single view of the proposal lifecycle. Once we had that aggregated dataset, we realized it was also a good opportunity to experiment with something else. We wanted to let users **ask questions about proposals in plain language** and get useful answers back. That turned out to be a natural fit for a RAG system.
 
 In this post we'll walk through how we built it, cover the main pieces of a RAG system, show some code, and talk about what we learned along the way.
 
@@ -14,7 +14,7 @@ In this post we'll walk through how we built it, cover the main pieces of a RAG 
 
 An LLM is basically a frozen snapshot. It learned patterns from training data up to some cutoff date. It has no idea what happened yesterday. It's never seen your internal docs, your forum posts, your database.
 
-That's why most real world LLM products don't ship the raw model. They ship a **harness** around the model. By "harness" we mean the stuff that turns a model into an application, they decide what context to give it along with user prompt, what tools the model can call (web search, file read and write, etc.), what it's allowed to do, and how you keep the LLM grounded. Examples of harnesses include ChatGPT, Claude Code, etc.
+That's why most real world LLM products don't ship the raw model. They ship a **harness** around the model. By "harness" we mean the stuff that turns a model into an application: they decide what context to give it along with user prompt, what tools the model can call (web search, file read and write, etc.), what it's allowed to do, and how you keep the LLM grounded. Examples of harnesses include ChatGPT, Claude Code, etc.
 
 When you ask raw model a question about your data, it does one of two things:
 
@@ -55,7 +55,7 @@ But the bigger issue is something we didn't expect. There's research from Stanfo
 
 There's also a more fundamental problem with this approach. When you dump everything in, you're basically asking the model's attention mechanism to do the retrieval for you, and that's not really what it was built for. A dedicated retrieval system with embeddings and similarity search is just better at finding what's relevant.
 
-[Anthropic actually talks about this in their docs. They say if your knowledge base fits in around 200k tokens, you can sometimes skip RAG.](https://www.anthropic.com/news/contextual-retrieval) But once it grows past that, you need retrieval. And even below that threshold, retrieval often gives better answers because it surfaces the right passages instead of making the model hunt through a wall of text. It's not about having more context, it's about having the right context.
+Anthropic actually talks about this in [their docs](https://www.anthropic.com/news/contextual-retrieval). They say if your knowledge base fits in around 200k tokens, you can sometimes skip RAG. But once it grows past that, you need retrieval. And even below that threshold, retrieval often gives better answers because it surfaces the right passages instead of making the model hunt through a wall of text. It's not about having more context, it's about having the right context.
 
 ## The RAG Pipeline
 
@@ -71,9 +71,9 @@ Let's go over it step by step.
 
 The raw data isn't retrieval ready. So in our Arbitrum dashboard for example, a single proposal has data scattered across three systems. The forum has the discussion thread with dozens of posts, Snapshot has the off-chain vote metadata, and Tally has the on-chain execution status. Each one lives in a different API, different schema, different format. If you just embed the raw API responses, you get garbage retrieval. A user asks "who proposed the STIP proposal?" and the system can't answer because the author field was buried in a JSON blob that never got indexed as searchable text.
 
-So ingestion is basically the step where you shape raw data into documents that are actually worth searching. For us, that meant building two types of documents:
+So ingestion is basically the step where you **shape raw data into documents that are actually worth searching**. For us, that meant building two types of documents:
 
-**Canonical metadata documents**, one per proposal per stage, structured like:
+**1. Canonical metadata documents**, one per proposal per stage, structured like:
 
 ```
 # Arbitrum Research and Development Collective
@@ -91,7 +91,7 @@ So ingestion is basically the step where you shape raw data into documents that 
 **Voting Period:** 2025-01-03 to 2025-01-10
 ```
 
-**Per-post forum documents**, one document per individual forum post, with metadata:
+**2. Per-post forum documents**, one document per individual forum post, with metadata:
 
 ```json
 {
@@ -116,7 +116,7 @@ You have your documents now. Some are short, like a metadata summary. Some are l
 
 The reason why you can't embed the whole document is that embeddings are basically averages. When you embed a long document, the vector you get represents the average meaning of the entire text. So picture a 3,000 word post that talks about budget in paragraph 2 and technical risks in paragraph 8. The embedding you get doesn't really represent either topic well. You query "what were the technical risks?" and that document might not even surface, even though the answer is sitting right there in paragraph 8.
 
-So chunking splits documents into smaller pieces where each piece has a more focused meaning that the embedding can actually represent well.
+> Chunking splits documents into smaller pieces where each piece has a more focused meaning that the embedding can actually represent well.
 
 There's a tradeoff here though. Small chunks (100-200 tokens) give you precise retrieval, but each chunk is missing surrounding context. The model gets a sentence but not the paragraph around it. Larger chunks (1000+ tokens) give more context, but the embedding gets diluted and retrieval becomes fuzzier. You can also add overlap between chunks so they share some text at boundaries, that way you don't lose information that happens to sit right at a split point.
 
@@ -141,7 +141,7 @@ One thing we learned here is that chunking is more of a retrieval quality knob t
 
 An embedding model takes a piece of text and maps it to a point in high-dimensional space. What that means in practice is you get a vector of, say, 1536 numbers, where each number is a coordinate in one of those dimensions.
 
-The important thing is that texts with similar meanings end up near each other in this space.
+The important thing is that **texts with similar meanings end up near each other in this space**.
 
 ```
 embed("concerns about the timeline")    -> [0.12, -0.45, 0.78, ...]
@@ -149,9 +149,9 @@ embed("worries regarding the schedule") -> [0.11, -0.44, 0.77, ...]  // very clo
 embed("the weather is nice today")      -> [-0.89, 0.23, 0.01, ...]  // far away
 ```
 
-This is really the core of what makes RAG work. A user asks "what pushback did delegates give?" and the source document says "concerns raised regarding implementation timeline and accountability." Keyword search won't find it because there's no word overlap. But embedding search gets it because both texts mean roughly the same thing.
+This is really the core of what makes RAG work. A user asks "what pushback did delegates give?" and the source document says "concerns raised regarding implementation timeline and accountability." Keyword search (lexical) won't find it because there's no word overlap. But embedding search (semantic) gets it because both texts mean roughly the same thing.
 
-For measuring how close two vectors are, we use cosine similarity, which measures the angle between them. Identical direction gives you 1.0, orthogonal is 0.0, opposite is -1.0. It's pretty much the standard choice for this.
+For measuring how close two vectors are, we use **cosine similarity**, which measures the angle between them. Identical direction gives you 1.0, orthogonal is 0.0, opposite is -1.0. It's pretty much the standard choice for this.
 
 We went with OpenAI's `text-embedding-3-large` (1536 dimensions). You embed every chunk at ingestion time and store the vector alongside the text. Then at query time, you embed the user's question with the same model and find the chunks whose vectors are closest.
 
@@ -215,7 +215,7 @@ const queryEngine = index.asQueryEngine({
 const response = await queryEngine.query(userQuestion);
 ```
 
-Top-K is basically how many chunks you return. K=5 gives you tight, precise context but you might miss relevant chunks. K=20 gives more recall but also more noise. We went with K=15 as our default, with a max of 20.
+**Top-K is basically how many chunks you return**. K=5 gives you tight, precise context but you might miss relevant chunks. K=20 gives more recall but also more noise. We went with K=15 as our default, with a max of 20.
 
 This works for a lot of cases, but plain dense retrieval has some known gaps. Exact identifiers are one. If a user asks "What is proposal AIP-42?", the embedding might find semantically similar proposals that aren't actually AIP-42, where a simple keyword search would get it right instantly. [Hybrid search](https://learn.microsoft.com/en-us/azure/search/hybrid-search-ranking) fixes this by combining dense vector search with [BM25 keyword search](https://en.wikipedia.org/wiki/Okapi_BM25) so you get both semantic and exact matches.
 
@@ -273,7 +273,7 @@ These are straightforward and don't need any LLM calls to compute.
 
 Hit Rate is just: for a test query where you know which document should come back, did that document appear anywhere in the top-K results? Yes or no, averaged over your test set.
 
-MRR (Mean Reciprocal Rank) tells you how high the right document was ranked when it did appear. If the right doc is #1, MRR is 1.0. If it's #3, MRR is 0.33. Higher is better.
+**MRR (Mean Reciprocal Rank)** tells you how high the right document was ranked when it did appear. If the right doc is #1, MRR is 1.0. If it's #3, MRR is 0.33. Higher is better.
 
 Together these tell you whether retrieval itself is working before you even look at what the model is generating.
 
