@@ -10,19 +10,15 @@ import { formatBlogDate } from "~~/utils/blog";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components: Record<string, any> = {
   h2: ({ children, id }: { children?: React.ReactNode; id?: string }) => (
-    <h2
-      id={id}
-      className="text-secondary font-bold text-2xl sm:text-3xl mt-16 mb-3 pt-8 border-t border-white/[0.06] scroll-mt-24"
-    >
+    <h2 id={id} className="text-secondary font-bold text-2xl sm:text-3xl mt-12 mb-3 border-t border-white/[0.06]">
       {children}
     </h2>
   ),
   h3: ({ children, id }: { children?: React.ReactNode; id?: string }) => (
-    <h3 id={id} className="text-secondary text-xl sm:text-2xl mt-10 mb-2 scroll-mt-24">
+    <h3 id={id} className="text-secondary text-xl sm:text-2xl mt-8 mb-2">
       {children}
     </h3>
   ),
-  p: ({ children }: { children?: React.ReactNode }) => <p className="my-5 leading-[1.85]">{children}</p>,
   blockquote: ({ children }: { children?: React.ReactNode }) => (
     <blockquote className="relative border-l-2 border-secondary/30 pl-5 py-2 my-6 text-white/45 italic">
       {children}
@@ -274,7 +270,7 @@ const BlogPost: NextPage<Props> = ({ source, meta, headings, wordCount }) => {
 
         <TableOfContents headings={headings} />
 
-        <div className="text-white/65 text-base sm:text-[16.5px] leading-[1.85]">
+        <div className="text-white/90 sm:text-[16.5px] leading-[1.6]">
           <MDXRemote {...source} components={components} />
         </div>
       </article>
