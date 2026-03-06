@@ -3,6 +3,7 @@ import Head from "next/head";
 import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
+import rehypePrism from "rehype-prism-plus";
 import { BlogHeading, BlogMeta, getAllBlogSlugs, getBlogBySlug } from "~~/services/blog";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -16,7 +17,7 @@ const components: Record<string, any> = {
     </h2>
   ),
   h3: ({ children, id }: { children?: React.ReactNode; id?: string }) => (
-    <h3 id={id} className="text-white font-semibold text-lg sm:text-xl mt-10 mb-2 scroll-mt-24">
+    <h3 id={id} className="text-secondary text-xl sm:text-2xl mt-10 mb-2 scroll-mt-24">
       {children}
     </h3>
   ),
@@ -31,7 +32,7 @@ const components: Record<string, any> = {
     return (
       <a
         href={href}
-        className="text-secondary underline decoration-secondary/30 underline-offset-[3px] hover:decoration-secondary/80 transition-all duration-200"
+        className="text-primary underline decoration-primary/30 underline-offset-[3px] hover:decoration-primary/80 transition-all duration-200"
         {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {children}
@@ -55,7 +56,7 @@ const components: Record<string, any> = {
           </div>
           {lang && <span className="text-[11px] font-mono text-white/25 uppercase tracking-wider">{lang}</span>}
         </div>
-        <pre className="bg-white/[0.02] px-5 py-4 overflow-x-auto text-[0.84em] font-mono text-primary-content/90 leading-relaxed">
+        <pre className="bg-white/[0.02] px-5 py-4 overflow-x-auto text-[0.84em] font-mono leading-relaxed text-white/75">
           {children}
         </pre>
       </div>
@@ -70,7 +71,7 @@ const components: Record<string, any> = {
     );
   },
   strong: ({ children }: { children?: React.ReactNode }) => (
-    <strong className="text-white font-semibold">{children}</strong>
+    <strong className="text-white tracking-wide">{children}</strong>
   ),
   ul: ({ children }: { children?: React.ReactNode }) => (
     <ul className="my-5 space-y-2.5 list-disc list-outside pl-5 marker:text-secondary/30">{children}</ul>
@@ -198,7 +199,7 @@ const TableOfContents = ({ headings }: { headings: BlogHeading[] }) => {
                     className={`block text-sm py-0.5 transition-colors ${h.level === 3 ? "pl-6" : "pl-3"} ${
                       activeId === h.id
                         ? "text-secondary border-l border-secondary -ml-px"
-                        : "text-white/30 hover:text-white/55"
+                        : "text-white/45 hover:text-white/65"
                     }`}
                   >
                     {h.text}
@@ -224,7 +225,7 @@ const TableOfContents = ({ headings }: { headings: BlogHeading[] }) => {
                   } ${
                     activeId === h.id
                       ? "text-secondary border-l border-secondary -ml-px font-medium"
-                      : "text-white/25 hover:text-white/50"
+                      : "text-white/40 hover:text-white/60"
                   }`}
                 >
                   {h.text}
@@ -294,7 +295,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const wordCount = content.split(/\s+/).filter(Boolean).length;
   const source = await serialize(content, {
     mdxOptions: {
-      rehypePlugins: [rehypeSlugify],
+      rehypePlugins: [rehypeSlugify, [rehypePrism, { ignoreMissing: true }]],
     },
   });
   return { props: { source, meta, headings, wordCount } };

@@ -27,7 +27,7 @@ That's where **RAG** comes in. Before the model answers, you search your documen
 
 Here is the mental model for RAG:
 
-```
+```text
 User query
     |
     v
@@ -61,7 +61,7 @@ There's also a more fundamental problem with this approach. When you dump everyt
 
 A typical RAG pipeline looks something like this:
 
-```
+```text
 Ingestion -> Chunking -> Embedding -> Storage -> Retrieval -> Generation
 ```
 
@@ -75,7 +75,7 @@ So ingestion is basically the step where you shape raw data into documents that 
 
 **Canonical metadata documents**, one per proposal per stage, structured like:
 
-```
+```markdown
 # Arbitrum Research and Development Collective
 
 **Author:** ImmutableLawyer
@@ -231,7 +231,7 @@ Retrieval gives you the relevant chunks. Now the LLM reads them and produces an 
 
 The system prompt matters more than we initially expected. Here's ours, stripped to the essentials:
 
-```
+```text
 You are a helpful assistant that answers questions about Arbitrum DAO
 governance proposals.
 
@@ -302,7 +302,7 @@ Combining faithfulness and relevancy gives you a pretty clear picture of what's 
 
 We built a CLI for this (`yarn rag:eval`) that runs 15 test queries across different categories like status lookups, author attribution, forum discussions, and cross-stage questions. It scores each one on all the metrics and outputs a report, so when we make changes we can actually measure the impact instead of guessing.
 
-```
+```text
 $ yarn rag:eval
 
 Retrieval Metrics:

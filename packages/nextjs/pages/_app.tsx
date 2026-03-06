@@ -16,6 +16,7 @@ import { useAppStore } from "~~/services/store/store";
 import { wagmiClient } from "~~/services/web3/wagmiClient";
 import { appChains } from "~~/services/web3/wagmiConnectors";
 import "~~/styles/globals.css";
+import "~~/styles/prism-theme.css";
 
 const shareTechMono = Share_Tech_Mono({ subsets: ["latin"], weight: "400" });
 
