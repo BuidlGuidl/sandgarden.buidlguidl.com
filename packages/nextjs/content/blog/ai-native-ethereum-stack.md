@@ -1,6 +1,6 @@
 ---
 title: "Shifting to an AI-Native Ethereum Developer Stack"
-date: "February 2026"
+date: "2026-02-26"
 description: "How we're restructuring our Ethereum developer stack: Scaffold-ETH 2 and Speedrun Ethereum to be AI native."
 ---
 

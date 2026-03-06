@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { GetStaticProps, NextPage } from "next";
 import { BlogMeta, getAllBlogs } from "~~/services/blog";
+import { formatBlogDate } from "~~/utils/blog";
 
 const FEATURED_PROJECTS = [
   {
@@ -74,7 +75,7 @@ const Home: NextPage<Props> = ({ posts }) => {
                     {post.title}
                   </span>
                   <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/70">
-                    <span>{post.date}</span>
+                    <span>{formatBlogDate(post.date)}</span>
                   </span>
                 </a>
               ))}
@@ -132,7 +133,7 @@ const Home: NextPage<Props> = ({ posts }) => {
                     {post.title}
                   </span>
                   <span className="flex flex-wrap items-center gap-1.5 mt-1 text-xs text-base-content/70">
-                    <span>{post.date}</span>
+                    <span>{formatBlogDate(post.date)}</span>
                   </span>
                 </a>
               ))}

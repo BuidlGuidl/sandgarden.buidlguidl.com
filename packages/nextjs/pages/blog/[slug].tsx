@@ -3,6 +3,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import { BlogMeta, getAllBlogSlugs, getBlogBySlug } from "~~/services/blog";
+import { formatBlogDate } from "~~/utils/blog";
 
 const codeCls = "bg-white/5 text-primary-content px-1 py-0.5 rounded text-[0.85em] font-mono";
 
@@ -80,7 +81,7 @@ const BlogPost: NextPage<Props> = ({ source, meta }) => {
       <article className="max-w-3xl px-4 py-8">
         <header className="mb-10">
           <div className="flex items-center gap-3 mb-4 font-mono text-sm text-white/35">
-            <span>{meta.date}</span>
+            <span>{formatBlogDate(meta.date)}</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight text-white">{meta.title}</h1>
         </header>

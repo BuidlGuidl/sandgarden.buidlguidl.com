@@ -1,6 +1,6 @@
 ---
 title: "RAG From the Ground Up"
-date: "March 2026"
+date: "2026-03-06"
 description: "A walkthrough of building RAG from the ground up ingestion, retrieval, generation, and how we evaluated it"
 ---
 
