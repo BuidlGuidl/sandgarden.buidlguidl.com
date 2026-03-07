@@ -72,10 +72,6 @@ Anthropic actually talks about this in [their docs](https://www.anthropic.com/ne
 
 A typical RAG pipeline looks something like this:
 
-```text
-Ingestion -> Chunking -> Embedding -> Storage -> Retrieval -> Generation
-```
-
 ![RAG pipeline diagram showing the flow from ingestion through chunking, embedding, storage, retrieval, and generation](/blog/rag-pipeline.jpg)
 
 Let's go over it step by step.
