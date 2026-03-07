@@ -127,6 +127,7 @@ const components: Record<string, any> = {
     <ul className="my-5 space-y-2.5 list-disc list-outside pl-5 marker:text-secondary/30">{children}</ul>
   ),
   li: ({ children }: { children?: React.ReactNode }) => <li className="leading-[1.85] pl-1">{children}</li>,
+  img: ({ src, alt }: { src?: string; alt?: string }) => <LightboxImage src={src} alt={alt} />,
 };
 
 // Rehype plugin to add IDs to headings
