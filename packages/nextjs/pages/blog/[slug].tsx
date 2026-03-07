@@ -35,12 +35,12 @@ const LightboxImage = ({ src, alt }: { src?: string; alt?: string }) => {
       />
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-zoom-out"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-zoom-out overflow-auto p-4 sm:p-8"
           style={{ animation: "fadeIn 150ms ease-out" }}
           onClick={() => setIsOpen(false)}
         >
           <button
-            className="absolute top-5 right-5 text-white/50 hover:text-white text-3xl leading-none transition-colors"
+            className="absolute top-4 right-4 z-10 text-white/50 hover:text-white text-3xl leading-none transition-colors"
             onClick={() => setIsOpen(false)}
             aria-label="Close"
           >
@@ -50,7 +50,7 @@ const LightboxImage = ({ src, alt }: { src?: string; alt?: string }) => {
           <img
             src={src}
             alt={alt || ""}
-            className="max-w-[92vw] max-h-[90vh] object-contain rounded-lg"
+            className="max-w-full sm:max-w-[92vw] sm:max-h-[90vh] object-contain rounded-lg touch-pinch-zoom"
             style={{ animation: "scaleIn 200ms ease-out" }}
             onClick={e => e.stopPropagation()}
           />
@@ -106,7 +106,7 @@ const components: Record<string, any> = {
           </div>
           {lang && <span className="text-[11px] font-mono text-white/25 uppercase tracking-wider">{lang}</span>}
         </div>
-        <pre className="bg-white/[0.02] px-5 py-4 overflow-x-auto text-[0.84em] font-mono leading-relaxed text-white/75">
+        <pre className="bg-white/[0.02] px-5 py-4 overflow-x-auto whitespace-pre text-[0.84em] font-mono leading-relaxed text-white/75">
           {children}
         </pre>
       </div>
