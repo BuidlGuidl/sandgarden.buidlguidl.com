@@ -286,7 +286,7 @@ That's when we started taking evaluation seriously. The thing that helped us mos
 
 These are straightforward and don't need any LLM calls to compute.
 
-Hit Rate is just: for a test query where you know which document should come back, did that document appear anywhere in the top-K results? Yes or no, averaged over your test set.
+**Hit Rate** is just: for a test query where you know which document should come back, did that document appear anywhere in the top-K results? Yes or no, averaged over your test set.
 
 **MRR (Mean Reciprocal Rank)** tells you how high the right document was ranked when it did appear. If the right doc is #1, MRR is 1.0. If it's #3, MRR is 0.33. Higher is better.
 
