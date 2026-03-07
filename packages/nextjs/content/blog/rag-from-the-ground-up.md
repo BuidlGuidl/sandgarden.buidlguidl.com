@@ -28,19 +28,30 @@ That's where **RAG** comes in. Before the model answers, you search your documen
 Here is the mental model for RAG:
 
 ```text
-User query
-    |
-    v
-[Retrieval] -- search your documents, return top-K relevant chunks
-    |
-    v
-[Prompt]    -- "Given this context: {chunks}, answer: {query}"
-    |
-    v
-[LLM]       -- reads context, generates answer with citations
-    |
-    v
-Answer + Sources
+ ┌──────────────┐
+ │  User Query  │
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐    
+ │  Retrieval   ├──▶ search your documents, return top-K relevant chunks
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐    
+ │    Prompt    ├──▶ "Given this context: {chunks}, answer: {query}"
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐    
+ │     LLM      ├──▶ reads context, generates answer with citations
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐
+ │   Answer +   │
+ │   Sources    │
+ └──────────────┘
 ```
 
 Sounds easy enough, but we found out there's a lot that can go wrong in each of these steps. More on that later.
