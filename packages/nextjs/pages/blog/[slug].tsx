@@ -7,6 +7,59 @@ import rehypePrism from "rehype-prism-plus";
 import { BlogHeading, BlogMeta, getAllBlogSlugs, getBlogBySlug } from "~~/services/blog";
 import { formatBlogDate } from "~~/utils/blog";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LightboxImage = ({ src, alt }: { src?: string; alt?: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt || ""}
+        className="my-7 rounded-lg cursor-zoom-in w-full"
+        onClick={() => setIsOpen(true)}
+      />
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-zoom-out"
+          style={{ animation: "fadeIn 150ms ease-out" }}
+          onClick={() => setIsOpen(false)}
+        >
+          <button
+            className="absolute top-5 right-5 text-white/50 hover:text-white text-3xl leading-none transition-colors"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close"
+          >
+            ×
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={alt || ""}
+            className="max-w-[92vw] max-h-[90vh] object-contain rounded-lg"
+            style={{ animation: "scaleIn 200ms ease-out" }}
+            onClick={e => e.stopPropagation()}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components: Record<string, any> = {
   h2: ({ children, id }: { children?: React.ReactNode; id?: string }) => (

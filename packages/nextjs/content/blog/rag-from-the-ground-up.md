@@ -65,6 +65,8 @@ A typical RAG pipeline looks something like this:
 Ingestion -> Chunking -> Embedding -> Storage -> Retrieval -> Generation
 ```
 
+![RAG pipeline diagram showing the flow from ingestion through chunking, embedding, storage, retrieval, and generation](/blog/rag-pipeline.jpg)
+
 Let's go over it step by step.
 
 ### Step 1: Ingestion
@@ -119,6 +121,8 @@ The reason why you can't embed the whole document is that embeddings are basical
 > Chunking splits documents into smaller pieces where each piece has a more focused meaning that the embedding can actually represent well.
 
 There's a tradeoff here though. Small chunks (100-200 tokens) give you precise retrieval, but each chunk is missing surrounding context. The model gets a sentence but not the paragraph around it. Larger chunks (1000+ tokens) give more context, but the embedding gets diluted and retrieval becomes fuzzier. You can also add overlap between chunks so they share some text at boundaries, that way you don't lose information that happens to sit right at a split point.
+
+![Comparison of chunking with and without overlap, showing how overlap preserves context at chunk boundaries](/blog/chunking-overlap-scenarios.jpg)
 
 We went with 512 tokens and 50 token overlap. Nothing magic about those numbers, it's just a practical default that works for forum-style content. The chunk is big enough to carry a coherent thought and small enough that the embedding captures what it's actually about.
 
