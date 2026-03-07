@@ -362,17 +362,17 @@ And more broadly, the way people think about RAG has been shifting. It's not jus
 
 Here are some things we'd share with someone starting a RAG project.
 
-When answers are bad, the instinct is to tweak the system prompt. For us, the problem was almost always upstream: the right chunk either wasn't retrieved, or it was retrieved but buried at position #14 out of 15. We ended up spending most of our time on retrieval, not prompts.
+**Most of our issues came from retrieval, not generation.** When answers are bad, the instinct is to tweak the system prompt. For us, the problem was almost always upstream: the right chunk either wasn't retrieved, or it was retrieved but buried at position #14 out of 15. We ended up spending most of our time on retrieval, not prompts.
 
-Your ingestion also matters more than you'd think. If you don't index author names, you can't answer "who said X?" If you don't index per-post content, you can't answer attribution questions. It helps to think about what questions users will actually ask and work backwards from there to what needs to be in the index.
+**Ingestion ended up defining what questions we could answer.** If you don't index author names, you can't answer "who said X?" If you don't index per-post content, you can't answer attribution questions. Think about what questions users will actually ask and work backwards to what needs to be in the index.
 
-Before we added evaluation, we were guessing at what was working. After, we could see that our hit rate was 0.87 and faithfulness was 0.93, and we knew exactly which query categories were weak. We'd recommend adding eval early if you can.
+**We wish we'd added evaluation sooner.** Before we added evaluation, we were guessing at what was working. After, we could see that our hit rate was 0.87 and faithfulness was 0.93, and we knew exactly which query categories were weak.
 
-"RAG vs. long context" is also a bit of a false framing. In practice it's more about what should be retrieved (large, dynamic corpus), what should be stuffed directly (small, static context like system instructions), and what should be cached (frequently accessed documents). They're complementary, not competing.
+**For us, "RAG vs. long context" turned out to be the wrong framing.** In practice it's more about what should be retrieved (large, dynamic corpus), what should be stuffed directly (small, static context like system instructions), and what should be cached (frequently accessed documents). They're complementary, not competing.
 
-For adding complexity, what worked for us was starting with plain dense retrieval and top-K tuning, then looking at where it struggled before adding more. Each improvement should move a metric, otherwise it's probably not worth the added complexity.
+**Starting simple and adding complexity based on metrics worked well for us.** What worked for us was starting with plain dense retrieval and top-K tuning, then looking at where it struggled before adding more. Each improvement should move a metric, otherwise it's probably not worth the added complexity.
 
-On storage, pgvector has been fine for us. We spent zero hours managing a separate vector database, and queries that need both relational filters and vector search are straightforward in Postgres. You probably don't need a dedicated vector DB unless you're dealing with millions of documents and have strict latency requirements.
+**On storage, pgvector has been fine for us.** We spent zero hours managing a separate vector database, and queries that need both relational filters and vector search are straightforward in Postgres. You probably don't need a dedicated vector DB unless you're dealing with millions of documents and have strict latency requirements.
 
 ## Our RAG Stack
 
