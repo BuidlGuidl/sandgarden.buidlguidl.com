@@ -311,7 +311,7 @@ const BlogPost: NextPage<Props> = ({ source, meta, headings, wordCount }) => {
 
       <ProgressBar />
 
-      <article className="max-w-[680px] mx-auto px-5 sm:px-6 py-10 sm:py-14">
+      <article className="w-full max-w-[680px] mx-auto px-5 sm:px-6 py-10 sm:py-14">
         <header className="mb-14">
           <div className="flex items-center gap-3 mb-5 font-mono text-sm text-white/30">
             <span>{formatBlogDate(meta.date)}</span>
