@@ -57,7 +57,7 @@ const DesktopTerminal = ({
 
       {/* Content area */}
       <div className="bg-black p-6">
-        <div className="animate-fadeIn">
+        <div>
           {activeContent && (
             <div>
               <div className="flex items-center gap-3 mb-4">

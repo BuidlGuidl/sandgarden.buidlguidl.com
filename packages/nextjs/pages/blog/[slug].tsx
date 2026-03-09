@@ -35,8 +35,7 @@ const LightboxImage = ({ src, alt }: { src?: string; alt?: string }) => {
       />
       {isOpen && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-zoom-out overflow-auto p-4 sm:p-8"
-          style={{ animation: "fadeIn 150ms ease-out" }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-zoom-out overflow-auto p-4 sm:p-8 animate-fade-in"
           onClick={() => setIsOpen(false)}
         >
           <button
@@ -50,8 +49,7 @@ const LightboxImage = ({ src, alt }: { src?: string; alt?: string }) => {
           <img
             src={src}
             alt={alt || ""}
-            className="max-w-full sm:max-w-[92vw] sm:max-h-[90vh] object-contain rounded-lg touch-pinch-zoom"
-            style={{ animation: "scaleIn 200ms ease-out" }}
+            className="max-w-full sm:max-w-[92vw] sm:max-h-[90vh] object-contain rounded-lg touch-pinch-zoom animate-scale-in"
             onClick={e => e.stopPropagation()}
           />
         </div>
@@ -240,7 +238,7 @@ const TableOfContents = ({ headings }: { headings: BlogHeading[] }) => {
           <span className="uppercase tracking-wider text-xs">Contents</span>
         </button>
         {isOpen && (
-          <nav className="mt-4 ml-1 border-l border-white/[0.08] animate-[fadeIn_150ms_ease-out]">
+          <nav className="mt-4 ml-1 border-l border-white/[0.08] animate-fade-in">
             <ul className="space-y-1.5 py-1">
               {headings.map(h => (
                 <li key={h.id}>
