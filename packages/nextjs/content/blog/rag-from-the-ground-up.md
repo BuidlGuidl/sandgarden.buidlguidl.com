@@ -28,19 +28,30 @@ That's where **RAG** comes in. Before the model answers, you search your documen
 Here is the mental model for RAG:
 
 ```text
-User query
-    |
-    v
-[Retrieval] -- search your documents, return top-K relevant chunks
-    |
-    v
-[Prompt]    -- "Given this context: {chunks}, answer: {query}"
-    |
-    v
-[LLM]       -- reads context, generates answer with citations
-    |
-    v
-Answer + Sources
+ ┌──────────────┐
+ │  User Query  │
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐    
+ │  Retrieval   ├──▶ search your documents, return top-K relevant chunks
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐    
+ │    Prompt    ├──▶ "Given this context: {chunks}, answer: {query}"
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐    
+ │     LLM      ├──▶ reads context, generates answer with citations
+ └──────┬───────┘
+        │
+        ▼
+ ┌──────────────┐
+ │   Answer +   │
+ │   Sources    │
+ └──────────────┘
 ```
 
 Sounds easy enough, but we found out there's a lot that can go wrong in each of these steps. More on that later.
@@ -61,9 +72,7 @@ Anthropic actually talks about this in [their docs](https://www.anthropic.com/ne
 
 A typical RAG pipeline looks something like this:
 
-```text
-Ingestion -> Chunking -> Embedding -> Storage -> Retrieval -> Generation
-```
+![RAG pipeline diagram showing the flow from ingestion through chunking, embedding, storage, retrieval, and generation](/blog/rag-pipeline.svg)
 
 Let's go over it step by step.
 
@@ -119,6 +128,8 @@ The reason why you can't embed the whole document is that embeddings are basical
 > Chunking splits documents into smaller pieces where each piece has a more focused meaning that the embedding can actually represent well.
 
 There's a tradeoff here though. Small chunks (100-200 tokens) give you precise retrieval, but each chunk is missing surrounding context. The model gets a sentence but not the paragraph around it. Larger chunks (1000+ tokens) give more context, but the embedding gets diluted and retrieval becomes fuzzier. You can also add overlap between chunks so they share some text at boundaries, that way you don't lose information that happens to sit right at a split point.
+
+![Comparison of chunking with and without overlap, showing how overlap preserves context at chunk boundaries](/blog/chunking-overlap-scenarios.svg)
 
 We went with 512 tokens and 50 token overlap. Nothing magic about those numbers, it's just a practical default that works for forum-style content. The chunk is big enough to carry a coherent thought and small enough that the embedding captures what it's actually about.
 
@@ -271,7 +282,7 @@ That's when we started taking evaluation seriously. The thing that helped us mos
 
 These are straightforward and don't need any LLM calls to compute.
 
-Hit Rate is just: for a test query where you know which document should come back, did that document appear anywhere in the top-K results? Yes or no, averaged over your test set.
+**Hit Rate** is just: for a test query where you know which document should come back, did that document appear anywhere in the top-K results? Yes or no, averaged over your test set.
 
 **MRR (Mean Reciprocal Rank)** tells you how high the right document was ranked when it did appear. If the right doc is #1, MRR is 1.0. If it's #3, MRR is 0.33. Higher is better.
 
@@ -295,10 +306,20 @@ Say a user asks "What is the status of AIP-42?" but the retriever pulls chunks a
 
 Combining faithfulness and relevancy gives you a pretty clear picture of what's going wrong:
 
-- **High faithfulness + High relevancy** — System is working
-- **Low faithfulness + High relevancy** — Hallucination: model is making things up despite good retrieval
-- **High faithfulness + Low relevancy** — Retrieval miss: model faithfully answered from wrong chunks
-- **Low faithfulness + Low relevancy** — Both broken: check ingestion and chunking first
+```text
+ Faithfulness  Relevancy  Diagnosis
+ ────────────  ─────────  ──────────────────────────────
+ High          High       System is working
+
+ Low           High       Hallucination: model making
+                          things up despite good retrieval
+
+ High          Low        Retrieval miss: model faithfully
+                          answered from wrong chunks
+
+ Low           Low        Both broken: check ingestion
+                          and chunking first
+```
 
 We built a CLI for this (`yarn rag:eval`) that runs 15 test queries across different categories like status lookups, author attribution, forum discussions, and cross-stage questions. It scores each one on all the metrics and outputs a report, so when we make changes we can actually measure the impact instead of guessing.
 
@@ -337,17 +358,17 @@ And more broadly, the way people think about RAG has been shifting. It's not jus
 
 Here are some things we'd share with someone starting a RAG project.
 
-When answers are bad, the instinct is to tweak the system prompt. For us, the problem was almost always upstream: the right chunk either wasn't retrieved, or it was retrieved but buried at position #14 out of 15. We ended up spending most of our time on retrieval, not prompts.
+**Most of our issues came from retrieval, not generation.** When answers are bad, the instinct is to tweak the system prompt. For us, the problem was almost always upstream: the right chunk either wasn't retrieved, or it was retrieved but buried at position #14 out of 15. We ended up spending most of our time on retrieval, not prompts.
 
-Your ingestion also matters more than you'd think. If you don't index author names, you can't answer "who said X?" If you don't index per-post content, you can't answer attribution questions. It helps to think about what questions users will actually ask and work backwards from there to what needs to be in the index.
+**Ingestion ended up defining what questions we could answer.** If you don't index author names, you can't answer "who said X?" If you don't index per-post content, you can't answer attribution questions. Think about what questions users will actually ask and work backwards to what needs to be in the index.
 
-Before we added evaluation, we were guessing at what was working. After, we could see that our hit rate was 0.87 and faithfulness was 0.93, and we knew exactly which query categories were weak. We'd recommend adding eval early if you can.
+**We wish we'd added evaluation sooner.** Before we added evaluation, we were guessing at what was working. After, we could see that our hit rate was 0.87 and faithfulness was 0.93, and we knew exactly which query categories were weak.
 
-"RAG vs. long context" is also a bit of a false framing. In practice it's more about what should be retrieved (large, dynamic corpus), what should be stuffed directly (small, static context like system instructions), and what should be cached (frequently accessed documents). They're complementary, not competing.
+**For us, "RAG vs. long context" turned out to be the wrong framing.** In practice it's more about what should be retrieved (large, dynamic corpus), what should be stuffed directly (small, static context like system instructions), and what should be cached (frequently accessed documents). They're complementary, not competing.
 
-For adding complexity, what worked for us was starting with plain dense retrieval and top-K tuning, then looking at where it struggled before adding more. Each improvement should move a metric, otherwise it's probably not worth the added complexity.
+**Starting simple and adding complexity based on metrics worked well for us.** What worked for us was starting with plain dense retrieval and top-K tuning, then looking at where it struggled before adding more. Each improvement should move a metric, otherwise it's probably not worth the added complexity.
 
-On storage, pgvector has been fine for us. We spent zero hours managing a separate vector database, and queries that need both relational filters and vector search are straightforward in Postgres. You probably don't need a dedicated vector DB unless you're dealing with millions of documents and have strict latency requirements.
+**On storage, pgvector has been fine for us.** We spent zero hours managing a separate vector database, and queries that need both relational filters and vector search are straightforward in Postgres. You probably don't need a dedicated vector DB unless you're dealing with millions of documents and have strict latency requirements.
 
 ## Our RAG Stack
 

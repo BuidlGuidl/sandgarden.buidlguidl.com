@@ -7,6 +7,57 @@ import rehypePrism from "rehype-prism-plus";
 import { BlogHeading, BlogMeta, getAllBlogSlugs, getBlogBySlug } from "~~/services/blog";
 import { formatBlogDate } from "~~/utils/blog";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const LightboxImage = ({ src, alt }: { src?: string; alt?: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKey);
+    };
+  }, [isOpen]);
+
+  return (
+    <>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={alt || ""}
+        className="my-7 rounded-lg cursor-zoom-in w-full"
+        onClick={() => setIsOpen(true)}
+      />
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 cursor-zoom-out overflow-auto p-4 sm:p-8 animate-fade-in"
+          onClick={() => setIsOpen(false)}
+        >
+          <button
+            className="absolute top-4 right-4 z-10 text-white/50 hover:text-white text-3xl leading-none transition-colors"
+            onClick={() => setIsOpen(false)}
+            aria-label="Close"
+          >
+            ×
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={alt || ""}
+            className="max-w-full sm:max-w-[92vw] sm:max-h-[90vh] object-contain rounded-lg touch-pinch-zoom animate-scale-in"
+            onClick={e => e.stopPropagation()}
+          />
+        </div>
+      )}
+    </>
+  );
+};
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const components: Record<string, any> = {
   h2: ({ children, id }: { children?: React.ReactNode; id?: string }) => (
@@ -53,7 +104,7 @@ const components: Record<string, any> = {
           </div>
           {lang && <span className="text-[11px] font-mono text-white/25 uppercase tracking-wider">{lang}</span>}
         </div>
-        <pre className="bg-white/[0.02] px-5 py-4 overflow-x-auto text-[0.84em] font-mono leading-relaxed text-white/75">
+        <pre className="bg-white/[0.02] p-4 overflow-x-auto whitespace-pre text-[0.84em] font-mono leading-relaxed text-white/75">
           {children}
         </pre>
       </div>
@@ -74,6 +125,7 @@ const components: Record<string, any> = {
     <ul className="my-5 space-y-2.5 list-disc list-outside pl-5 marker:text-secondary/30">{children}</ul>
   ),
   li: ({ children }: { children?: React.ReactNode }) => <li className="leading-[1.85] pl-1">{children}</li>,
+  img: ({ src, alt }: { src?: string; alt?: string }) => <LightboxImage src={src} alt={alt} />,
 };
 
 // Rehype plugin to add IDs to headings
@@ -186,7 +238,7 @@ const TableOfContents = ({ headings }: { headings: BlogHeading[] }) => {
           <span className="uppercase tracking-wider text-xs">Contents</span>
         </button>
         {isOpen && (
-          <nav className="mt-4 ml-1 border-l border-white/[0.08] animate-[fadeIn_150ms_ease-out]">
+          <nav className="mt-4 ml-1 border-l border-white/[0.08] animate-fade-in">
             <ul className="space-y-1.5 py-1">
               {headings.map(h => (
                 <li key={h.id}>
