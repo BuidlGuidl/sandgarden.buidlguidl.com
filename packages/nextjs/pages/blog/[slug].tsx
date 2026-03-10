@@ -104,7 +104,7 @@ const components: Record<string, any> = {
           </div>
           {lang && <span className="text-[11px] font-mono text-white/25 uppercase tracking-wider">{lang}</span>}
         </div>
-        <pre className="bg-white/[0.02] px-5 py-4 overflow-x-auto whitespace-pre text-[0.84em] font-mono leading-relaxed text-white/75">
+        <pre className="bg-white/[0.02] p-4 overflow-x-auto whitespace-pre text-[0.84em] font-mono leading-relaxed text-white/75">
           {children}
         </pre>
       </div>
