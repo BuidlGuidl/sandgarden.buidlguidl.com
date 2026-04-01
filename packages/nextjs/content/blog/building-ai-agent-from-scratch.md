@@ -74,20 +74,7 @@ As we mentioned in the intro, we built Raked to isolate the actual AI components
 
 Before we get into how to run it, let's look at the architecture.
 
-```
-  user message
-     ↓
-  build context
-  (identity + memory + available skills + session history + tool definitions)
-    ↓
-┌─> LLM ──→ stop_reason: end? ──> done
-│    ↓
-│   stop_reason: tool_use
-│    ↓
-│   execute tool(s)
-│    ↓
-└── tool_result(s) back to LLM
-```
+![Raked Architecture](/blog/raked-architecture.png)
 
 To understand how it actually runs, let's break down each of these pieces to see what they do under the hood.
 
