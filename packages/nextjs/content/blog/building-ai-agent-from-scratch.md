@@ -185,8 +185,6 @@ Now that we have all the pieces mapped out, we can look at the actual execution 
 
 That response might include requests from the model, like "read this file for me", "search this on the web", or "give me that skill file". Then the system running Raked (your local machine or server) actually executes the action, appends the results to the context, and sends it right back to the LLM. This cycle loops until the LLM decides it has everything it needs, hits an "end" signal, and returns the final response to the user.
 
-If the response includes a tool call (like "read this file" or "load this skill"), the system running Raked (i.e you local machine or server) executes it, appends the result to the context, and ships it right back to the LLM. This cycle loops continuously until the model decides the task is done, hits an "end" signal, and prints the final response to the user.
-
 ## Getting Raked up and running
 
 The best way to use Raked is to get it running locally, read the code, and extend it to adapt it to your needs.
