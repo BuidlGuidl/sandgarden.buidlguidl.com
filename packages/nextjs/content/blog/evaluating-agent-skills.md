@@ -1,10 +1,8 @@
 ---
-title: "Testing Whether Our Agent Skills Actually Work"
+title: "Evaluating agents skills: testing whether they are actually useful"
 date: "2026-06-17"
-description: "We ran 92 evaluations to measure whether our AI skill files actually improve code output, broke our methodology twice, and cut 83% of low-value content."
+description: "How we replaced Scaffold-ETH 2's template extensions with agent skills, ran 92 A/B evals to measure capability uplift, found self-grading was inflating our scores by 60 points, and ended up cutting the skills down by ALOT once we knew what actually mattered"
 ---
-
-> How we replaced Scaffold-ETH 2's template extensions with agent skills, ran 92 A/B evals to measure capability uplift, found self-grading was inflating our scores by 60 points, and ended up cutting the skills down by ALOT once we knew what actually mattered
 
 ## How we got here
 
