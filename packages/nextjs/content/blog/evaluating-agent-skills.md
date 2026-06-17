@@ -1,37 +1,39 @@
 ---
-title: "Evaluating agents skills: testing whether they are actually useful"
+title: "Evaluating agent skills: testing whether they are actually useful"
 date: "2026-06-17"
-description: "How we replaced Scaffold-ETH 2's template extensions with agent skills, ran 92 A/B evals to measure capability uplift, found self-grading was inflating our scores by 60 points, and ended up cutting the skills down by ALOT once we knew what actually mattered"
+description: "How we replaced Scaffold-ETH 2's template extensions with agent skills, ran 92 A/B evals to measure capability uplift, found self-grading was inflating our scores by 60 points, and ended up cutting the skills down by a lot once we knew what actually mattered"
 ---
 
 ## How we got here
 
-Scaffold-ETH 2 has had an extension system since mid-2024. You run `npx create-eth@latest -e ponder` and it gives you an app with event indexing already set up. Under the hood that was a bunch of template files plus a merge step we maintained ourselves. It worked fine, but you couldn't stack two extensions, and you couldn't add one after the app already existed. And also every time one of the underlying libraries bumped a version, we had to go back through the extensions and check nothing had drifted.
+Scaffold-ETH 2 has had an extension system since mid-2024. You could run `npx create-eth@latest -e ponder` and get a scaffolded app with event indexing already set up. Under the hood that was a bunch of template files plus a custom template engine that did the merging. It worked fine, but the architecture had some limitations (that could be solved by adding some complexity into the engine): you couldn't install two extensions at the same time, you couldn't add one after the app already existed, and every time one of the underlying libraries bumped a version, we had to go back through the extensions and check nothing broke.
 
-So in January we started building a skill to let agents add extensions to an existing project. But we just ended up rebuilding the same merge logic inside the skill, with agent running it instead of our scripts. The actual fix was way smaller: just tell the agent the stuff it genuinely can't know, and let it write the code however it wants to add the extension.
+So back in January, following our [AI-fying process](#/blog/ai-native-ethereum-stack), we decided to test AI Skills to let agents add extensions to an existing project. The theory was easy: just tell the agent what you want to add, all the gotchas, and let it write the code however it wants to add the extension.
 
 ## So what is a skill, really?
 
-A skill is a directory which has a `SKILL.md` file at its root. It's a file that teaches an agent how to do one specific task. The task can include project patterns, the current API versions or the integration conventions it can't pick up from training.
+A skill is a directory which has a `SKILL.md` file at its root. It's a file that shows an agent how to do one specific task.
 
 > Agent Skills are modular capabilities that extend Claude's functionality. Each Skill packages instructions, metadata, and optional resources (scripts, templates) that Claude uses automatically when relevant.
 >
 > ~ [Anthropic](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
 
-The ones we wrote for SE-2 are the knowledge-only end of that: no scripts, no merge step, just the stuff the model is missing.
+The ones we wrote for SE-2 are the knowledge-only end of that: no scripts, no templates, just the instructions on what to do when installing an "extension".
 
-Taking [ponder](https://ponder.sh/) for example, the agent already knows event indexing and GraphQL APIs. What it can't know is that Ponder v0.7 renamed its package from `@ponder/core` to just `ponder`(because the models training is stale) or that SE-2 expects the indexer to read addresses from our own `deployedContracts.ts` (because that’s SE-2 specific plumbing). A skill file basically just fills those parts in.
+They won't be extensions anymore, just Skills with specific instructions for how to add certain functionality into the project. Take a look at the [existing Skills in SE-2](https://github.com/scaffold-eth/scaffold-eth-2/tree/main/.agents/skills), each one being a single markdown file that directly lives in SE-2 monorepo.
 
-We recently [migrated the create-eth extensions](https://github.com/scaffold-eth/scaffold-eth-2/pull/1232) into 11 skill files, each one being a single markdown file that just directly lives in SE-2 monorepo earlier they used to be a small pile of template files and scripts we maintained by hand.
+Taking [ponder](https://ponder.sh/) for example, the agent already knows event indexing and GraphQL APIs. What it can't know is that Ponder v0.7 renamed its package from `@ponder/core` to just `ponder` or that SE-2 expects the indexer to read addresses from our own `deployedContracts.ts` (because that’s SE-2 specific plumbing). A skill file basically just fills those parts in.
+
+But how can we know what the model knows or doesn't know?
 
 ## Pre-eval classification
 
 Anthropic's [skill creator article](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills) nicely breaks skills into two categories:
 
-- **Capability uplift**: Things which the model can't get right on its own, mainly because it doesn’t have good reference in it’s training data. For example, the [`x402`](https://www.x402.org/) v2 API landed after its cutoff, the monorepo conventions we made up ourselves.
-- **Encoded preference**: the model could already do something reasonable; the skill just ensures it does it in your **preferred** way. For example, "use this specific folder structure, run code formatting before linting".
+- **Capability uplift**: Things which the model can't get right on its own, mainly because it doesn’t have good reference in its training data. For example, the [`x402`](https://www.x402.org/) v2 API landed after its cutoff, or the monorepo conventions we made up ourselves.
+- **Encoded preference**: the model could already do something reasonable; the skill just ensures it does it in your way™. For example, "use this specific folder structure, run code formatting before linting".
 
-Most of the skills are mix of both. To start the evaluation we went through all 11 and estimated the ratio, because that ratio tells you how big the A/B delta should be.
+Most of the skills are a mix of both. To start the evaluation we went through all of our Skills and estimated the ratio, because that ratio tells you how big the A/B delta should be.
 
 | Skill                   | Capability Uplift | Encoded Preference | Prediction |
 | ----------------------- | ----------------- | ------------------ | ---------- |
@@ -53,13 +55,13 @@ The high capability uplift denotes the model struggles without the skill, high e
 
 ![Eval pipeline setup: an executor agent generates output with and without the skill, then an independent grader scores the output against assertions](/blog/skill-evals-setup.png)
 
-Encode preference is easier to evaluate since you can just look at the output and see if the model follows your preferred documented way in skill.
+Encoded preference is easier to evaluate since you can just look at the output and see if the model follows your preferred documented way in the Skill.
 
 For capability uplift types of skills, we can run a proper A/B comparison. Ask the model to do the same thing with skill and without skill, and see what breaks. We built an automated pipeline for it.
 
 For each skill, we wrote two prompts:
 
-**With skill (Variant A):** points the model at the skill for example "Add x402 payment-gated API routes to my SE-2 dApp, make sure to read `SKILL.md`”
+**With skill (Variant A):** points the model at the skill for example "Add x402 payment-gated API routes to my SE-2 dApp, make sure to read `SKILL.md`
 
 **Without skill (Variant B):** the same task described naturally, but no mention of specific libraries or file paths.
 
