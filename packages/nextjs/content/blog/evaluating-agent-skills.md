@@ -1,7 +1,7 @@
 ---
 title: "Evaluating agent skills: testing whether they are actually useful"
 date: "2026-06-17"
-description: "How we replaced Scaffold-ETH 2's template extensions with agent skills, ran 92 A/B evals to measure capability uplift, found self-grading was inflating our scores by 60 points, and ended up cutting the skills down by a lot once we knew what actually mattered"
+description: "How we replaced Scaffold-ETH 2's template extensions with agent skills, ran 92 A/B evals to measure capability uplift, found self-grading was inflating our scores by 60 points, and ended up cutting the skills down by a lot once we knew what actually mattered."
 ---
 
 ## How we got here
