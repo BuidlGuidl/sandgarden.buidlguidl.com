@@ -51,7 +51,7 @@ Most of the skills are a mix of both. Before running a single eval, we went thro
 
 The bigger the capability-uplift share, the bigger the A/B delta we'd expect (the model genuinely can't do it without the skill), and a high encoded-preference share would mean that the model already produces working code on its own, so the delta should be small (even if the output isn't shaped the way we'd like).
 
-_"Delta" just means how much better the skill did, measured in points (pp). E.g. If the skill scores 100%, and the model without it scores 40%, that's a +60pp delta._
+_"Delta" just means how much better the skill did, measured in points (pp). e.g. if the skill scores 100% and the model without it scores 40%, that's a +60pp delta._
 
 ## Evaluating skills: the setup
 
@@ -63,7 +63,7 @@ For capability uplift types of skills, we can run a proper A/B comparison. Ask t
 
 For each skill, we wrote two prompts:
 
-**With skill (Variant A):** points the model at the skill for example "Add x402 payment-gated API routes to my SE-2 dApp, make sure to read `SKILL.md`
+**With skill (Variant A):** points the model at the skill for example "Add x402 payment-gated API routes to my SE-2 dApp, make sure to read `SKILL.md`"
 
 **Without skill (Variant B):** the same task described naturally, but no mention of specific libraries or file paths.
 
@@ -73,7 +73,7 @@ Once the outputs are generated, an independent grader agent reads only the outpu
 
 ## Iteration 1: encouraging but small
 
-To start, we took the four skills (drizzle, x402, ponder, eip-5792) and ran each one with the skill and then again without, so that's eight runs, every one of them graded by a separate agent.
+To start, we took four skills (drizzle, x402, ponder, eip-5792) and ran each one with the skill and then again without, so that's eight runs, every one of them graded by a separate agent.
 
 | Skill    | With Skill | Without Skill | Delta  |
 | -------- | ---------- | ------------- | ------ |
@@ -126,7 +126,7 @@ Either way, the thing we took from it: if the agent can see the rubric before it
 
 ![Iteration 3 setup: execution and grading split into two separate steps, with the executor receiving only the task prompt and no assertions](/blog/skill-evals-independent-grading.png)
 
-For iteration 3 we actually fixed it, splitting execution and grading into two separate steps. The executor only gets the task prompt now, no assertions, no hints, and a separate grader reads the output against the assertions afterward. We also pulled the skill index out of `AGENTS.md` for the baseline runs, and bumped it to 5 runs each, which worked out to 40 runs and 80 agent invocations once you count both the executors and the graders.
+For iteration 3 we fixed the previous problem by splitting execution and grading into two separate steps. The executor only gets the task prompt now (no assertions, no hintsthe), and a separate grader reads the output against the assertions afterward. We also pulled the skill index out of `AGENTS.md` for the baseline runs, and bumped it to 5 runs each, which worked out to 40 runs and 80 agent invocations once you count both the executors and the graders.
 
 | Skill       | With Skill (5 runs)   | Without Skill (5 runs) | Delta     |
 | ----------- | --------------------- | ---------------------- | --------- |
@@ -136,7 +136,7 @@ For iteration 3 we actually fixed it, splitting execution and grading into two s
 | ponder      | 100% (10,10,10,10,10) | 68% (7,7,8,7,5)        | +32pp     |
 | **Overall** | **97%**               | **42%**                | **+55pp** |
 
-The thing that jumped out was how consistent it all was. EIP-5792 without skills hit 5/10 in every single one of the five runs, the same five assertions passing and the same five failing each time. x402 without skills sat around 3.8/10 with barely any spread. We'd run five rounds mainly to get error bars, and they came out basically flat, the model's gaps just don't move around between runs.
+The thing that stood out was how consistent it all was. EIP-5792 without skills hit 5/10 in every single one of the five runs, the same five assertions passing and the same five failing each time. x402 without skills sat around 3.8/10 with barely any spread. We'd run five rounds mainly to get error bars, and they came out basically flat, the model's gaps just don't move around between runs.
 
 With the skills on, three of the four were 10/10 every run. EIP-5792 was the only one that wobbled, always dropping `useShowCallsStatus`, which really just told us that part of the skill file needed to be clearer.
 
@@ -151,7 +151,7 @@ The speed and cost gap held up here too:
 
 ### Why the failures are systematic
 
-One thing worth saying first, the model always builds something that runs. It writes the contract, sets up the middleware, wires up the indexer, the code works fine. What it gets wrong is the stuff it had no way of knowing, and that falls into two buckets.
+One thing worth saying first: the model always builds something that runs. It writes the contract, sets up the middleware, wires up the indexer, the code works fine. What it gets wrong is the stuff it had no way of knowing, and that falls into two buckets.
 
 The first is API versioning. For fast-moving libraries the model reaches for whatever API shape it picked up in training, which by now is usually the wrong version. x402 reshuffled everything between v1 and v2, Ponder changed its package name and its schema API and its handler format in v0.7, so it ends up writing confident code against APIs that don't exist anymore. That's 5 of 10 x402 assertions and 5 of 10 ponder ones right there.
 
@@ -161,7 +161,7 @@ A skill fills these in once and they stay filled. And because the gaps are the s
 
 ## Iteration 4: tier 2 and 3 skills
 
-Those first three iterations were all tier 1 skills. We still had six more sitting in the repo for the well-worn standards, ERC-20's been around since 2015, Solidity security is in every tutorial out there. So we ran the exact same thing on them, 20 runs.
+Those first three iterations were all tier 1 skills. We still had six more sitting in the repo for some well-knows standards: ERC-20's been around since 2015 and Solidity security is in every tutorial out there. So we ran the exact same thing on them, 20 runs.
 
 | Skill                   | Tier | With Skill | Without Skill | Delta    |
 | ----------------------- | ---- | ---------- | ------------- | -------- |
@@ -173,9 +173,9 @@ Those first three iterations were all tier 1 skills. We still had six more sitti
 | solidity-security       | 3    | 90%        | 100%          | -10pp    |
 | **Overall**             |      | **96%**    | **90%**       | **+6pp** |
 
-Next to tier 1's 97 vs 42, that's basically nothing. The model already knows all of this. EIP-712 and SIWE had a little real value (the shared utility module pattern, `as const` for the TypeScript inference, viem's SIWE vs the `siwe` npm package), but the rest had none.
+The model already knows all of this. EIP-712 and SIWE had a little real value (the shared utility module pattern, `as const` for the TypeScript inference, viem's SIWE vs the `siwe` npm package), but the rest had none.
 
-So we cut hard. The four skills sitting at or under 5pp delta, gone entirely. EIP-712 and SIWE we stripped down to just the parts that actually discriminate, which took them from 2,123 lines to 365, about an 83% cut.
+So we cut hard. The four skills sitting at or under 5pp delta, gone entirely. In EIP-712 and SIWE we stripped down to just the parts that actually discriminate, which took them from 2,123 lines to 365 (about 83% reduction).
 
 ![Skill trimming: low-value tier 2 and 3 skills cut entirely, and EIP-712 and SIWE stripped from 2,123 lines to 365 (an 83% reduction)](/blog/skill-evals-trimming.png)
 
@@ -191,7 +191,7 @@ The eval data turned out useful for the tier 1 skills too, not just the weak one
 | ponder       | 272       | 197   | 28%       |
 | subgraph     | 427       | 360   | 16%       |
 
-Whatever survived maps to something the model actually gets wrong on its own. The rest was just tokens we were burning for nothing.
+Whatever survived maps to something the model actually gets wrong everytime.
 
 ## When the eval is wrong, not the skill
 
