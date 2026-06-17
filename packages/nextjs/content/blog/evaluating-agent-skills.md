@@ -12,7 +12,13 @@ So in January we started building a skill to let agents add extensions to an exi
 
 ## So what is a skill, really?
 
-A skill is a folder with a markdown file (`SKILL.md`) at its root that teaches an agent how to do one specific task: the project patterns, the current API versions, the integration conventions it can't pick up from training. [Anthropic's framing](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) is that a skill bundles instructions, and optionally scripts and resources, that the agent pulls in only when a task needs them, so it isn't sitting in context the whole time. The ones we wrote for SE-2 are the knowledge-only end of that: no scripts, no merge step, just the stuff the model is missing.
+A skill is a directory which has a `SKILL.md` file at its root. It's a file that teaches an agent how to do one specific task. The task can include project patterns, the current API versions or the integration conventions it can't pick up from training.
+
+> Agent Skills are modular capabilities that extend Claude's functionality. Each Skill packages instructions, metadata, and optional resources (scripts, templates) that Claude uses automatically when relevant.
+>
+> ~ [Anthropic](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview)
+
+The ones we wrote for SE-2 are the knowledge-only end of that: no scripts, no merge step, just the stuff the model is missing.
 
 Taking [ponder](https://ponder.sh/) for example, the agent already knows event indexing and GraphQL APIs. What it can't know is that Ponder v0.7 renamed its package from `@ponder/core` to just `ponder`(because the models training is stale) or that SE-2 expects the indexer to read addresses from our own `deployedContracts.ts` (because that’s SE-2 specific plumbing). A skill file basically just fills those parts in.
 
