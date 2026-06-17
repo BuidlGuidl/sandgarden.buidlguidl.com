@@ -4,6 +4,7 @@ import type { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import { serialize } from "next-mdx-remote/serialize";
 import rehypePrism from "rehype-prism-plus";
+import remarkGfm from "remark-gfm";
 import { BlogHeading, BlogMeta, getAllBlogSlugs, getBlogBySlug } from "~~/services/blog";
 import { formatBlogDate } from "~~/utils/blog";
 
@@ -126,6 +127,20 @@ const components: Record<string, any> = {
   ),
   li: ({ children }: { children?: React.ReactNode }) => <li className="leading-[1.85] pl-1">{children}</li>,
   img: ({ src, alt }: { src?: string; alt?: string }) => <LightboxImage src={src} alt={alt} />,
+  table: ({ children }: { children?: React.ReactNode }) => (
+    <div className="my-7 overflow-x-auto rounded-lg border border-white/[0.08]">
+      <table className="w-full border-collapse text-left text-[0.88em]">{children}</table>
+    </div>
+  ),
+  thead: ({ children }: { children?: React.ReactNode }) => (
+    <thead className="bg-white/[0.04] text-white/70">{children}</thead>
+  ),
+  th: ({ children }: { children?: React.ReactNode }) => (
+    <th className="whitespace-nowrap border-b border-white/[0.08] px-3.5 py-2.5 font-semibold">{children}</th>
+  ),
+  td: ({ children }: { children?: React.ReactNode }) => (
+    <td className="border-b border-white/[0.04] px-3.5 py-2.5 align-top text-white/75">{children}</td>
+  ),
 };
 
 // Rehype plugin to add IDs to headings
@@ -344,6 +359,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const wordCount = content.split(/\s+/).filter(Boolean).length;
   const source = await serialize(content, {
     mdxOptions: {
+      remarkPlugins: [remarkGfm],
       rehypePlugins: [rehypeSlugify, [rehypePrism, { ignoreMissing: true }]],
     },
   });

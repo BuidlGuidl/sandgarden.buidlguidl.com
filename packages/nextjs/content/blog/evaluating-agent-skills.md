@@ -1,6 +1,6 @@
 ---
 title: "Testing Whether Our Agent Skills Actually Work"
-date: "2026-03-20"
+date: "2026-06-17"
 description: "We ran 92 evaluations to measure whether our AI skill files actually improve code output, broke our methodology twice, and cut 83% of low-value content."
 ---
 
@@ -29,19 +29,19 @@ Anthropic's [skill creator article](https://claude.com/blog/improving-skill-crea
 
 Most of the skills are mix of both. To start the evaluation we went through all 11 and estimated the ratio, because that ratio tells you how big the A/B delta should be.
 
-|Skill|Capability Uplift|Encoded Preference|Prediction|
-|---|---|---|---|
-|subgraph|75%|25%|Essential|
-|x402|70%|30%|Essential|
-|ponder|70%|30%|Essential|
-|eip-5792|70%|30%|Essential|
-|drizzle-neon|65%|35%|Essential|
-|eip-712|60%|40%|Valuable|
-|siwe|55%|45%|Valuable|
-|erc-721|45%|55%|Useful|
-|erc-20|40%|60%|Marginal|
-|defi-protocol-templates|30%|70%|Marginal|
-|solidity-security|25%|75%|Low value|
+| Skill                   | Capability Uplift | Encoded Preference | Prediction |
+| ----------------------- | ----------------- | ------------------ | ---------- |
+| subgraph                | 75%               | 25%                | Essential  |
+| x402                    | 70%               | 30%                | Essential  |
+| ponder                  | 70%               | 30%                | Essential  |
+| eip-5792                | 70%               | 30%                | Essential  |
+| drizzle-neon            | 65%               | 35%                | Essential  |
+| eip-712                 | 60%               | 40%                | Valuable   |
+| siwe                    | 55%               | 45%                | Valuable   |
+| erc-721                 | 45%               | 55%                | Useful     |
+| erc-20                  | 40%               | 60%                | Marginal   |
+| defi-protocol-templates | 30%               | 70%                | Marginal   |
+| solidity-security       | 25%               | 75%                | Low value  |
 
 The high capability uplift denotes the model struggles without the skill, high encoded preference means it just does fine, maybe not exactly the way we wanted it to be.
 
@@ -55,7 +55,7 @@ For capability uplift types of skills, we can run a proper A/B comparison. Ask t
 
 For each skill, we wrote two prompts:
 
-**With skill (Variant A):**  points the model at the skill for example "Add x402 payment-gated API routes to my SE-2 dApp, make sure to read `SKILL.md`”
+**With skill (Variant A):** points the model at the skill for example "Add x402 payment-gated API routes to my SE-2 dApp, make sure to read `SKILL.md`”
 
 **Without skill (Variant B):** the same task described naturally, but no mention of specific libraries or file paths.
 
@@ -67,12 +67,12 @@ Once the outputs are generated, an independent grader agent reads only the outpu
 
 To start, we took the four skills (drizzle, x402, ponder, eip-5792) and ran each one with the skill and then again without, so that's eight runs, every one of them graded by a separate agent.
 
-|Skill|With Skill|Without Skill|Delta|
-|---|---|---|---|
-|drizzle|10/10|0/10|+100pp|
-|x402|10/10|5/10|+50pp|
-|ponder|10/10|5/10|+50pp|
-|eip-5792|10/10|6/10|+40pp|
+| Skill    | With Skill | Without Skill | Delta  |
+| -------- | ---------- | ------------- | ------ |
+| drizzle  | 10/10      | 0/10          | +100pp |
+| x402     | 10/10      | 5/10          | +50pp  |
+| ponder   | 10/10      | 5/10          | +50pp  |
+| eip-5792 | 10/10      | 6/10          | +40pp  |
 
 With the skills everything came back at 100%, and 40% once we pulled them out. x402 was the clearest case of why: without the skill the model basically wrote against a version of `x402` that doesn't exist anymore, it reached for the old `x402-fetch/x402-next` packages instead of the new scoped `@x402/core` ones, and missed a pile of the v2 setup underneath. The library's just new enough that the model's training is a version behind, so it writes confident code against an API that's already gone. Ponder went the same way, reaching for the old `@ponder/core` when the package is just `ponder` now, and building a v0.5 setup where it should've been v0.7.
 
@@ -86,12 +86,12 @@ The with-skill runs came back at 100%, which we expected. But then the without-s
 
 We still had the independently-graded run-1 numbers from iteration 1, so we lined them up:
 
-|Skill (without_skill)|Run-1 (independent)|Run-2 (self-graded)|Run-3 (self-graded)|
-|---|---|---|---|
-|x402|5/10|10/10|10/10|
-|drizzle|0/10|10/10|10/10|
-|ponder|5/10|10/10|10/10|
-|eip-5792|6/10|10/10|10/10|
+| Skill (without_skill) | Run-1 (independent) | Run-2 (self-graded) | Run-3 (self-graded) |
+| --------------------- | ------------------- | ------------------- | ------------------- |
+| x402                  | 5/10                | 10/10               | 10/10               |
+| drizzle               | 0/10                | 10/10               | 10/10               |
+| ponder                | 5/10                | 10/10               | 10/10               |
+| eip-5792              | 6/10                | 10/10               | 10/10               |
 
 A 60-point jump, and the only thing we'd changed was who did the grading.
 
@@ -105,10 +105,10 @@ There was a quieter leak too. Our `AGENTS.md` is always in context, and it had a
 
 The time and token numbers were still worth keeping though, grading bias doesn't touch those:
 
-||With Skills|Without Skills|
-|---|---|---|
-|Avg time|158s|214s|
-|Avg tokens|39k|44k|
+|            | With Skills | Without Skills |
+| ---------- | ----------- | -------------- |
+| Avg time   | 158s        | 214s           |
+| Avg tokens | 39k         | 44k            |
 
 26% faster and 10% cheaper, even in the broken methodology.
 
@@ -120,13 +120,13 @@ Either way, the thing we took from it: if the agent can see the rubric before it
 
 For iteration 3 we actually fixed it, splitting execution and grading into two separate steps. The executor only gets the task prompt now, no assertions, no hints, and a separate grader reads the output against the assertions afterward. We also pulled the skill index out of `AGENTS.md` for the baseline runs, and bumped it to 5 runs each, which worked out to 40 runs and 80 agent invocations once you count both the executors and the graders.
 
-|Skill|With Skill (5 runs)|Without Skill (5 runs)|Delta|
-|---|---|---|---|
-|drizzle|100% (10,10,10,10,10)|10% (1,1,1,1,1)|+90pp|
-|x402|100% (10,10,10,10,10)|38% (4,3,2,6,4)|+62pp|
-|eip-5792|88% (9,8,9,9,9)|50% (5,5,5,5,5)|+38pp|
-|ponder|100% (10,10,10,10,10)|68% (7,7,8,7,5)|+32pp|
-|**Overall**|**97%**|**42%**|**+55pp**|
+| Skill       | With Skill (5 runs)   | Without Skill (5 runs) | Delta     |
+| ----------- | --------------------- | ---------------------- | --------- |
+| drizzle     | 100% (10,10,10,10,10) | 10% (1,1,1,1,1)        | +90pp     |
+| x402        | 100% (10,10,10,10,10) | 38% (4,3,2,6,4)        | +62pp     |
+| eip-5792    | 88% (9,8,9,9,9)       | 50% (5,5,5,5,5)        | +38pp     |
+| ponder      | 100% (10,10,10,10,10) | 68% (7,7,8,7,5)        | +32pp     |
+| **Overall** | **97%**               | **42%**                | **+55pp** |
 
 The thing that jumped out was how consistent it all was. EIP-5792 without skills hit 5/10 in every single one of the five runs, the same five assertions passing and the same five failing each time. x402 without skills sat around 3.8/10 with barely any spread. We'd run five rounds mainly to get error bars, and they came out basically flat, the model's gaps just don't move around between runs.
 
@@ -134,10 +134,10 @@ With the skills on, three of the four were 10/10 every run. EIP-5792 was the onl
 
 The speed and cost gap held up here too:
 
-||With Skills|Without Skills|
-|---|---|---|
-|Avg time|217s|365s|
-|Avg tokens|21k|27k|
+| With Skills | Without Skills |
+| ----------- | -------------- | ---- |
+| Avg time    | 217s           | 365s |
+| Avg tokens  | 21k            | 27k  |
 
 40% faster, 21% cheaper. Makes sense, it spends a lot less time poking around and guessing when the patterns are already right there in front of it.
 
@@ -155,15 +155,15 @@ A skill fills these in once and they stay filled. And because the gaps are the s
 
 Those first three iterations were all tier 1 skills. We still had six more sitting in the repo for the well-worn standards, ERC-20's been around since 2015, Solidity security is in every tutorial out there. So we ran the exact same thing on them, 20 runs.
 
-|Skill|Tier|With Skill|Without Skill|Delta|
-|---|---|---|---|---|
-|eip-712|2|100%|80%|+20pp|
-|siwe|2|100%|85%|+15pp|
-|erc-20|2|100%|95%|+5pp|
-|erc-721|2|85%|90%|-5pp|
-|defi-protocol-templates|3|100%|100%|0pp|
-|solidity-security|3|90%|100%|-10pp|
-|**Overall**||**96%**|**90%**|**+6pp**|
+| Skill                   | Tier | With Skill | Without Skill | Delta    |
+| ----------------------- | ---- | ---------- | ------------- | -------- |
+| eip-712                 | 2    | 100%       | 80%           | +20pp    |
+| siwe                    | 2    | 100%       | 85%           | +15pp    |
+| erc-20                  | 2    | 100%       | 95%           | +5pp     |
+| erc-721                 | 2    | 85%        | 90%           | -5pp     |
+| defi-protocol-templates | 3    | 100%       | 100%          | 0pp      |
+| solidity-security       | 3    | 90%        | 100%          | -10pp    |
+| **Overall**             |      | **96%**    | **90%**       | **+6pp** |
 
 Next to tier 1's 97 vs 42, that's basically nothing. The model already knows all of this. EIP-712 and SIWE had a little real value (the shared utility module pattern, `as const` for the TypeScript inference, viem's SIWE vs the `siwe` npm package), but the rest had none.
 
@@ -175,13 +175,13 @@ So we cut hard. The four skills sitting at or under 5pp delta, gone entirely. EI
 
 The eval data turned out useful for the tier 1 skills too, not just the weak ones. We went back through each one and matched every section to an assertion, and anything that was non-discriminating, meaning the model already gets it right without the skill, we cut.
 
-|Skill|Before|After|Reduction|
-|---|---|---|---|
-|x402|324 lines|167|48%|
-|eip-5792|149|91|39%|
-|drizzle-neon|391|254|35%|
-|ponder|272|197|28%|
-|subgraph|427|360|16%|
+| Skill        | Before    | After | Reduction |
+| ------------ | --------- | ----- | --------- |
+| x402         | 324 lines | 167   | 48%       |
+| eip-5792     | 149       | 91    | 39%       |
+| drizzle-neon | 391       | 254   | 35%       |
+| ponder       | 272       | 197   | 28%       |
+| subgraph     | 427       | 360   | 16%       |
 
 Whatever survived maps to something the model actually gets wrong on its own. The rest was just tokens we were burning for nothing.
 
@@ -193,12 +193,12 @@ None of that was in our assertions. We'd been checking `ERC20Capped`, deploy scr
 
 So we re-ran with assertions based on what he flagged:
 
-|Assertion|With Skill (3 runs)|Without Skill (3 runs)|Delta|
-|---|---|---|---|
-|Named imports (`import {ERC20}` not `import "..."`)|3/3|0/3|+100pp|
-|`_update` override (required for OZ v5)|3/3|0/3|+100pp|
-|ERC20Permit|0/3|0/3|0pp|
-|ERC20Capped|3/3|3/3|0pp|
+| Assertion                                           | With Skill (3 runs) | Without Skill (3 runs) | Delta  |
+| --------------------------------------------------- | ------------------- | ---------------------- | ------ |
+| Named imports (`import {ERC20}` not `import "..."`) | 3/3                 | 0/3                    | +100pp |
+| `_update` override (required for OZ v5)             | 3/3                 | 0/3                    | +100pp |
+| ERC20Permit                                         | 0/3                 | 0/3                    | 0pp    |
+| ERC20Capped                                         | 3/3                 | 3/3                    | 0pp    |
 
 Two assertions with complete separation that our first eval missed entirely.
 
