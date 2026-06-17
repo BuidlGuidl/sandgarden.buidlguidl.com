@@ -14,7 +14,7 @@ So in January we started building a skill to let agents add extensions to an exi
 
 A skill is a folder with a markdown file (`SKILL.md`) at its root that teaches an agent how to do one specific task: the project patterns, the current API versions, the integration conventions it can't pick up from training. [Anthropic's framing](https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview) is that a skill bundles instructions, and optionally scripts and resources, that the agent pulls in only when a task needs them, so it isn't sitting in context the whole time. The ones we wrote for SE-2 are the knowledge-only end of that: no scripts, no merge step, just the stuff the model is missing.
 
-Taking ponder for example, the agent already knows event indexing and GraphQL APIs. What it can't know is that Ponder v0.7 renamed its package from `@ponder/core` to just `ponder`(because the models training is stale) or that SE-2 expects the indexer to read addresses from our own `deployedContracts.ts` (because that’s SE-2 specific plumbing). A skill file basically just fills those parts in.
+Taking [ponder](https://ponder.sh/) for example, the agent already knows event indexing and GraphQL APIs. What it can't know is that Ponder v0.7 renamed its package from `@ponder/core` to just `ponder`(because the models training is stale) or that SE-2 expects the indexer to read addresses from our own `deployedContracts.ts` (because that’s SE-2 specific plumbing). A skill file basically just fills those parts in.
 
 We recently [migrated the create-eth extensions](https://github.com/scaffold-eth/scaffold-eth-2/pull/1232) into 11 skill files, each one being a single markdown file that just directly lives in SE-2 monorepo earlier they used to be a small pile of template files and scripts we maintained by hand.
 
@@ -22,7 +22,7 @@ We recently [migrated the create-eth extensions](https://github.com/scaffold-eth
 
 Anthropic's [skill creator article](https://claude.com/blog/improving-skill-creator-test-measure-and-refine-agent-skills) nicely breaks skills into two categories:
 
-- **Capability uplift**: Things which the model can't get right on its own, mainly because it doesn’t have good reference in it’s training data. For example, the `x402` v2 API landed after its cutoff, the monorepo conventions we made up ourselves.
+- **Capability uplift**: Things which the model can't get right on its own, mainly because it doesn’t have good reference in it’s training data. For example, the [`x402`](https://www.x402.org/) v2 API landed after its cutoff, the monorepo conventions we made up ourselves.
 - **Encoded preference**: the model could already do something reasonable; the skill just ensures it does it in your **preferred** way. For example, "use this specific folder structure, run code formatting before linting".
 
 Most of the skills are mix of both. To start the evaluation we went through all 11 and estimated the ratio, because that ratio tells you how big the A/B delta should be.
