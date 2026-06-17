@@ -24,7 +24,7 @@ They won't be extensions anymore, just Skills with specific instructions for how
 
 Taking [ponder](https://ponder.sh/) for example, the agent already knows event indexing and GraphQL APIs. What it can't know is that Ponder v0.7 renamed its package from `@ponder/core` to just `ponder` or that SE-2 expects the indexer to read addresses from our own `deployedContracts.ts` (because that’s SE-2 specific plumbing). A skill file basically just fills those parts in.
 
-But how can we know what the model knows or doesn't know?
+But how can we know what the model knows or doesn't know? Evals are the answer.
 
 ## Pre-eval classification
 
@@ -33,7 +33,7 @@ Anthropic's [skill creator article](https://claude.com/blog/improving-skill-crea
 - **Capability uplift**: Things which the model can't get right on its own, mainly because it doesn’t have good reference in its training data. For example, the [`x402`](https://www.x402.org/) v2 API landed after its cutoff, or the monorepo conventions we made up ourselves.
 - **Encoded preference**: the model could already do something reasonable; the skill just ensures it does it in your way™. For example, "use this specific folder structure, run code formatting before linting".
 
-Most of the skills are a mix of both. To start the evaluation we went through all of our Skills and estimated the ratio, because that ratio tells you how big the A/B delta should be.
+Most of the skills are a mix of both. Before running a single eval, we went through all of our Skills and estimated the ratio:
 
 | Skill                   | Capability Uplift | Encoded Preference | Prediction |
 | ----------------------- | ----------------- | ------------------ | ---------- |
@@ -49,7 +49,9 @@ Most of the skills are a mix of both. To start the evaluation we went through al
 | defi-protocol-templates | 30%               | 70%                | Marginal   |
 | solidity-security       | 25%               | 75%                | Low value  |
 
-The high capability uplift denotes the model struggles without the skill, high encoded preference means it just does fine, maybe not exactly the way we wanted it to be.
+The bigger the capability-uplift share, the bigger the A/B delta we'd expect (the model genuinely can't do it without the skill), and a high encoded-preference share would mean that the model already produces working code on its own, so the delta should be small (even if the output isn't shaped the way we'd like).
+
+_"Delta" just means how much better the skill did, measured in points (pp). E.g. If the skill scores 100%, and the model without it scores 40%, that's a +60pp delta._
 
 ## Evaluating skills: the setup
 
