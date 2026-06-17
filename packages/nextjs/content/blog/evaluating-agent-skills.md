@@ -134,10 +134,10 @@ With the skills on, three of the four were 10/10 every run. EIP-5792 was the onl
 
 The speed and cost gap held up here too:
 
-| With Skills | Without Skills |
-| ----------- | -------------- | ---- |
-| Avg time    | 217s           | 365s |
-| Avg tokens  | 21k            | 27k  |
+|            | With Skills | Without Skills |
+| ---------- | ----------- | -------------- |
+| Avg time   | 217s        | 365s           |
+| Avg tokens | 21k         | 27k            |
 
 40% faster, 21% cheaper. Makes sense, it spends a lot less time poking around and guessing when the patterns are already right there in front of it.
 
